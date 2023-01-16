@@ -5,6 +5,11 @@ export const Container = styled.section`
    align-items: center;
    justify-content: center;
    width: 50%;
+   pointer-events: none;
+   user-select: none;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
 `
 
 export const Image = styled.img`

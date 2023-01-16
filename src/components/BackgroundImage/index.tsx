@@ -7,7 +7,7 @@ type Props = {
 
 export function BackgroundImage ({ background, logo } : Props) {
    return (
-      <Container>
+      <Container onDragStart={() => { return }}>
          <Logo src={logo}/>
          <Image src={background} alt="CompassUOL"/>
       </Container>

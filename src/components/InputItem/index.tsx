@@ -1,4 +1,4 @@
-import { Input, Label } from "./styled";
+import { Input, Label, Container } from "./styled";
 
 type Props = {
    title: string;
@@ -6,18 +6,22 @@ type Props = {
    id: string;
    type: React.HTMLInputTypeAttribute
    reference: any;
+   autoComplete?: boolean;
 }
 
-export function InputItem({ title, placeholder, id, type, reference } : Props) {
+export function InputItem({ title, placeholder, id, type, reference, autoComplete}: Props) {
    return (
-      <Label htmlFor={id}>
-         { title }
-         <Input 
+      <Container>
+         <Label htmlFor={id}>
+            {title}
+         </Label>
+         <Input
             type={type}
-            id={id} 
-            ref={reference} 
+            id={id}
+            ref={reference}
             placeholder={placeholder}
+            autoComplete={!autoComplete ? id : 'off'}
          />
-      </Label>
+      </Container>
    )
 }
