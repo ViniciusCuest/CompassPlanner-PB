@@ -21,7 +21,7 @@ export const Input = styled.input`
    border: 1px solid ${colors.border_color};
    border-radius: 50px;
    margin-left: 15px;
-   padding: 0 10px 0 25px;
+   padding: 0 50px 0 25px;
    outline: none;
    &::placeholder {
       font-size: 0.75em;
@@ -36,4 +36,10 @@ export const Label = styled.label`
    color: ${colors.secondary_text};
    font-weight: ${fonts.regular};
    cursor: pointer;
+`;
+
+export const Icon = styled.img<{ active: boolean }>`
+   margin-left: 20px;
+   transition: transform 150ms ease-out;
+   transform: ${({ active }) => active ? `translateX(-65px)` : `translateX(0)`};
 `;
