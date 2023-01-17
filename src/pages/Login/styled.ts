@@ -4,9 +4,9 @@ import { colors } from "../../global/theme";
 export const Wrapper = styled.section`
    display: flex;
    flex-direction: column;
-   align-items: flex-start;
-   justify-content: center;
-   padding: 0 10vw;
+   justify-content: flex-start;
+   height: 100%;
+   padding: 0 3vw 0 12vw;
 
    > h1::selection,label::selection,p::selection,input::selection {
       background-color: ${colors.yellow};
@@ -16,4 +16,9 @@ export const Wrapper = styled.section`
       background-color: ${colors.yellow};
       color: ${colors.black};
    }
+`;
+
+export const ErrorContainer = styled.div`
+   margin-left: 15%;
+   height: 100px
 `;

@@ -8,11 +8,11 @@ export default function Routes() {
    return (
       <Router>
          <Route
-            path="/register"
+            path="/Register"
             element={<Register />}
          />
          <Route
-            path="/login"
+            path="/Login"
             element={<Login />}
          />
          <Route

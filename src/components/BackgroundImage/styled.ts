@@ -13,6 +13,7 @@ export const Container = styled.section`
 `
 
 export const Image = styled.img`
+   position: relative;
    width: 100%;
 `;
 
@@ -21,4 +22,5 @@ export const Logo = styled.img`
    top: 0;
    margin-top: 36px;
    height: 66px;
+   z-index: 5;
 `;

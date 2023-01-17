@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Input, Label, Container, Icon } from "./styled";
 
 type Props = {
@@ -8,10 +8,11 @@ type Props = {
    type: React.HTMLInputTypeAttribute
    reference: any;
    autoComplete?: boolean;
+   style?: React.CSSProperties;
    iconSource?: string;
 }
 
-export function InputItem({ title, placeholder, id, type, reference, autoComplete, iconSource }: Props) {
+export function InputItem({ title, placeholder, id, type, reference, autoComplete, style, iconSource }: Props) {
 
    const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -28,6 +29,7 @@ export function InputItem({ title, placeholder, id, type, reference, autoComplet
             </Label>
          }
          <Input
+            style={style}
             type={type}
             id={id}
             ref={reference}
@@ -36,7 +38,10 @@ export function InputItem({ title, placeholder, id, type, reference, autoComplet
             onBlur={handleActiveAnimation}
             autoComplete={!autoComplete ? id : 'off'}
          />
-         <Icon src={iconSource} alt={'icon'} active={isFocused} />
+         {
+            !!iconSource &&
+            <Icon src={iconSource} alt={'icon'} active={isFocused} />
+         }
       </Container>
    )
 }

@@ -4,9 +4,8 @@ import { colors } from "../../global/theme";
 export const Wrapper = styled.section`
    display: flex;
    flex-direction: column;
-   align-items: flex-start;
-   justify-content: center;
-   padding: 0 10vw;
+   justify-content: flex-start;
+   padding: 0 3vw 0 12vw;
 
    > h1::selection,label::selection,p::selection,input::selection {
       background-color: ${colors.yellow};

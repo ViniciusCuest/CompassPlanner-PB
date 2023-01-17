@@ -1,16 +1,19 @@
-import { Container } from './styled';
+import { Container, Shadow } from './styled';
 
 type Props = {
    title: string
+   style?: React.CSSProperties;
    onPress: any;
 }
 
-export function Button({ title, onPress }: Props) {
+export function Button({ title, style, onPress }: Props) {
    return (
-      <Container onClick={onPress}>
-         {
-            title
-         }
-      </Container>
+      <Shadow style={style}>
+         <Container onClick={onPress}>
+            {
+               title
+            }
+         </Container>
+      </Shadow>
    );
 }

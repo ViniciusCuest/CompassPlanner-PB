@@ -6,6 +6,7 @@ import { Description, Title } from "../../components/Texts";
 import { Form } from '../../components/Form';
 import { Wrapper } from './styled';
 import { Button } from '../../components/Button';
+import { Link } from 'react-router-dom';
 
 export default function Register() {
    const firstName = useRef<HTMLInputElement>(null);
@@ -26,7 +27,7 @@ export default function Register() {
       <Background>
          <Wrapper>
             <Title>Welcome,</Title>
-            <Description style={{ marginBottom: 67 }}>Please, register to continue</Description>
+            <Description style={{ marginBottom: 30 }}>Please, register to continue</Description>
             <Form>
                <InputItem
                   type="text"
@@ -88,6 +89,7 @@ export default function Register() {
                   title={'Register Now'}
                   onPress={handleSubmitForm}
                />
+               <Link to={'/Login'} style={{ textDecoration: 'none', marginTop: 10 }}><Description>If you already have an account, click here!</Description></Link>
             </Form>
          </Wrapper>
       </Background>

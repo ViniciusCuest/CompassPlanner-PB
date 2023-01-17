@@ -14,15 +14,21 @@ export const Container = styled.div`
 export const Input = styled.input`
    width: 380px;
    height: 60px;
-   color: ${colors.secondary_text};
    font-weight: ${fonts.regular};
    font-size: 1em;
-   background-color: ${colors.text_input};
+   color: ${colors.secondary_text} !important;
+   background-color: ${colors.text_input} !important;
    border: 1px solid ${colors.border_color};
    border-radius: 50px;
    margin-left: 15px;
    padding: 0 50px 0 25px;
    outline: none;
+
+   &&&{
+      color: ${colors.secondary_text} !important;
+      background-color: ${colors.text_input} !important;
+   }
+
    &::placeholder {
       font-size: 0.75em;
       background-color: ${colors.text_input};
