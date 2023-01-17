@@ -1,15 +1,30 @@
-import { Container, Image, Logo } from './styled';
+import { Container, Image, Logo, UolImage } from './styled';
 
 type Props = {
-   logo: string
-   background: string
+   logo?: string | undefined;
+   background: string | undefined;
+   page?: string
 }
 
-export function BackgroundImage ({ background, logo } : Props) {
+export function BackgroundImage({ background, logo, page }: Props) {
    return (
       <Container onDragStart={() => { return }}>
-         <Logo src={logo}/>
-         <Image src={background} alt="CompassUOL"/>
+         {
+            !!page ? <UolImage
+               src={background}
+               alt='Uol-logo'
+            />
+               :
+               <>
+                  <Logo src={logo} alt="CompassUOL-logo" />
+                  <Image
+                     src={background}
+                     alt="CompassUOL-image"
+                  />
+
+               </>
+         }
+
       </Container>
    );
 }

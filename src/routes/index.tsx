@@ -4,7 +4,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 
 export default function Routes() {
-   const isLoggedIn = false;
+   const isLoggedIn = true;
    return (
       <Router>
          <Route

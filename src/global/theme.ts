@@ -1,4 +1,5 @@
 const colors = {
+   background: '#FFFFFFF2',
    background_grad: `linear-gradient(180deg, #33383D 0%, #1C1D20 100%)`,
    button_grad: `linear-gradient(90deg, #FF2D04 0%, #C13216 100%)`,
    text_input: '#26292C',

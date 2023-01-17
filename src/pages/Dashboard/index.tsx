@@ -1,7 +1,17 @@
+import { Header } from "../../components/Header";
+
+import logoBlack from '../../assets/compass-logo-black.png';
+import { Background } from "../../components/Background";
+
+import mainImage from '../../assets/uol-logo.png';
+
 export default function Dashboard() {
-   console.log('aqui');
    return (
-      <div style={{ width: '100%', height: 50, backgroundColor: '#000' }}>
-      </div>
+      <Background
+         currentPage="Dashboard"
+         background={mainImage}
+      >
+         <Header logo={logoBlack} />
+      </Background>
    )
 }

@@ -6,6 +6,9 @@ import { Description, ErrorText, FormLabel, Title } from "../../components/Texts
 
 import userIcon from '../../assets/icon-user.svg';
 import passwordIcon from '../../assets/icon-password.svg';
+import mainImage from '../../assets/image-2.jpg';
+import logo from '../../assets/compass-logo.png';
+
 import { ErrorContainer, Wrapper } from './styled';
 import { Button } from '../../components/Button';
 import { Form } from '../../components/Form';
@@ -23,7 +26,11 @@ export default function Login() {
    }
 
    return (
-      <Background>
+      <Background
+         currentPage='Login'
+         background={mainImage}
+         logo={logo}
+      >
          <Wrapper>
             <Title style={{ marginTop: '45%' }}>Welcome,</Title>
             <Description>To continue browsing safely, log in to the <br />{'\n'} network.</Description>
@@ -34,7 +41,7 @@ export default function Login() {
                   title={''}
                   placeholder='user name'
                   reference={userName}
-                  id={'yourusername'}
+                  id={'your-username'}
                   autoComplete={false}
                   iconSource={userIcon}
                   style={!!error ? { borderColor: colors.yellow } : {}}
@@ -44,7 +51,8 @@ export default function Login() {
                   title={''}
                   placeholder='password'
                   reference={password}
-                  id={'yourpassword'}
+                  id={'your-password'}
+                  autoComplete={false}
                   iconSource={passwordIcon}
                   style={{ fontSize: 20, borderColor: !!error ? colors.yellow : '' }}
                />

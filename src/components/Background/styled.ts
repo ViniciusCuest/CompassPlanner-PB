@@ -6,8 +6,19 @@ export const Container = styled.main`
    flex-direction: row;
    align-items: center;
    justify-content: space-between;
-   background: ${ colors.background_grad };
+   background: ${colors.background_grad};
    width: 100%;
    height: 100vh;
    overflow-y: hidden;
 `;
+
+export const DashboardContainer = styled.main`
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   background: ${colors.background};
+   width: 100%;
+   height: 100vh;
+   overflow-y: hidden;
+`

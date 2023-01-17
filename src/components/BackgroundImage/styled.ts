@@ -17,6 +17,12 @@ export const Image = styled.img`
    width: 100%;
 `;
 
+export const UolImage = styled.img`
+   position: absolute;
+   bottom: 0;
+   right: 0;
+`;
+
 export const Logo = styled.img`
    position: absolute;
    top: 0;

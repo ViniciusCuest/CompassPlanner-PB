@@ -8,6 +8,9 @@ import { Wrapper } from './styled';
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
 
+import mainImage from '../../assets/image-2.jpg';
+import logo from '../../assets/compass-logo.png';
+
 export default function Register() {
    const firstName = useRef<HTMLInputElement>(null);
    const lastName = useRef<HTMLInputElement>(null);
@@ -24,7 +27,11 @@ export default function Register() {
    }
 
    return (
-      <Background>
+      <Background
+         currentPage='Register'
+         background={mainImage}
+         logo={logo}
+      >
          <Wrapper>
             <Title>Welcome,</Title>
             <Description style={{ marginBottom: 30 }}>Please, register to continue</Description>

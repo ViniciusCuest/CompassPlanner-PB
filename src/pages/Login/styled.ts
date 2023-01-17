@@ -8,11 +8,11 @@ export const Wrapper = styled.section`
    height: 100%;
    padding: 0 3vw 0 12vw;
 
-   > h1::selection,label::selection,p::selection,input::selection {
+   > h1::selection,label::selection,p::selection,input::selection,button::selection, br::selection, img::selection {
       background-color: ${colors.yellow};
       color: ${colors.black};
    }
-   > h1::-moz-selection,label::-moz-selection,p::-moz-selection,input::-moz-selection {
+   > h1::-moz-selection,label::-moz-selection,p::-moz-selection,input::-moz-selection,button::-moz-selection {
       background-color: ${colors.yellow};
       color: ${colors.black};
    }
