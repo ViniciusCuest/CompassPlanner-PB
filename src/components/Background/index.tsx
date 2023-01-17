@@ -34,11 +34,10 @@ export function Background({ children, currentPage = 'login' || 'register', back
             <BackgroundImage logo={logo} background={background} />
          </Container>,
       dashboard:
-         <DashboardContainer>
+         <DashboardContainer img={background}>
             {
                children
             }
-            <BackgroundImage background={background} page={currentPage} />
          </DashboardContainer>
    }; 
 

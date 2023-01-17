@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import { Input, Label, Container, Icon } from "./styled";
 
 type Props = {
@@ -25,7 +25,9 @@ export function InputItem({ title, placeholder, id, type, reference, autoComplet
          {
             title &&
             <Label htmlFor={id}>
-               {title}
+               {
+                  title
+               }
             </Label>
          }
          <Input

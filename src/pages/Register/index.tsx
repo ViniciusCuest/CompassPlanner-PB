@@ -23,7 +23,10 @@ export default function Register() {
 
    const handleSubmitForm = (event: UIEvent) => {
       event.preventDefault();
-      return;
+
+      if (String(firstName.current?.value).length < 3) 
+         throw new Error('Usuário inválido');
+
    }
 
    return (

@@ -13,7 +13,7 @@ const colors = {
 
    green_jade:'#00BA88',
    
-   orange500: '#FF3D1F',
+   orange800: '#FF3D1F',
    orange100: '#FF8000',
 
    yellow_border: '#FFCE00',
@@ -23,6 +23,7 @@ const colors = {
    pink_300: '#FF002480',
    pink_400: '#FF0024B2',
 
+   gray800: '#3B3E45',
    black: '#080808',
    gray: '#000000B2',
    white: '#ffffff',

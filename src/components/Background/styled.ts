@@ -12,13 +12,15 @@ export const Container = styled.main`
    overflow-y: hidden;
 `;
 
-export const DashboardContainer = styled.main`
+export const DashboardContainer = styled.main<{ img: any }>`
    display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: space-between;
-   background: ${colors.background};
    width: 100%;
    height: 100vh;
+   flex-direction: column;
+   background-color: ${colors.background};
+   background-image: url(${({ img }) => img});
+   background-repeat: no-repeat;
+   background-position: 100%;
+   background-position-y: 100%;
    overflow-y: hidden;
 `

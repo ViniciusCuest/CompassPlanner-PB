@@ -12,6 +12,7 @@ export const Shadow = styled.span`
    width: 465px;
    margin-top: 20px;
 `;
+
 export const Container = styled.button`
    position: relative;
    display: flex;
@@ -40,4 +41,18 @@ export const Container = styled.button`
       box-shadow: 5px 5px 15px 0px #00000026;
       background: ${colors.button_borderGrad};
    }
+`;
+
+export const ActionButton = styled.button`
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   width: 200px;
+   padding: 10px 12px;
+   height: 45px;
+   border-radius: 10px;
+   border: 0;
+   outline: none;
+
 `;
