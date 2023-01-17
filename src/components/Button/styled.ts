@@ -46,13 +46,19 @@ export const Container = styled.button`
 export const ActionButton = styled.button`
    display: flex;
    flex-direction: row;
-   justify-content: center;
+   justify-content: space-between;
    align-items: center;
+   font-weight: ${fonts.bold};
+   font-size: 20px;
+   color: ${colors.white};
    width: 200px;
    padding: 10px 12px;
    height: 45px;
    border-radius: 10px;
    border: 0;
    outline: none;
-
+   cursor: pointer;
+   & + & {
+      margin-left: 25px;
+   }
 `;

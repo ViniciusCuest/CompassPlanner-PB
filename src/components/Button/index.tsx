@@ -16,7 +16,11 @@ export function Button({ title, style, onPress, type, children, add }: Props) {
       return (
          <ActionButton
             onClick={onPress}
-            style={{ backgroundColor: add ? colors.green_jade : colors.orange800 }}
+            style={{ 
+               backgroundColor: add ? colors.green_jade : colors.orange800,
+               justifyContent: add ? 'space-between' : 'center',
+               gap: add ? 0 : 8
+            }}
          >
             {
                children

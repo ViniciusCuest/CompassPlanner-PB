@@ -21,8 +21,11 @@ export const Select = styled.select`
    background-color: ${colors.white};
    border: 2px solid ${colors.yellow};
    border-radius: 10px;
+   margin: 0 5px;
+   padding-left: 10px;
+   cursor: pointer;
 `;
 
 export const Option = styled.option`
-
+   cursor: pointer;
 `;

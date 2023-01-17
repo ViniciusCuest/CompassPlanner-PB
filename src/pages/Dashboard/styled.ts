@@ -11,9 +11,11 @@ export const ActionArea = styled.form`
 `;
 
 export const WrapperItem = styled.section`
-
+   display: flex;
+   flex-direction: row;
+   align-items: center;
 `;
 
 export const Icon = styled.img`
-
+   width: 16px;
 `;
