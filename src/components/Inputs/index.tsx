@@ -15,10 +15,9 @@ export function Inputs({ type, placeholder, options, style }: Props) {
             type === 'select' ?
                <Select>
                   {
-                     options?.map((item, _) => {
-                        console.log(item);
+                     options?.map((item, _id) => {
                         return (
-                           <Option key={_}>
+                           <Option key={_id}>
                               {
                                  item.day
                               }

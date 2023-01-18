@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors, fonts } from "../../global/theme";
 
-export const Container = styled.section`
+export const Container = styled.td`
    position: relative;
    display: flex;
    flex-direction: row;

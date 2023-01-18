@@ -15,7 +15,7 @@ export const Header = styled.thead`
    padding-left: 100px;
 `;
 
-export const HeaderItem = styled.th`
+export const HeaderItem = styled.tr`
 
 `;
 
@@ -64,11 +64,8 @@ export const TableDataRow = styled.tr`
    flex-direction: row;
    align-items: center;
    margin-top: 14px;
-   > td + section {
-      margin-left: 20px;
-   }
-   > section + section {
-      margin-left: 17px;
+   > td + td {
+      margin-left: 15px;
    }
 `;
 
