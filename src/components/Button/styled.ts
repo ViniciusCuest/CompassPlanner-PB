@@ -55,11 +55,12 @@ export const ActionButton = styled.button`
    padding: 10px 12px;
    height: 45px;
    border-radius: 10px;
+   transition: transform 100ms ease-in;
    border: 0;
    outline: none;
    cursor: pointer;
    &:hover{
-      transform: scale(.98);
+      transform: scale(.975);
    }
    & + & {
       margin-left: 25px;

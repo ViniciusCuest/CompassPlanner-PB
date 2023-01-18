@@ -18,7 +18,8 @@ const colors = {
 
    yellow_border: '#FFCE00',
    yellow: '#FFCE00',
-
+   yellow100: '#FFCE00B2',
+   
    red: '#FF0024',
    pink_300: '#FF002480',
    pink_400: '#FF0024B2',

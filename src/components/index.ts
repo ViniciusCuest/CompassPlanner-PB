@@ -6,6 +6,7 @@ import { Header } from '../components/Header';
 import { InputItem } from '../components/InputItem';
 import { Inputs } from '../components/Inputs';
 import { DashboardTable } from './DashboardTable';
+import { TaskItem } from './TaskItem';
 
 export {
    Background,
@@ -15,5 +16,6 @@ export {
    Header,
    InputItem,
    Inputs,
-   DashboardTable
+   DashboardTable,
+   TaskItem
 }

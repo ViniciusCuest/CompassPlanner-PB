@@ -12,6 +12,7 @@ import logoBlack from '../../assets/compass-logo-black.png';
 import mainImage from '../../assets/uol-logo.png';
 import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
+import { colors } from '../../global/theme';
 
 export type ObjDays = Array<{
    day: string;
@@ -21,13 +22,13 @@ export type ObjDays = Array<{
 export default function Dashboard() {
 
    const DAYS: ObjDays = [
-      { day: 'Monday', color: `` },
-      { day: 'Tuesday', color: `` },
-      { day: 'Wednesday', color: `` },
-      { day: 'Thrusday', color: `` },
-      { day: 'Friday', color: `` },
-      { day: 'Saturday', color: `` },
-      { day: 'Sunday', color: `` },
+      { day: 'Monday', color: `${colors.red}` },
+      { day: 'Tuesday', color: `${colors.orange800}` },
+      { day: 'Wednesday', color: `${colors.yellow}` },
+      { day: 'Thrusday', color: `${colors.pink_400}` },
+      { day: 'Friday', color: `${colors.orange100}` },
+      { day: 'Saturday', color: `${colors.yellow100}` },
+      { day: 'Sunday', color: `${colors.pink_300}` },
    ];
 
    return (
@@ -53,7 +54,7 @@ export default function Dashboard() {
                   style={{ width: 120 }}
                />
             </WrapperItem>
-            <WrapperItem>
+            <WrapperItem style={{ marginTop: 3 }}>
                <Button
                   type="action"
                   onPress={() => { }}
@@ -72,7 +73,7 @@ export default function Dashboard() {
                </Button>
             </WrapperItem>
          </ActionArea>
-         <DashboardTable/>
+         <DashboardTable days={DAYS} />
       </Background>
    )
 }
