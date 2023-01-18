@@ -2,8 +2,10 @@ import {
    Header,
    Inputs,
    Button,
-   Background
+   Background,
+   DashboardTable
 } from '../../components';
+
 import { ActionArea, Icon, WrapperItem } from "./styled";
 
 import logoBlack from '../../assets/compass-logo-black.png';
@@ -11,9 +13,22 @@ import mainImage from '../../assets/uol-logo.png';
 import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
 
+export type ObjDays = Array<{
+   day: string;
+   color: string;
+}>
+
 export default function Dashboard() {
 
-   const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thrusday', 'Friday', 'Saturday', 'Sunday']
+   const DAYS: ObjDays = [
+      { day: 'Monday', color: `` },
+      { day: 'Tuesday', color: `` },
+      { day: 'Wednesday', color: `` },
+      { day: 'Thrusday', color: `` },
+      { day: 'Friday', color: `` },
+      { day: 'Saturday', color: `` },
+      { day: 'Sunday', color: `` },
+   ];
 
    return (
       <Background
@@ -57,6 +72,7 @@ export default function Dashboard() {
                </Button>
             </WrapperItem>
          </ActionArea>
+         <DashboardTable/>
       </Background>
    )
 }

@@ -23,6 +23,7 @@ export const Select = styled.select`
    border-radius: 10px;
    margin: 0 5px;
    padding-left: 10px;
+   outline: none;
    cursor: pointer;
 `;
 

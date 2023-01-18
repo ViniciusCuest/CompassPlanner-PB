@@ -1,9 +1,10 @@
 import { Input, Select, Option } from "./styled";
+import { ObjDays } from "../../pages/Dashboard";
 
 type Props = {
    placeholder?: string;
    type: React.HTMLInputTypeAttribute;
-   options?: string[];
+   options?: ObjDays;
    style?: React.CSSProperties;
 }
 
@@ -15,10 +16,11 @@ export function Inputs({ type, placeholder, options, style }: Props) {
                <Select>
                   {
                      options?.map((item, _) => {
+                        console.log(item);
                         return (
                            <Option key={_}>
                               {
-                                 item
+                                 item.day
                               }
                            </Option>
                         );

@@ -5,6 +5,7 @@ import { Form } from '../components/Form';
 import { Header } from '../components/Header';
 import { InputItem } from '../components/InputItem';
 import { Inputs } from '../components/Inputs';
+import { DashboardTable } from './DashboardTable';
 
 export {
    Background,
@@ -13,5 +14,6 @@ export {
    Form,
    Header,
    InputItem,
-   Inputs
+   Inputs,
+   DashboardTable
 }

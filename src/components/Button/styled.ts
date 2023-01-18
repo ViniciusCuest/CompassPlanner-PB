@@ -58,6 +58,9 @@ export const ActionButton = styled.button`
    border: 0;
    outline: none;
    cursor: pointer;
+   &:hover{
+      transform: scale(.98);
+   }
    & + & {
       margin-left: 25px;
    }
