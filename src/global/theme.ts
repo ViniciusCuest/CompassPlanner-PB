@@ -28,6 +28,7 @@ const colors = {
    gray800: '#3B3E45',
    black: '#080808',
    gray: '#000000B2',
+   white200: '#DCDFE3',
    white: '#ffffff',
 };
 

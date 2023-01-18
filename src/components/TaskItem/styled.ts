@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { colors } from "../../global/theme";
+import { colors, fonts } from "../../global/theme";
 
 export const Container = styled.section`
+   position: relative;
    display: flex;
    flex-direction: row;
    align-items: center;
@@ -35,5 +36,23 @@ export const Description = styled.p`
 `;
 
 export const BadgeButton = styled.button`
-
+   position: absolute;
+   top: 0;
+   right: 0;
+   margin-top: 8px;
+   margin-right: 14px;
+   width: 58px;
+   height: 25px;
+   border-radius: 4px;
+   background-color: ${colors.orange800};
+   color: ${colors.white};
+   font-size: 14px;
+   font-weight: ${fonts.extra};
+   transition: transform 120ms ease-in;
+   outline: none;
+   border: 0;
+   cursor: pointer;
+   &:hover {
+      transform: scale(.95);
+   }
 `;

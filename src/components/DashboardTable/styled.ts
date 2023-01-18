@@ -2,16 +2,17 @@ import styled from "styled-components";
 import { colors, fonts } from "../../global/theme";
 
 export const Table = styled.table`
+   height: 100%;
    margin-top: 20px;
-   margin-left: 130px;
-   overflow-x: scroll;
-   cursor: grab;
+   margin-left: 25px;
+   overflow-x: hidden;
 `;
 
 export const Header = styled.thead`
    display: flex;
    flex-direction: row;
    align-items: center;
+   padding-left: 100px;
 `;
 
 export const HeaderItem = styled.th`
@@ -38,12 +39,21 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
 
 export const TableBody = styled.tbody`
    display: flex;
+   min-width: 100%;
+   min-height: 100%;
    flex-direction: column;
+   overflow-x: scroll;
+   cursor: grab;
 `;
 
 export const VerticalHeaderIndicator = styled.th`
+   display: flex;
+   align-items: center;
+   justify-content: center;
    width: 85px;
    height: 75px;
+   font-size: 17px;
+   font-weight: ${fonts.extra};
    box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.25);
    border-radius: 10px;
 `
@@ -71,5 +81,6 @@ export const TableData = styled.td`
    width: 85px;
    height: 85px;
    border-radius: 10px;
-   background: #FF0024;
+   background-color: ${colors.red};
+   border-bottom: 2px solid ${colors.white200};
 `;

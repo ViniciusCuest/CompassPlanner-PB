@@ -19,7 +19,59 @@ export type ObjDays = Array<{
    color: string;
 }>
 
+export type DataDashboard = Array<{
+   id: number;
+   hour: string;
+   day: string;
+   items: Array<{
+      key: number
+      description: string;
+   }>
+}>
+
 export default function Dashboard() {
+
+   const DATA: DataDashboard = [
+      {
+         id: 1,
+         day: 'monday',
+         hour: '10h30',
+         items: [{
+            key: 1,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+         }]
+      },
+      {
+         id: 2,
+         day: 'monday',
+         hour: '11h30',
+         items: [{
+            key: 1,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+         },
+         {
+            key: 2,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+         },
+         {
+            key: 3,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+         },
+         {
+            key: 4,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+         }]
+      },
+      {
+         id: 3,
+         day: 'tuesday',
+         hour: '14:30',
+         items: [{
+            key: 1,
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+         }]
+      }
+   ];
 
    const DAYS: ObjDays = [
       { day: 'Monday', color: `${colors.red}` },
@@ -73,7 +125,7 @@ export default function Dashboard() {
                </Button>
             </WrapperItem>
          </ActionArea>
-         <DashboardTable days={DAYS} />
+         <DashboardTable data={DATA} days={DAYS} />
       </Background>
    )
 }

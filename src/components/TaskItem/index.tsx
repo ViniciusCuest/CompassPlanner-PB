@@ -1,12 +1,21 @@
-import { Border, Container, Description } from "./styled";
+import { Border, Container, Description, BadgeButton } from "./styled";
 
-export function TaskItem() {
+type Props = {
+   description: string
+}
+
+export function TaskItem({ description }: Props) {
    return (
       <Container>
-         <Border></Border>
+         <Border />
          <Description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            {
+               description
+            }
          </Description>
+         <BadgeButton>
+            Delete
+         </BadgeButton>
       </Container>
    );
 }

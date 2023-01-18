@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
    ButtonHeader,
    Header,
@@ -8,14 +9,18 @@ import {
    TableDataRow,
    VerticalHeaderIndicator
 } from "./styled";
-import { ObjDays } from "../../pages/Dashboard";
+import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
 
 type Props = {
+   data: DataDashboard
    days: ObjDays;
 }
 
-export function DashboardTable({ days }: Props) {
+export function DashboardTable({ data, days }: Props) {
+
+   const [currentDay, setCurrentDay] = useState<string>('monday');
+
    return (
       <Table>
          <Header>
@@ -23,7 +28,11 @@ export function DashboardTable({ days }: Props) {
                days.map((item, _id) => {
                   return (
                      <HeaderItem scope='row'>
-                        <ButtonHeader active={_id === 0 ? true : false} buttonColor={item.color}>
+                        <ButtonHeader
+                           active={_id === 0 ? true : false}
+                           buttonColor={item.color}
+                           onClick={() => setCurrentDay(item.day.toLowerCase())}
+                        >
                            {
                               item.day
                            }
@@ -35,19 +44,33 @@ export function DashboardTable({ days }: Props) {
          </Header>
          <TableBody>
             <TableDataRow>
-               <VerticalHeaderIndicator scope="col" />
+               <VerticalHeaderIndicator scope="col">
+                  Time
+               </VerticalHeaderIndicator>
             </TableDataRow>
-            <TableDataRow>
-               <TableData>
-                  10h30m
-               </TableData>
-               <TaskItem />
-               <TaskItem />
-               <TaskItem />
-               <TaskItem />
-               <TaskItem />
-               <TaskItem />
-            </TableDataRow>
+            {
+               data.filter(item => item.day === currentDay).map((values) => {
+                  return (
+                     <TableDataRow key={values.id}>
+                        <TableData>
+                           {
+                              values.hour
+                           }
+                        </TableData>
+                        {
+                           values.items.map((item) => {
+                              return (
+                                 <TaskItem
+                                    key={item.key}
+                                    description={item.description}
+                                 />
+                              );
+                           })
+                        }
+                     </TableDataRow>
+                  );
+               })
+            }
          </TableBody>
       </Table>
    );
