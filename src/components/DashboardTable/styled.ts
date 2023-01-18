@@ -4,6 +4,8 @@ import { colors, fonts } from "../../global/theme";
 export const Table = styled.table`
    margin-top: 20px;
    margin-left: 130px;
+   overflow-x: scroll;
+   cursor: grab;
 `;
 
 export const Header = styled.thead`
@@ -28,6 +30,7 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    outline: none;
    border-radius: 9px 9px 0px 0px;
    padding-left: 8px;
+   cursor: pointer;
    & + & {
       margin-left: 3px;
    }
@@ -46,11 +49,17 @@ export const VerticalHeaderIndicator = styled.th`
 `
 
 export const TableDataRow = styled.tr`
-
-`;
-
-export const TableHeaderData = styled.td`
-
+   display: flex;
+   width: auto;
+   flex-direction: row;
+   align-items: center;
+   margin-top: 14px;
+   > td + section {
+      margin-left: 20px;
+   }
+   > section + section {
+      margin-left: 17px;
+   }
 `;
 
 export const TableData = styled.td`

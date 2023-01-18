@@ -24,6 +24,7 @@ const colors = {
    pink_300: '#FF002480',
    pink_400: '#FF0024B2',
 
+   gray900: '#333333',
    gray800: '#3B3E45',
    black: '#080808',
    gray: '#000000B2',

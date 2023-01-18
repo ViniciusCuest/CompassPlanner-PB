@@ -1,5 +1,15 @@
+import {
+   ButtonHeader,
+   Header,
+   HeaderItem,
+   Table,
+   TableBody,
+   TableData,
+   TableDataRow,
+   VerticalHeaderIndicator
+} from "./styled";
 import { ObjDays } from "../../pages/Dashboard";
-import { ButtonHeader, Header, HeaderItem, Table, TableBody, TableData, TableDataRow, VerticalHeaderIndicator } from "./styled";
+import { TaskItem } from "../";
 
 type Props = {
    days: ObjDays;
@@ -31,6 +41,12 @@ export function DashboardTable({ days }: Props) {
                <TableData>
                   10h30m
                </TableData>
+               <TaskItem />
+               <TaskItem />
+               <TaskItem />
+               <TaskItem />
+               <TaskItem />
+               <TaskItem />
             </TableDataRow>
          </TableBody>
       </Table>
