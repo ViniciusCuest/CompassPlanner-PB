@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Background } from "../../components/Background";
 import { InputItem } from "../../components/InputItem";
@@ -13,8 +13,13 @@ import { ErrorContainer, Wrapper } from './styled';
 import { Button } from '../../components/Button';
 import { Form } from '../../components/Form';
 import { colors } from '../../global/theme';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/AuthConext';
 
 export default function Login() {
+
+   const { handleLogIn } = useAuth();
+
    const [error, setError] = useState<string>('');
 
    const userName = useRef<HTMLInputElement>(null);
@@ -22,7 +27,12 @@ export default function Login() {
 
    const handleSubmitForm = (event: UIEvent) => {
       event.preventDefault();
-      return;
+      try {
+         handleLogIn(String(userName.current?.value), String(password.current?.value));
+      }
+      catch (e: any) {
+         setError(e?.message);;
+      }
    }
 
    return (
@@ -44,6 +54,8 @@ export default function Login() {
                   id={'your-username'}
                   autoComplete={false}
                   iconSource={userIcon}
+                  handleError={setError}
+                  error={!!error}
                   style={!!error ? { borderColor: colors.yellow } : {}}
                />
                <InputItem
@@ -54,12 +66,17 @@ export default function Login() {
                   id={'your-password'}
                   autoComplete={false}
                   iconSource={passwordIcon}
-                  style={{ fontSize: 20, borderColor: !!error ? colors.yellow : '' }}
+                  handleError={setError}
+                  error={!!error}
+                  style={{ fontSize: 20 }}
                />
                <ErrorContainer>
                   {
                      !!error &&
-                     <ErrorText>Wow, invalid username or password. <br />{'\n'} Please, try again!</ErrorText>
+                     <ErrorText>{
+                        
+                        error
+                     }</ErrorText>
                   }
                </ErrorContainer>
                <Button
@@ -67,6 +84,7 @@ export default function Login() {
                   style={{ width: 380, marginLeft: 10, marginTop: 40 }}
                   onPress={handleSubmitForm}
                />
+               <Link to={'/Register'} style={{ textDecoration: 'none', marginTop: 10, marginLeft: 45, }}><Description>If you don't have an account, click here!</Description></Link>
             </Form>
          </Wrapper>
       </Background>

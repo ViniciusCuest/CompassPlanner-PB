@@ -11,17 +11,18 @@ export const Container = styled.div`
       margin-top: 18px;
    }
 `;
-export const Input = styled.input`
+export const Input = styled.input<{ errorStyle: boolean }>`
    width: 380px;
    height: 60px;
    font-weight: ${fonts.regular};
    font-size: 1em;
    color: ${colors.secondary_text} !important;
    background-color: ${colors.text_input} !important;
-   border: 1px solid ${colors.border_color};
+   border: 1px solid ${({ errorStyle }) => errorStyle ? colors.yellow : colors.border_color};
    border-radius: 50px;
    margin-left: 15px;
    padding: 0 50px 0 25px;
+   animation: ${({errorStyle}) => errorStyle ? 'shaking 400ms ease-in' : ''};
    outline: none;
 
    &&&{
@@ -35,6 +36,15 @@ export const Input = styled.input`
       color: ${colors.secondary_text};
       font-weight: ${fonts.regular};
    }
+
+   @keyframes shaking {
+       0% { transform: translateX(0) }
+      25% { transform: translateX(5px) }
+      50% { transform: translateX(-5px) }
+      75% { transform: translateX(5px) }
+      100% { transform: translateX(0) }
+   }
+
 `;
 
 export const Label = styled.label`

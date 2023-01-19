@@ -18,3 +18,10 @@ export const WrapperItem = styled.section`
 export const Icon = styled.img`
    width: 16px;
 `;
+
+export const TableWrapper = styled.div`
+   height: 100%;
+   overflow: scroll;
+   transform: rotateX(180deg);
+   margin-top: 20px;
+`;

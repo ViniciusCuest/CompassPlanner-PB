@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors, fonts } from "../../global/theme";
 
-export const Container = styled.td`
+export const Container = styled.div`
    position: relative;
    display: flex;
    flex-direction: row;
@@ -23,7 +23,7 @@ export const Border = styled.span`
    width: 14px;
    height: 100%;
    border-radius: 15px 0 0 15px;
-   background-color: ${colors.red};
+
 `;
 
 export const Description = styled.p`

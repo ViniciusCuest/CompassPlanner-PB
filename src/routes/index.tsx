@@ -1,10 +1,12 @@
 import { Routes as Router, Route, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/AuthConext";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
 export default function Routes() {
-   const isLoggedIn = true;
+   const { isLogged } = useAuth();
+   
    return (
       <Router>
          <Route
@@ -17,7 +19,7 @@ export default function Routes() {
          />
          <Route
             path="/"
-            element={isLoggedIn ? <Dashboard /> : <Navigate replace to={'/login'} />}
+            element={isLogged ? <Dashboard /> : <Navigate replace to={'/login'} />}
          />
       </Router>
    );

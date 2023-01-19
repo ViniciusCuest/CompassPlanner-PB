@@ -6,7 +6,7 @@ import {
    DashboardTable
 } from '../../components';
 
-import { ActionArea, Icon, WrapperItem } from "./styled";
+import { ActionArea, Icon, TableWrapper, WrapperItem } from "./styled";
 
 import logoBlack from '../../assets/compass-logo-black.png';
 import mainImage from '../../assets/uol-logo.png';
@@ -63,8 +63,17 @@ export default function Dashboard() {
          }]
       },
       {
-         id: 3,
+         id: 4,
          day: 'tuesday',
+         hour: '15:30',
+         items: [{
+            key: 1,
+            description: 'New Task'
+         }]
+      },
+      {
+         id: 3,
+         day: 'wednesday',
          hour: '14:30',
          items: [{
             key: 1,
@@ -75,10 +84,10 @@ export default function Dashboard() {
 
    const DAYS: ObjDays = [
       { day: 'Monday', color: `${colors.red}` },
-      { day: 'Tuesday', color: `${colors.orange800}` },
+      { day: 'Tuesday', color: `${colors.orange100}` },
       { day: 'Wednesday', color: `${colors.yellow}` },
       { day: 'Thrusday', color: `${colors.pink_400}` },
-      { day: 'Friday', color: `${colors.orange100}` },
+      { day: 'Friday', color: `${colors.orange50}` },
       { day: 'Saturday', color: `${colors.yellow100}` },
       { day: 'Sunday', color: `${colors.pink_300}` },
    ];

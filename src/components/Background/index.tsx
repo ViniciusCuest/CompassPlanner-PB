@@ -34,7 +34,7 @@ export function Background({ children, currentPage = 'login' || 'register', back
             <BackgroundImage logo={logo} background={background} />
          </Container>,
       dashboard:
-         <DashboardContainer img={background}>
+         <DashboardContainer style={{overflow: 'hidden'}} img={background}>
             {
                children
             }

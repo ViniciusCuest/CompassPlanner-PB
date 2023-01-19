@@ -19,6 +19,7 @@ export const Wrapper = styled.section`
 `;
 
 export const ErrorContainer = styled.div`
-   margin-left: 15%;
+   margin-left: 13%;
+   width: 300px;
    height: 100px
 `;

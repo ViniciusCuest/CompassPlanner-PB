@@ -1,21 +1,20 @@
 import styled from "styled-components";
 import { colors, fonts } from "../../global/theme";
 
-export const Table = styled.table`
+export const Table = styled.section`
    height: 100%;
    margin-top: 20px;
    margin-left: 25px;
-   overflow-x: hidden;
 `;
 
-export const Header = styled.thead`
+export const Header = styled.section`
    display: flex;
    flex-direction: row;
    align-items: center;
    padding-left: 100px;
 `;
 
-export const HeaderItem = styled.tr`
+export const HeaderItem = styled.div`
 
 `;
 
@@ -37,19 +36,28 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    }
 `;
 
-export const TableBody = styled.tbody`
+export const TableBody = styled.section`
+   position: relative;
    display: flex;
-   min-width: 100%;
-   min-height: 100%;
    flex-direction: column;
-   overflow-x: scroll;
-   cursor: grab;
+   height: 10%;
+   min-height: 100%;
+   justify-content: flex-start;
+   transform: translateX(180deg);
 `;
 
-export const VerticalHeaderIndicator = styled.th`
+export const VerticalHeader = styled.div`
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+`;
+
+export const VerticalHeaderIndicator = styled.div`
    display: flex;
    align-items: center;
    justify-content: center;
+   margin-top: 90px;
    width: 85px;
    height: 75px;
    font-size: 17px;
@@ -58,19 +66,46 @@ export const VerticalHeaderIndicator = styled.th`
    border-radius: 10px;
 `
 
-export const TableDataRow = styled.tr`
+export const Row = styled.section`
+   margin-top: 85px;
+   overflow-x: scroll;
+   height: 70%;
+   width: 100%;
+   &::-webkit-scrollbar {
+      height: 8px;
+      width: 200px;
+      box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.25);
+      border-radius: 24px;
+   };
+   &::-webkit-scrollbar-track {
+      background-color: ${colors.white};
+   }
+   &::-webkit-scrollbar-thumb {
+      height: 2px;
+      width: 200px;
+      background-color: #DCDFE3;
+      border-radius: 20px;
+   }
+`;
+
+export const TableDataRow = styled.div`
    display: flex;
    width: auto;
    flex-direction: row;
    align-items: center;
-   margin-top: 14px;
-   > td + td {
-      margin-left: 15px;
+   margin-top: 15px;
+   > div{
+      margin-left: calc(85px + 15px);
+      > div + div {
+         margin-left: 15px;
+      }
    }
 `;
 
-export const TableData = styled.td`
+export const TableData = styled.span`
+   position: fixed;
    display: flex;
+   flex-direction: row;
    align-items: center;
    justify-content: center;
    font-size: 17px;
@@ -80,4 +115,5 @@ export const TableData = styled.td`
    border-radius: 10px;
    background-color: ${colors.red};
    border-bottom: 2px solid ${colors.white200};
+   z-index: 5;
 `;

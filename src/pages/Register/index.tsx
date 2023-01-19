@@ -10,8 +10,12 @@ import { Link } from 'react-router-dom';
 
 import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
+import { useAuth } from '../../hooks/AuthConext';
 
 export default function Register() {
+
+   //const { handleLogIn } = useAuth();
+
    const firstName = useRef<HTMLInputElement>(null);
    const lastName = useRef<HTMLInputElement>(null);
    const birthDate = useRef<HTMLInputElement>(null);
@@ -24,9 +28,17 @@ export default function Register() {
    const handleSubmitForm = (event: UIEvent) => {
       event.preventDefault();
 
-      if (String(firstName.current?.value).length < 3) 
+      if (String(firstName.current?.value).length < 3)
          throw new Error('Usuário inválido');
 
+      localStorage.setItem('user', JSON.stringify({
+         fullName: `${firstName.current?.value} ${lastName.current?.value}`,
+         birthDate: birthDate.current?.value,
+         country: country.current?.value,
+         city: city.current?.value,
+         email: email.current?.value,
+         password: password.current?.value,
+      }));
    }
 
    return (
