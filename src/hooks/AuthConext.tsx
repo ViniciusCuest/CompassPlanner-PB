@@ -28,21 +28,22 @@ export function AuthProvider({ children }: Props) {
    const userSavedData: string = String(localStorage.getItem('user'));
    const navigate = useNavigate();
 
-   const [isLogged, setIsLogged] = useState<boolean>(false);
+   const [isLogged, setIsLogged] = useState<boolean>(userSavedData.length > 0 ? true : false);
    const [isLoading, setIsLoading] = useState<boolean>(false);
 
    useEffect(() => {
-
-      console.log(userSavedData);
-
-      if (isLogged)
-         navigate('/');
+      if (userSavedData.length || isLogged) {
+         setIsLogged(true);
+      }
    }, []);
 
    const handleLogIn = (user: string, pass: string) => {
       setIsLoading(true);
 
       const userData: UserProps = JSON.parse(userSavedData);
+
+      if (!userData)
+         throw new Error(`There's no DB connection`)
 
       console.log(userData.email, user);
       console.log(userData.password, pass);
@@ -57,7 +58,9 @@ export function AuthProvider({ children }: Props) {
    }
 
    const handleLogOut = () => {
+      localStorage.removeItem('user');
       setIsLogged(false);
+      navigate('/');
    }
 
    return (

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
    Header,
    Inputs,
@@ -13,6 +14,7 @@ import mainImage from '../../assets/uol-logo.png';
 import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
 import { colors } from '../../global/theme';
+import { API } from '../../utils/api';
 
 export type ObjDays = Array<{
    day: string;
@@ -30,6 +32,23 @@ export type DataDashboard = Array<{
 }>
 
 export default function Dashboard() {
+
+   const [data, setData] = useState<unknown>({});
+
+   async function handleGetData() {
+      await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}`,
+         { headers: { "Content-Type": "application/json;charset=utf-8" } }).then((res) => {
+            setData(res.data);
+         }).catch((e) => {
+
+         }).finally(() => {
+
+         })
+   }
+
+   useEffect(() => {
+      handleGetData();
+   }, []);
 
    const DATA: DataDashboard = [
       {
@@ -97,7 +116,7 @@ export default function Dashboard() {
          currentPage="Dashboard"
          background={mainImage}
       >
-         <Header logo={logoBlack} />
+         <Header data={data} logo={logoBlack} />
          <ActionArea>
             <WrapperItem>
                <Inputs

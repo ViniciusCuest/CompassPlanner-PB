@@ -6,13 +6,15 @@ import { Description, Title } from "../../components/Texts";
 import { Form } from '../../components/Form';
 import { Wrapper } from './styled';
 import { Button } from '../../components/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
 import { useAuth } from '../../hooks/AuthConext';
 
 export default function Register() {
+
+   const navigate = useNavigate();
 
    //const { handleLogIn } = useAuth();
 
@@ -39,6 +41,7 @@ export default function Register() {
          email: email.current?.value,
          password: password.current?.value,
       }));
+      navigate('/');
    }
 
    return (
