@@ -6,6 +6,7 @@ import { Description, Title } from "../Texts";
 import { Badge, Container, Date as DateComp, DateTime, Hour, Icon, LocationTemperature, Logo, Logout, LogoutButton } from "./styled";
 import { useAuth } from "../../hooks/AuthConext";
 import { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 type Props = {
    logo: string;
@@ -17,11 +18,11 @@ export function Header({ logo, data }: Props): JSX.Element {
    const { handleLogOut } = useAuth();
 
    const [date, setDate] = useState<Date>(new Date());
-   const [hour, setHour] = useState<string>(`${new Date().getHours()}:${new Date().getMinutes()}`);
+   const [hour, setHour] = useState<string>(`${format(new Date(), 'HH:mm')}`);
 
       useEffect(() => {
          let time = setInterval(() => {
-            setHour(`${new Date().getHours()}:${new Date().getMinutes()}`);
+            setHour(`${format(new Date(), 'HH:mm')}`);
          }, 1000);
 
          return () => {
@@ -43,12 +44,13 @@ export function Header({ logo, data }: Props): JSX.Element {
             <DateTime>
                <Hour>
                   {
-                     hour
+                     hour.padEnd(hour.length-1, '0')
                   }
                </Hour>
                <DateComp>
                   {
-                     date.getMonth().toString() + '   ' + date.getDate() + '   ' + date.getFullYear()
+                     format(new Date(), 'MMMM do, yyyy')
+                     //date.getMonth().toString() + '   ' + date.getDate() + '   ' + date.getFullYear()
                   }
                </DateComp>
             </DateTime>

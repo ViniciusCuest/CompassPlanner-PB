@@ -28,13 +28,12 @@ export function AuthProvider({ children }: Props) {
    const userSavedData: string = String(localStorage.getItem('user'));
    const navigate = useNavigate();
 
-   const [isLogged, setIsLogged] = useState<boolean>(userSavedData.length > 0 ? true : false);
+   const [isLogged, setIsLogged] = useState<boolean>(userSavedData !== 'null' ? true : false);
    const [isLoading, setIsLoading] = useState<boolean>(false);
 
    useEffect(() => {
-      if (userSavedData.length || isLogged) {
+      if (userSavedData !== 'null')
          setIsLogged(true);
-      }
    }, []);
 
    const handleLogIn = (user: string, pass: string) => {

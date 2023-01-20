@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Routes as Router, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/AuthConext";
 import Dashboard from "../pages/Dashboard";
@@ -6,7 +7,7 @@ import Register from "../pages/Register";
 
 export default function Routes() {
    const { isLogged } = useAuth();
-   
+
    return (
       <Router>
          <Route
