@@ -15,7 +15,9 @@ export const Header = styled.section`
 `;
 
 export const HeaderItem = styled.div`
-
+   & + & {
+      margin-left: 3px;
+   }
 `;
 
 export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean }>`
@@ -31,16 +33,13 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    border-radius: 9px 9px 0px 0px;
    padding-left: 8px;
    cursor: pointer;
-   & + & {
-      margin-left: 3px;
-   }
 `;
 
 export const TableBody = styled.section`
    position: relative;
    display: flex;
    flex-direction: column;
-   height: 10%;
+   height: 20%;
    min-height: 100%;
    justify-content: flex-start;
    transform: translateX(180deg);
@@ -69,7 +68,7 @@ export const VerticalHeaderIndicator = styled.div`
 export const Row = styled.section`
    margin-top: 85px;
    overflow-x: scroll;
-   height: 70%;
+   height: 80%;
    width: 100%;
    &::-webkit-scrollbar {
       height: 8px;
@@ -116,4 +115,31 @@ export const TableData = styled.span`
    background-color: ${colors.red};
    border-bottom: 2px solid ${colors.white200};
    z-index: 5;
+`;
+
+export const RowData = styled.div<{ active?: boolean }>`
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   ${({ active }) => active &&
+      `&::after {
+      position: absolute;
+      content: '';
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #000000B2;
+      margin-left: -10px;
+      }
+      &::before{
+         position: absolute;
+         z-index: 1;
+         content: '';
+         width: 100%;
+         height: 4px;
+         background-color:#000000B2;
+         border-radius: 12px;
+      }`
+   };
 `;

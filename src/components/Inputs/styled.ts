@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { colors } from "../../global/theme";
 
-export const Input = styled.input`
+export const Input = styled.input<{type : string}>`
+   -webkit-appearance: ${({ type }) => { console.log(type); return String(type) === 'time' ? 'none' : 'none'}} !important;
+   -moz-appearance:    ${({ type }) => { console.log(type); return String(type) === 'time' ? 'none' : 'none'}} !important; 
+   appearance: ${({ type }) => { console.log(type); return String(type) === 'time' ? 'none' : 'none'}} !important;
    width: 391px;
    height: 45px;
    background-color: ${colors.white};
@@ -13,6 +16,7 @@ export const Input = styled.input`
    &::placeholder{
       color: ${colors.gray};
    }
+   //border-radius: ${(props :any) => { console.log(props.type); return '0px' }};
 `;
 
 export const Select = styled.select`

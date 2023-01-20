@@ -4,6 +4,7 @@ import {
    Header,
    HeaderItem,
    Row,
+   RowData,
    Table,
    TableBody,
    TableData,
@@ -13,6 +14,7 @@ import {
 } from "./styled";
 import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
+import { colors } from '../../global/theme';
 
 type Props = {
    data: DataDashboard
@@ -37,7 +39,7 @@ export function DashboardTable({ data, days }: Props) {
                         key={_id}
                      >
                         <ButtonHeader
-                           active={_id === 0 ? true : false}
+                           active={item.day.toLowerCase() === currentDay ? true : false}
                            buttonColor={item.color}
                            onClick={() => setCurrentDay(item.day.toLowerCase())}
                         >
@@ -72,34 +74,51 @@ export function DashboardTable({ data, days }: Props) {
                */ }
             </VerticalHeader>
             <Row>
-            {
-               data.filter(item => item.day === currentDay).map((values) => {
-                  return (
-                     <TableDataRow
-                        key={values.id}
-                     >
-                        <TableData style={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color }}>
-                           {
-                              values.hour
-                           }
-                        </TableData>
-                        <div style={{display: "flex", flexDirection: "row"}}>
-                        {
-                           values.items.map((item) => {
-                              return (
-                                 <TaskItem
-                                    key={item.key}
-                                    description={item.description}
-                                    borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color }}
-                                 />
-                              );
-                           })
-                        }
-                        </div>
-                     </TableDataRow>
-                  );
-               })
-            }
+               {
+                  data.filter(item => item.day === currentDay).map((values) => {
+                     return (
+                        <TableDataRow
+                           key={values.id}
+                        >
+                           <TableData
+                              style={{
+                                 backgroundColor:
+                                    values.items.length > 1 ?
+                                       colors.gray200
+                                       : days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color,
+                                 color: values.items.length > 1 ?
+                                       colors.white
+                                       : colors.black
+                              }}>
+                              {
+                                 values.hour
+                              }
+                           </TableData>
+                           <RowData active={values.items.length > 1 ? true : false}>
+                              {
+                                 values.items.map((item, _id) => {
+                                    return values.items.length > 1 ?
+                                       (
+                                          <TaskItem
+                                             key={item.key}
+                                             description={item.description}
+                                             borderStyle={{ backgroundColor: colors.gray }}
+                                          />
+                                       ) :
+                                       (
+                                          <TaskItem
+                                             key={item.key}
+                                             description={item.description}
+                                             borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color }}
+                                          />
+                                       )
+                                 })
+                              }
+                           </RowData>
+                        </TableDataRow>
+                     );
+                  })
+               }
             </Row>
          </TableBody>
       </Table>

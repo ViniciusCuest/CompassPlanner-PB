@@ -15,6 +15,7 @@ import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
 import { colors } from '../../global/theme';
 import { API } from '../../utils/api';
+import { AxiosResponse } from 'axios';
 
 export type ObjDays = Array<{
    day: string;
@@ -34,21 +35,6 @@ export type DataDashboard = Array<{
 export default function Dashboard() {
 
    const [data, setData] = useState<unknown>({});
-
-   async function handleGetData() {
-      await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}`,
-         { headers: { "Content-Type": "application/json;charset=utf-8" } }).then((res) => {
-            setData(res.data);
-         }).catch((e) => {
-
-         }).finally(() => {
-
-         })
-   }
-
-   useEffect(() => {
-      handleGetData();
-   }, []);
 
    const DATA: DataDashboard = [
       {
@@ -111,6 +97,29 @@ export default function Dashboard() {
       { day: 'Sunday', color: `${colors.pink_300}` },
    ];
 
+   async function handleGetData(): Promise<void> {
+      await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}`,
+         { headers: { "Content-Type": "application/json;charset=utf-8" } }).then((res: AxiosResponse) => {
+            setData(res.data);
+         }).catch((e) => {
+
+         }).finally(() => {
+
+         })
+   }
+
+   const handleDeleteAllTasks = (e : UIEvent) => {
+      e.preventDefault();
+   }
+
+   const handleAddNewTask = (e: UIEvent) => {
+      e.preventDefault();
+   }
+
+   useEffect(() => {
+      handleGetData();
+   }, []);
+
    return (
       <Background
          currentPage="Dashboard"
@@ -137,7 +146,7 @@ export default function Dashboard() {
             <WrapperItem style={{ marginTop: 3 }}>
                <Button
                   type="action"
-                  onPress={() => { }}
+                  onPress={handleAddNewTask}
                   add={true}
                >
                   <Icon src={add} />
@@ -145,7 +154,7 @@ export default function Dashboard() {
                </Button>
                <Button
                   type="action"
-                  onPress={() => { }}
+                  onPress={handleDeleteAllTasks}
                   add={false}
                >
                   <Icon src={remove} />
