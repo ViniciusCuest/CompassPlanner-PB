@@ -1,6 +1,7 @@
 import { fonts } from "../../global/theme";
 
 import logoutLogo from '../../assets/icon-arrow-right.svg';
+import cloudy from '../../assets/cloudy.svg';
 
 import { Description, Title } from "../Texts";
 import { Badge, Container, Date as DateComp, DateTime, Hour, Icon, LocationTemperature, Logo, Logout, LogoutButton } from "./styled";
@@ -15,7 +16,7 @@ type Props = {
 
 export function Header({ logo, data }: Props): JSX.Element {
 
-   const { handleLogOut } = useAuth();
+   const { handleLogOut, userData } = useAuth();
 
    const [date, setDate] = useState<Date>(new Date());
    const [hour, setHour] = useState<string>(`${format(new Date(), 'HH:mm')}`);
@@ -56,27 +57,16 @@ export function Header({ logo, data }: Props): JSX.Element {
             </DateTime>
             <DateTime>
                <DateComp>
-                  November 22th, 2022
+                  { userData.city ? `${userData.city} - São Paulo` :  'São Paulo - São Paulo'} 
                </DateComp>
-               <Hour>
+               <LocationTemperature>
+                  <Icon src={cloudy}/>
                   {
                      Number(data?.main?.temp).toFixed(0) + '°'
                   }
-               </Hour>
+               </LocationTemperature>
             </DateTime>
          </div>
-         {
-            /*
-                     <LocationTemperature>
-            <Hour>
-               10:58
-            </Hour>
-            <Date>
-               November 22th, 2022
-            </Date>
-         </LocationTemperature>
-            */
-         }
          <Logout>
             <Logo src={logo} />
             <LogoutButton onClick={handleLogOut}>

@@ -10,7 +10,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
-import { useAuth } from '../../hooks/AuthConext';
 
 export default function Register() {
 

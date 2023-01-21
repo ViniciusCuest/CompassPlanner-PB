@@ -44,15 +44,24 @@ export const Date = styled.time`
 
 export const LocationTemperature = styled.section`
    display: flex;
-   justify-content: center;
+   flex-direction: row;
+   justify-content: space-around;
    align-items: center;
+   font-size: 48px;
+   font-weight: ${fonts.bold};
+   color: ${colors.gray800};
 `
 
 export const Logout = styled.section`
    display: flex;
    flex-direction: column;
-   justify-content: space-around;
+   justify-content: flex-start;
    align-items: flex-end;
+`;
+
+export const City = styled.span`
+   font-size: 14px;
+   font-weight: ${fonts.regular};
 `;
 
 export const Logo = styled.img`
@@ -64,8 +73,8 @@ export const LogoutButton = styled.button`
    flex-direction: column;
    align-items: center;
    justify-content: center;
+   margin-top: 10px;
    font-size: 17px;
-   margin-top: 40px;
    background: none;
    outline: none;
    border: 0;
@@ -74,6 +83,7 @@ export const LogoutButton = styled.button`
 `;
 
 export const Icon = styled.img`
-   height: 20px;
+   height: 34px;
    margin-bottom: -5px;
+   margin-right: 15px;
 `

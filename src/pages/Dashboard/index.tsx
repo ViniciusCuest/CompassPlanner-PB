@@ -120,11 +120,7 @@ export default function Dashboard() {
 
    const handleDeleteAllTasks = (e: UIEvent) => {
       e.preventDefault();
-
-      console.log(data);
-
-      //setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
-      //console.log(data);
+      setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
    }
 
    const handleAddNewTask = (e: UIEvent) => {
@@ -165,19 +161,8 @@ export default function Dashboard() {
                   description: taskRef.current?.value
                }]
             }])
-            
-            console.log('saiu da interação')
-            return;
+         return;
       }
-
-      console.log('sem condicional')
-
-      //console.log(hour);
-      //console.log(data.find(item => item.day === currentDay.toLowerCase()))
-
-      /*  taskRef.current?.value;
-        SelectRef.current?.value;
-        hour; */
    }
 
    useEffect(() => {

@@ -56,7 +56,6 @@ export function AuthProvider({ children }: Props) {
       setIsLoading(true);
 
       const localUserData: UserProps = JSON.parse(userSavedData);
-      console.log(localUserData.fullName, user);
 
       if (!localUserData)
          throw new Error(`There's no DB connection`);
