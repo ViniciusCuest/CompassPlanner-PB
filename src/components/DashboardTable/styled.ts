@@ -32,6 +32,7 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    outline: none;
    border-radius: 9px 9px 0px 0px;
    padding-left: 8px;
+   transition: width 150ms ease-in;
    cursor: pointer;
 `;
 

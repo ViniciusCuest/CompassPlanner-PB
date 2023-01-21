@@ -19,15 +19,37 @@ import { colors } from '../../global/theme';
 type Props = {
    data: DataDashboard
    days: ObjDays;
+   currentActive: any;
+   setCurrent: any;
+   action: React.Dispatch<React.SetStateAction<DataDashboard | []>>;
 }
 
-export function DashboardTable({ data, days }: Props) {
-
-   const [currentDay, setCurrentDay] = useState<string>('monday');
+export function DashboardTable({ data, days, setCurrent, currentActive, action }: Props) {
 
    useEffect(() => {
       //backgroundColor: days.find(item => item.day === values.day.toLowerCase())?.colo
    }, []);
+
+   const handleDeleteItem = (id: number, keyItem: number) => {
+
+      const updatedValues = data.find((item) => item.id === id)?.items.filter((item) => item.key !== keyItem);
+
+      console.log(updatedValues)
+
+      if(!updatedValues?.length) {
+         action(data.filter((item) => item.id !== id));
+         return;
+      }
+
+      //action((prev: any) => [...prev, ]);
+      //action((prev: any) => {
+         //console.log(prev);
+         //console.log([prev.find((item: any) => item.id === id)?.items.filter(((item: any) => item.key !== keyItem)), ...prev]);
+         //return [...prev, prev.find((item: any) => Number(item.id) === Number(id))?.items.filter(((item: any) => Number(item.key) !== Number(keyItem)))]
+      //});
+      //console.log(data.find((item: any) => item.id === id)?.items.filter(((item: any) => item.key !== keyItem)));
+      //console.log(id, keyItem);
+   }
 
    return (
       <Table>
@@ -39,9 +61,9 @@ export function DashboardTable({ data, days }: Props) {
                         key={_id}
                      >
                         <ButtonHeader
-                           active={item.day.toLowerCase() === currentDay ? true : false}
+                           active={item.day.toLowerCase() === currentActive ? true : false}
                            buttonColor={item.color}
-                           onClick={() => setCurrentDay(item.day.toLowerCase())}
+                           onClick={() => setCurrent(item.day.toLowerCase())}
                         >
                            {
                               item.day
@@ -75,7 +97,7 @@ export function DashboardTable({ data, days }: Props) {
             </VerticalHeader>
             <Row>
                {
-                  data.filter(item => item.day === currentDay).map((values) => {
+                  data.filter(item => item.day === currentActive).map((values) => {
                      return (
                         <TableDataRow
                            key={values.id}
@@ -85,10 +107,10 @@ export function DashboardTable({ data, days }: Props) {
                                  backgroundColor:
                                     values.items.length > 1 ?
                                        colors.gray200
-                                       : days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color,
+                                       : days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
                                  color: values.items.length > 1 ?
-                                       colors.white
-                                       : colors.black
+                                    colors.white
+                                    : colors.black
                               }}>
                               {
                                  values.hour
@@ -101,6 +123,7 @@ export function DashboardTable({ data, days }: Props) {
                                        (
                                           <TaskItem
                                              key={item.key}
+                                             deleteItem={() => { handleDeleteItem(values.id, item.key) }}
                                              description={item.description}
                                              borderStyle={{ backgroundColor: colors.gray }}
                                           />
@@ -108,8 +131,9 @@ export function DashboardTable({ data, days }: Props) {
                                        (
                                           <TaskItem
                                              key={item.key}
+                                             deleteItem={() => { handleDeleteItem(values.id, item.key) }}
                                              description={item.description}
-                                             borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color }}
+                                             borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color }}
                                           />
                                        )
                                  })

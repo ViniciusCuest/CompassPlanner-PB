@@ -2,10 +2,11 @@ import { Border, Container, Description, BadgeButton } from "./styled";
 
 type Props = {
    description: string,
-   borderStyle: React.CSSProperties
+   borderStyle: React.CSSProperties;
+   deleteItem: () => void;
 }
 
-export function TaskItem({ description, borderStyle }: Props) {
+export function TaskItem({ description, borderStyle, deleteItem }: Props) {
    return (
       <Container>
          <Border style={borderStyle} />
@@ -14,7 +15,7 @@ export function TaskItem({ description, borderStyle }: Props) {
                description
             }
          </Description>
-         <BadgeButton>
+         <BadgeButton onClick={deleteItem}>
             Delete
          </BadgeButton>
       </Container>

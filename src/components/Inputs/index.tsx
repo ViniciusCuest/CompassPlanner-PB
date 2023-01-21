@@ -6,14 +6,19 @@ type Props = {
    type: React.HTMLInputTypeAttribute;
    options?: ObjDays;
    style?: React.CSSProperties;
+   value?: string;
+   reference?: any;
+   onChange?: React.Dispatch<React.SetStateAction<string>> | undefined;
 }
 
-export function Inputs({ type, placeholder, options, style }: Props) {
+const REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+
+export function Inputs({ type, placeholder, options, style, reference, onChange, value }: Props) {
    return (
       <>
          {
             type === 'select' ?
-               <Select>
+               <Select ref={reference}>
                   {
                      options?.map((item, _id) => {
                         return (
@@ -25,8 +30,33 @@ export function Inputs({ type, placeholder, options, style }: Props) {
                         );
                      })
                   }
-               </Select> :
-               <Input type={type} placeholder={placeholder} style={style} />
+               </Select>
+               :
+               <Input
+                  type={type}
+                  ref={reference}
+                  value={value}
+                  placeholder={placeholder}
+                  pattern={REGEX}
+                  onChange={(e) => {  
+                     if(onChange) {
+                        let value = e.target.value;
+
+                        if(value.length > 7) 
+                           return;
+
+                        let newString = value
+                        .replace(/^(\d{2})(\d{2})/, "$1h $2m")
+                        /*.replace(/(\d{2})(\d)/, "$1h$2")
+                        .replace(/(\d{2})(\d)/, "$1").concat('m')*/
+                        //.replace(/(\d{4})(\d)/, "$1") */
+                        onChange(newString);
+                     }
+                        
+                        //onChange(e.target.value); 
+                  }}
+                  style={style}
+               />
          }
       </>
    )

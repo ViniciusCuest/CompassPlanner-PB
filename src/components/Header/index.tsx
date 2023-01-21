@@ -10,7 +10,7 @@ import { format } from "date-fns";
 
 type Props = {
    logo: string;
-   data: unknown;
+   data: any;
 }
 
 export function Header({ logo, data }: Props): JSX.Element {
@@ -20,15 +20,15 @@ export function Header({ logo, data }: Props): JSX.Element {
    const [date, setDate] = useState<Date>(new Date());
    const [hour, setHour] = useState<string>(`${format(new Date(), 'HH:mm')}`);
 
-      useEffect(() => {
-         let time = setInterval(() => {
-            setHour(`${format(new Date(), 'HH:mm')}`);
-         }, 1000);
+   useEffect(() => {
+      let time = setInterval(() => {
+         setHour(`${format(new Date(), 'HH:mm')}`);
+      }, 1000);
 
-         return () => {
-            clearInterval(time);
-         }
-      }, [])
+      return () => {
+         clearInterval(time);
+      }
+   }, []);
 
    return (
       <Container>
@@ -44,7 +44,7 @@ export function Header({ logo, data }: Props): JSX.Element {
             <DateTime>
                <Hour>
                   {
-                     hour.padEnd(hour.length-1, '0')
+                     hour.padEnd(hour.length - 1, '0')
                   }
                </Hour>
                <DateComp>
@@ -55,12 +55,14 @@ export function Header({ logo, data }: Props): JSX.Element {
                </DateComp>
             </DateTime>
             <DateTime>
-               <Hour>
-                  10:58
-               </Hour>
                <DateComp>
                   November 22th, 2022
                </DateComp>
+               <Hour>
+                  {
+                     Number(data?.main?.temp).toFixed(0) + '°'
+                  }
+               </Hour>
             </DateTime>
          </div>
          {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
    Header,
    Inputs,
@@ -7,7 +7,7 @@ import {
    DashboardTable
 } from '../../components';
 
-import { ActionArea, Icon, TableWrapper, WrapperItem } from "./styled";
+import { ActionArea, Icon, WrapperItem } from "./styled";
 
 import logoBlack from '../../assets/compass-logo-black.png';
 import mainImage from '../../assets/uol-logo.png';
@@ -34,9 +34,7 @@ export type DataDashboard = Array<{
 
 export default function Dashboard() {
 
-   const [data, setData] = useState<unknown>({});
-
-   const DATA: DataDashboard = [
+   const DATA_: DataDashboard = [
       {
          id: 1,
          day: 'monday',
@@ -56,11 +54,11 @@ export default function Dashboard() {
          },
          {
             key: 2,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+            description: 'Apagar teste'
          },
          {
             key: 3,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+            description: '1...2...3...testando...1...2...3...'
          },
          {
             key: 4,
@@ -87,6 +85,14 @@ export default function Dashboard() {
       }
    ];
 
+   const [currentDay, setCurrentDay] = useState<string>('monday');
+   const [wetherData, setWeatherData] = useState<unknown>({});
+   const [data, setData] = useState<DataDashboard | []>(DATA_)
+
+   const [hour, setHour] = useState<string>('');
+   const taskRef = useRef<HTMLInputElement>(null);
+   const SelectRef = useRef<HTMLSelectElement>(null);
+
    const DAYS: ObjDays = [
       { day: 'Monday', color: `${colors.red}` },
       { day: 'Tuesday', color: `${colors.orange100}` },
@@ -98,9 +104,10 @@ export default function Dashboard() {
    ];
 
    async function handleGetData(): Promise<void> {
-      await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}`,
-         { headers: { "Content-Type": "application/json;charset=utf-8" } }).then((res: AxiosResponse) => {
-            setData(res.data);
+      await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
+         { headers: { "Content-Type": "application/json;charset=utf-8" } })
+         .then((res: AxiosResponse) => {
+            setWeatherData(res.data);
          }).catch((e) => {
 
          }).finally(() => {
@@ -110,10 +117,18 @@ export default function Dashboard() {
 
    const handleDeleteAllTasks = (e : UIEvent) => {
       e.preventDefault();
+      setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
+      //console.log(data);
    }
 
    const handleAddNewTask = (e: UIEvent) => {
       e.preventDefault();
+      console.log(hour);
+      console.log(data.find(item => item.hour === hour.toLowerCase()))
+
+    /*  taskRef.current?.value;
+      SelectRef.current?.value;
+      hour; */
    }
 
    useEffect(() => {
@@ -125,21 +140,24 @@ export default function Dashboard() {
          currentPage="Dashboard"
          background={mainImage}
       >
-         <Header data={data} logo={logoBlack} />
+         <Header data={wetherData} logo={logoBlack} />
          <ActionArea>
             <WrapperItem>
                <Inputs
+                  reference={taskRef}
                   type={'text'}
                   placeholder={'Task or Issue'}
                />
                <Inputs
+                  reference={SelectRef}
                   type={'select'}
-                  placeholder={'Task or Issue'}
                   options={DAYS}
                />
                <Inputs
-                  type={'time'}
-                  placeholder={'Task or Issue'}
+                  value={hour}
+                  type={'text'}
+                  onChange={setHour}
+                  placeholder={'01h 32m'}
                   style={{ width: 120 }}
                />
             </WrapperItem>
@@ -162,7 +180,12 @@ export default function Dashboard() {
                </Button>
             </WrapperItem>
          </ActionArea>
-         <DashboardTable data={DATA} days={DAYS} />
+         <DashboardTable 
+            data={data} 
+            action={setData}
+            days={DAYS} 
+            currentActive={currentDay} 
+            setCurrent={setCurrentDay} />
       </Background>
    )
 }
