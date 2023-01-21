@@ -34,7 +34,7 @@ export type DataDashboard = Array<{
 
 export default function Dashboard() {
 
-   const DATA_: DataDashboard = [
+   const _DATA: DataDashboard = [
       {
          id: 1,
          day: 'monday',
@@ -87,7 +87,7 @@ export default function Dashboard() {
 
    const [currentDay, setCurrentDay] = useState<string>('monday');
    const [wetherData, setWeatherData] = useState<unknown>({});
-   const [data, setData] = useState<DataDashboard | []>(DATA_)
+   const [data, setData] = useState<DataDashboard | []>(_DATA);
 
    const [hour, setHour] = useState<string>('');
    const taskRef = useRef<HTMLInputElement>(null);
@@ -105,7 +105,10 @@ export default function Dashboard() {
 
    async function handleGetData(): Promise<void> {
       await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
-         { headers: { "Content-Type": "application/json;charset=utf-8" } })
+         {
+            headers:
+               { "Content-Type": "application/json;charset=utf-8" }
+         })
          .then((res: AxiosResponse) => {
             setWeatherData(res.data);
          }).catch((e) => {
@@ -115,20 +118,66 @@ export default function Dashboard() {
          })
    }
 
-   const handleDeleteAllTasks = (e : UIEvent) => {
+   const handleDeleteAllTasks = (e: UIEvent) => {
       e.preventDefault();
-      setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
+
+      console.log(data);
+
+      //setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
       //console.log(data);
    }
 
    const handleAddNewTask = (e: UIEvent) => {
       e.preventDefault();
-      console.log(hour);
-      console.log(data.find(item => item.hour === hour.toLowerCase()))
 
-    /*  taskRef.current?.value;
-      SelectRef.current?.value;
-      hour; */
+      const maskedHour = hour.replace(':', 'h');
+      const checkValues = data.find((i) => i.hour === maskedHour)?.day === SelectRef.current?.value;
+
+      console.log('aqui');
+
+      let randomID: number;
+
+      if (!checkValues) {
+         randomID = Math.floor(Math.random() * 100);
+
+         console.log(randomID);
+
+         !!data.findIndex(item => item.id === randomID) ?
+            setData((prev: any | DataDashboard) => [...prev,
+            {
+               id: Math.floor(Math.random() * 100),
+               hour: maskedHour,
+               day: SelectRef.current?.value.toLowerCase(),
+               items: [
+                  {
+                     key: randomID,
+                     description: taskRef.current?.value
+                  }]
+            }])
+            :
+            setData((prev: any) => [...prev,
+            {
+               id: randomID,
+               hour: maskedHour,
+               day: SelectRef.current?.value.toLowerCase(),
+               items: [{
+                  key: randomID,
+                  description: taskRef.current?.value
+               }]
+            }])
+            
+            console.log('saiu da interação')
+            return;
+      }
+
+      console.log('sem condicional')
+
+      //console.log(hour);
+      //console.log(data.find(item => item.day === currentDay.toLowerCase()))
+
+      /*  taskRef.current?.value;
+        SelectRef.current?.value;
+        hour; */
    }
 
    useEffect(() => {
@@ -155,9 +204,8 @@ export default function Dashboard() {
                />
                <Inputs
                   value={hour}
-                  type={'text'}
+                  type={'time'}
                   onChange={setHour}
-                  placeholder={'01h 32m'}
                   style={{ width: 120 }}
                />
             </WrapperItem>
@@ -180,11 +228,11 @@ export default function Dashboard() {
                </Button>
             </WrapperItem>
          </ActionArea>
-         <DashboardTable 
-            data={data} 
+         <DashboardTable
+            data={data}
             action={setData}
-            days={DAYS} 
-            currentActive={currentDay} 
+            days={DAYS}
+            currentActive={currentDay}
             setCurrent={setCurrentDay} />
       </Background>
    )

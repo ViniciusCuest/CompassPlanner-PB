@@ -15,7 +15,7 @@ const colors = {
    
    orange800: '#FF3D1F',
    orange100: '#FF8000',
-   orange50: '#ff8000b3;',
+   orange50: '#ffa64c;',
 
    yellow_border: '#FFCE00',
    yellow: '#FFCE00',
