@@ -27,6 +27,7 @@ type Props = {
 export function DashboardTable({ data, days, setCurrent, currentActive, action }: Props) {
 
    useEffect(() => {
+      console.log(data);
       //backgroundColor: days.find(item => item.day === values.day.toLowerCase())?.colo
    }, []);
 
@@ -34,18 +35,33 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
 
       const updatedValues = data.find((item) => item.id === id)?.items.filter((item) => item.key !== keyItem);
 
-      console.log(updatedValues)
-
-      if(!updatedValues?.length) {
-         action(data.filter((item) => item.id !== id));
+      if (!updatedValues?.length) {
+         action(prev => prev.filter((item) => item.id !== id));
          return;
+      } else {
+         //action((prev: any) => [...prev, prev.find((item: any) => item.id === id) ]);
+         const elementsId = data.findIndex(item => item.id === id);
+         const newArrayCopy = [...data];
+         const newValueItems: any = newArrayCopy[elementsId].items = [...newArrayCopy[elementsId].items.filter((i) => i.key !== keyItem)];
+         const newFullData = data.filter((item) => item.id !== id);
+
+         action([...newFullData, {
+            id: id,
+            day: newArrayCopy[elementsId].day,
+            hour: newArrayCopy[elementsId].hour,
+            items: newValueItems
+         }]);
+
+         //         console.log(data.find(item => item.id === id)?.items = [].push());
+
+         //console.log(newArray[elements].items.filter((i) => i.key !== keyItem));
       }
 
       //action((prev: any) => [...prev, ]);
       //action((prev: any) => {
-         //console.log(prev);
-         //console.log([prev.find((item: any) => item.id === id)?.items.filter(((item: any) => item.key !== keyItem)), ...prev]);
-         //return [...prev, prev.find((item: any) => Number(item.id) === Number(id))?.items.filter(((item: any) => Number(item.key) !== Number(keyItem)))]
+      //console.log(prev);
+      //console.log([prev.find((item: any) => item.id === id)?.items.filter(((item: any) => item.key !== keyItem)), ...prev]);
+      //return [...prev, prev.find((item: any) => Number(item.id) === Number(id))?.items.filter(((item: any) => Number(item.key) !== Number(keyItem)))]
       //});
       //console.log(data.find((item: any) => item.id === id)?.items.filter(((item: any) => item.key !== keyItem)));
       //console.log(id, keyItem);
@@ -123,7 +139,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                                        (
                                           <TaskItem
                                              key={item.key}
-                                             deleteItem={() => { handleDeleteItem(values.id, item.key) }}
+                                             deleteItem={() => handleDeleteItem(values.id, item.key)}
                                              description={item.description}
                                              borderStyle={{ backgroundColor: colors.gray }}
                                           />
