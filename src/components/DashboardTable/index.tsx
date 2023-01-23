@@ -76,21 +76,6 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                <VerticalHeaderIndicator style={{ position: 'fixed', zIndex: 1000 }}>
                   Time
                </VerticalHeaderIndicator>
-               { /*
-                  data.filter(item => item.day === currentDay).map((values) => {
-                     return (
-                        <TableDataRow
-                           key={values.id}
-                        >
-                           <TableData style={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentDay.toLowerCase())?.color }}>
-                              {
-                                 values.hour
-                              }
-                           </TableData>
-                        </TableDataRow>
-                     )
-                  })
-               */ }
             </VerticalHeader>
             <Row>
                {

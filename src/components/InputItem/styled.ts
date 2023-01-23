@@ -22,8 +22,20 @@ export const Input = styled.input<{ errorStyle: boolean }>`
    border-radius: 50px;
    margin-left: 15px;
    padding: 0 50px 0 25px;
-   animation: ${({errorStyle}) => errorStyle ? 'shaking 400ms ease-in' : ''};
+   animation: ${({ errorStyle }) => errorStyle ? 'shaking 400ms ease-in' : ''};
    outline: none;
+   &:-webkit-autofill {
+      -webkit-text-fill-color: ${colors.secondary_text} !important;
+      background-color: ${colors.text_input};
+   }
+   &:-webkit-autofill:hover{
+      -webkit-text-fill-color: ${colors.secondary_text} !important;
+      background-color: ${colors.text_input};
+   }
+   &:-webkit-autofill:focus{
+      -webkit-text-fill-color: ${colors.secondary_text} !important;
+      background-color: ${colors.text_input};
+   }
 
    &&&{
       color: ${colors.secondary_text} !important;

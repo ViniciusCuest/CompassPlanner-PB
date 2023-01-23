@@ -18,6 +18,7 @@ import { API } from '../../utils/api';
 import { AxiosResponse } from 'axios';
 import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
+import { useNavigate } from 'react-router-dom';
 
 export type ObjDays = Array<{
    day: string;
@@ -37,6 +38,7 @@ export type DataDashboard = Array<{
 export default function Dashboard() {
 
    const { userData } = useAuth();
+   const navigate = useNavigate();
 
    const _DATA: DataDashboard = [
       {
@@ -94,12 +96,15 @@ export default function Dashboard() {
    const [wetherData, setWeatherData] = useState<unknown>({});
    const [data, setData] = useState<DataDashboard | []>(_DATA);
 
+   const [inputError, setInputError] = useState<boolean>(false);
+
    const [deleteAll, setDeleteAll] = useState<boolean>(false);
    const [addNew, setAddNew] = useState<boolean>(false);
 
    const [hour, setHour] = useState<string>('');
    const taskRef = useRef<HTMLInputElement>(null);
    const SelectRef = useRef<HTMLSelectElement>(null);
+
 
    const DAYS: ObjDays = [
       { day: 'Monday', color: `${colors.red}` },
@@ -138,6 +143,11 @@ export default function Dashboard() {
    const handleAddNewTask = (e: UIEvent) => {
       e.preventDefault();
 
+      if (String(SelectRef.current?.value).length < 4 || !hour || String(taskRef.current?.value).length < 3) {
+         setInputError(true);
+         return;
+      }
+
       const maskedHour = hour.replace(':', 'h');
       const checkValues = data.find((i) => i.hour === maskedHour)?.day === SelectRef.current?.value;
 
@@ -167,13 +177,16 @@ export default function Dashboard() {
                   key: randomID,
                   description: taskRef.current?.value
                }]
-            }])
+            }]);
+            setInputError(false);
          return;
       }
    }
 
    useEffect(() => {
-      console.log(userData.city)
+      if (!userData) {
+         navigate('/');
+      }
       handleGetData();
    }, []);
 
@@ -189,17 +202,20 @@ export default function Dashboard() {
                   reference={taskRef}
                   type={'text'}
                   placeholder={'Task or Issue'}
+                  style={{ borderColor: inputError ? colors.red : '' }}
                />
                <Inputs
                   reference={SelectRef}
                   type={'select'}
                   options={DAYS}
+                  style={{ borderColor: inputError ? colors.red : '' }}
                />
                <Inputs
                   value={hour}
                   type={'time'}
                   onChange={setHour}
-                  style={{ width: 120 }}
+                  style={{ width: 120, borderColor: inputError ? colors.red : '' }}
+
                />
             </WrapperItem>
             <WrapperItem style={{ marginTop: 3 }}>
@@ -234,7 +250,7 @@ export default function Dashboard() {
             action={setDeleteAll}
             options={[
                { title: 'No', action: () => { setModal(false); }, type: 'no' },
-               { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete'}
+               { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete' }
             ]}
          />
       </Background>

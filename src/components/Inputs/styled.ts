@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { colors } from "../../global/theme";
 
 export const Input = styled.input<{ type: string }>`
-   -webkit-appearance: ${({ type }) => { return String(type) === 'time' ? 'none' : 'none' }} !important;
-   -moz-appearance:    ${({ type }) => { return String(type) === 'time' ? 'none' : 'none' }} !important; 
-   appearance: ${({ type }) => { return String(type) === 'time' ? 'none' : 'none' }} !important;
    width: 391px;
    height: 45px;
    background-color: ${colors.white};

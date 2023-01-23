@@ -18,7 +18,7 @@ export function Inputs({ type, placeholder, options, style, reference, onChange,
       <>
          {
             type === 'select' ?
-               <Select ref={reference}>
+               <Select ref={reference} style={style}>
                   {
                      options?.map((item, _id) => {
                         return (
@@ -38,22 +38,22 @@ export function Inputs({ type, placeholder, options, style, reference, onChange,
                   value={value}
                   placeholder={placeholder}
                   pattern={REGEX}
-                  onChange={(e) => {  
-                     if(onChange) {
+                  onChange={(e) => {
+                     if (onChange) {
                         let value = e.target.value;
 
-                        if(value.length > 7) 
+                        if (value.length > 7)
                            return;
 
                         let newString = value
-                        .replace(/^(\d{2})(\d{2})/, "$1h $2m")
+                           .replace(/^(\d{2})(\d{2})/, "$1h $2m")
                         /*.replace(/(\d{2})(\d)/, "$1h$2")
                         .replace(/(\d{2})(\d)/, "$1").concat('m')*/
                         //.replace(/(\d{4})(\d)/, "$1") */
                         onChange(newString);
                      }
-                        
-                        //onChange(e.target.value); 
+
+                     //onChange(e.target.value); 
                   }}
                   style={style}
                />

@@ -29,7 +29,10 @@ export default function Register() {
    const handleSubmitForm = (event: UIEvent) => {
       event.preventDefault();
 
-      if (String(firstName.current?.value).length < 3)
+      if (String(firstName.current?.value).length < 3 || String(lastName.current?.value).length < 3
+         || String(country.current?.value).length < 3 || String(email.current?.value).length < 3 || String(password.current?.value).length < 3
+         || String(passwordRep.current?.value).length < 3
+      )
          throw new Error('Usuário inválido');
 
       localStorage.setItem('user', JSON.stringify({
@@ -68,11 +71,12 @@ export default function Register() {
                   id="yourlastName"
                />
                <InputItem
-                  type="text"
+                  type={'date'}
                   reference={birthDate}
                   title="Birth date"
                   placeholder="MM/DD/YYYY"
                   id="birthDate"
+                  style={{appearance: 'none'}}
                />
                <InputItem
                   type="text"
