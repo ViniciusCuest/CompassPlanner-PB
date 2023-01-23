@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Background } from "../../components/Background";
 import { InputItem } from "../../components/InputItem";
@@ -68,7 +68,6 @@ export default function Login() {
                   iconSource={passwordIcon}
                   handleError={setError}
                   error={!!error}
-                  style={{ fontSize: 20 }}
                />
                <ErrorContainer>
                   {

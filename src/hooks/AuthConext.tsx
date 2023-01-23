@@ -37,8 +37,10 @@ export function AuthProvider({ children }: Props) {
    const [isLoading, setIsLoading] = useState<boolean>(false);
 
    useEffect(() => {
-      if (userSavedData !== 'null')
+      if (userSavedData !== 'null') {
          setIsLogged(true);
+         setUserData(userSavedData);
+      }
 
       let positionObj = {};
 

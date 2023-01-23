@@ -16,6 +16,8 @@ import remove from '../../assets/dash.svg';
 import { colors } from '../../global/theme';
 import { API } from '../../utils/api';
 import { AxiosResponse } from 'axios';
+import { useAuth } from '../../hooks/AuthConext';
+import { Modal } from '../../components/Modal';
 
 export type ObjDays = Array<{
    day: string;
@@ -33,6 +35,8 @@ export type DataDashboard = Array<{
 }>
 
 export default function Dashboard() {
+
+   const { userData } = useAuth();
 
    const _DATA: DataDashboard = [
       {
@@ -85,9 +89,13 @@ export default function Dashboard() {
       }
    ];
 
+   const [modal, setModal] = useState<boolean>(false);
    const [currentDay, setCurrentDay] = useState<string>('monday');
    const [wetherData, setWeatherData] = useState<unknown>({});
    const [data, setData] = useState<DataDashboard | []>(_DATA);
+
+   const [deleteAll, setDeleteAll] = useState<boolean>(false);
+   const [addNew, setAddNew] = useState<boolean>(false);
 
    const [hour, setHour] = useState<string>('');
    const taskRef = useRef<HTMLInputElement>(null);
@@ -104,7 +112,7 @@ export default function Dashboard() {
    ];
 
    async function handleGetData(): Promise<void> {
-      await API.get(`/weather?lat=44.34&lon=10.99&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
+      await API.get(`/weather?q=${!!userData.city ? userData.city : 'são paulo'}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
          {
             headers:
                { "Content-Type": "application/json;charset=utf-8" }
@@ -112,15 +120,19 @@ export default function Dashboard() {
          .then((res: AxiosResponse) => {
             setWeatherData(res.data);
          }).catch((e) => {
-
+            throw new Error(e);
          }).finally(() => {
-
+            //loading = false 
          })
+   }
+
+   const deleteAllTasks = () => {
+      setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
    }
 
    const handleDeleteAllTasks = (e: UIEvent) => {
       e.preventDefault();
-      setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
+      setModal(true);
    }
 
    const handleAddNewTask = (e: UIEvent) => {
@@ -129,15 +141,10 @@ export default function Dashboard() {
       const maskedHour = hour.replace(':', 'h');
       const checkValues = data.find((i) => i.hour === maskedHour)?.day === SelectRef.current?.value;
 
-      console.log('aqui');
-
       let randomID: number;
 
       if (!checkValues) {
          randomID = Math.floor(Math.random() * 100);
-
-         console.log(randomID);
-
          !!data.findIndex(item => item.id === randomID) ?
             setData((prev: any | DataDashboard) => [...prev,
             {
@@ -166,6 +173,7 @@ export default function Dashboard() {
    }
 
    useEffect(() => {
+      console.log(userData.city)
       handleGetData();
    }, []);
 
@@ -218,7 +226,17 @@ export default function Dashboard() {
             action={setData}
             days={DAYS}
             currentActive={currentDay}
-            setCurrent={setCurrentDay} />
+            setCurrent={setCurrentDay}
+         />
+         <Modal
+            active={modal}
+            onActiveModal={setModal}
+            action={setDeleteAll}
+            options={[
+               { title: 'No', action: () => { setModal(false); }, type: 'no' },
+               { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete'}
+            ]}
+         />
       </Background>
    )
 }
