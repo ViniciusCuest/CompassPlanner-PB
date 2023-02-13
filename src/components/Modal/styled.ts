@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { colors, fonts } from "../../global/theme";
 
 export const Container = styled.section<{ active: boolean }>`
+   visibility: ${({ active }) => active ? 'visible' : 'hidden'};
    position: absolute;
    left: 50%;
    top: 50%;

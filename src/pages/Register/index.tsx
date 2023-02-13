@@ -31,7 +31,7 @@ export default function Register() {
 
       if (String(firstName.current?.value).length < 3 || String(lastName.current?.value).length < 3
          || String(country.current?.value).length < 3 || String(email.current?.value).length < 3 || String(password.current?.value).length < 3
-         || String(passwordRep.current?.value).length < 3
+         || String(passwordRep.current?.value).length < 3 || (String(password.current?.value) !== String(passwordRep.current?.value))
       )
          throw new Error('Usuário inválido');
 
