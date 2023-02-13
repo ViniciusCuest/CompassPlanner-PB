@@ -1,0 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;1,200&display=swap");
+
+#table {
+   height: 70vh;
+   min-width: 100%;
+   min-height: 95%;
+   overflow: scroll;
+}
+
+.container {
+   display: table;
+   position: relative;
+}
+
+.table-header {
+
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+}
+
+.table-header-content {
+   margin-top: 10px;
+}
+
+.table-header-item {
+   display: flex;
+   width: 85px;
+   height: 75px;
+   border-radius: 10px;
+   background-color: blue;
+   text-align: center;
+   justify-content: center;
+   align-items: center;
+}
+
+.table-body {
+   width: 100%;
+}
+
+.table-row {
+   position: sticky;
+   left: 0;
+   background: transparent;
+   z-index: 1; 
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   margin-top: 120px;
+}
+
+.table-row-header {
+
+   position: sticky;
+   left: 0;
+   background: transparent;
+   z-index: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 85px;
+   width: 85px;
+   margin-right: 10px;
+   background-color: red;
+   border-radius: 10px;
+
+}
+
+.table-row-data {
+   width: 512px;
+   height: 85px;
+   background-color: blueviolet;
+   margin-right: 10px;
+}
+
+/*
+.table {
+   font-family: "Fraunces", serif;
+   white-space: normal;
+   margin: 0;
+   border: none;
+   border-collapse: separate;
+   border-spacing: 18px 14px;
+   table-layout: fixed;
+   width: 100%;
+   background: transparent;
+}
+
+.table.thead {
+   width: 100%;
+}
+
+.table.thead.tr.th {
+   position: sticky;
+   top: 0;
+   z-index: 1;
+   width: 512px;
+   margin-bottom: 20px;
+
+}
+
+.table.tbody.th {
+   text-align: center;
+   position: relative;
+   margin-bottom: 20px;
+}
+
+.table.thead.tr.th:first-child {
+   position: sticky;
+   left: 0;
+   z-index: 2;
+   width: 85px;
+   height: 75px;
+   border-radius: 10px;
+   background-color: blue;
+   text-align: center;
+   align-items: center;
+}
+
+.table.tbody {
+   width: 100%;
+}
+
+.table.tbody.tr {
+   width: 100%;
+}
+
+.table.tbody.tr.active::after {
+   position: absolute;
+   content: '';
+   width: 28px;
+   height: 28px;
+   border-radius: 50%;
+   background-color: #000000B2;
+   margin-left: -10px;
+}
+
+.table.tbody.tr.active::before {
+   position: absolute;
+   z-index: 1;
+   content: '';
+   width: 100%;
+   height: 4px;
+   background-color:#000000B2;
+   border-radius: 12px;
+}
+
+.table.tbody.tr.th {
+   width: 85px;
+   height: 85px;
+   border-radius: 10px;
+   background-color: red;
+}
+
+.table.tbody.tr.td {
+   width: 512px;
+   height: 85px;
+   white-space: pre-wrap;
+   padding: 0 42px 0 28px;
+   border-radius: 15px;
+   background: linear-gradient(112.83deg, rgba(228, 240, 248, 0.42) 0%, rgba(255, 255, 255, 0.336) 110.84%);
+   border: 2px solid #FFFFFF;
+   box-shadow: 0px 2px 5.5px rgba(0, 0, 0, .15);
+   backdrop-filter: blur(10.5px);
+   margin-left: 50px;
+   border-spacing: 10px;
+}
+
+.table.tbody.th {
+   position: sticky;
+   left: 0;
+   background: transparent;
+   z-index: 1;
+}
+
+caption {
+   text-align: left;
+   padding: 0.25rem;
+   position: sticky;
+   left: 0;
+}
+
+#table {
+   min-width: 100%;
+   min-height: 95%;
+   overflow: scroll;
+}
+
+#table:focus {
+   box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+   outline: 0;
+} */

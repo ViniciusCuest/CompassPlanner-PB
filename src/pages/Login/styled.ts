@@ -7,6 +7,7 @@ export const Wrapper = styled.section`
    justify-content: flex-start;
    height: 100%;
    padding: 0 3vw 0 12vw;
+   z-index: 10;
 
    > h1::selection,label::selection,p::selection,input::selection,button::selection, br::selection, img::selection {
       background-color: ${colors.yellow};

@@ -10,11 +10,15 @@ import {
    TableData,
    TableDataRow,
    VerticalHeader,
-   VerticalHeaderIndicator
+   VerticalHeaderIndicator,
+   VerticalScroll
 } from "./styled";
 import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
 import { colors } from '../../global/theme';
+
+import './style.css';
+import { BadgeButton } from '../TaskItem/styled';
 
 type Props = {
    data: DataDashboard
@@ -71,62 +75,109 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                })
             }
          </Header>
+         <div id="table">
+            <div className='container'>
+               <div className='table-header'>
+                  <div className='table-header-content'>
+                     <div className='table-header-item'>Time</div>
+                  </div>
+               </div>
+               <div className='table-body'>
+                  {
+                     data.map((item, id) => {
+                        return (
+                           <div className='table-row' key={id}>
+                              <div className='table-row-header'>
+                                 {
+                                    item.hour
+                                 }
+                              </div>
+                              {
+                                 item.items.map((val, key) => {
+                                    return item.items.length > 1 ? (
+                                       <div className='table-row-data' key={key} style={{ background: "gray" }}>
+                                          {
+                                             val.description
+                                          }
+                                          <BadgeButton />
+                                       </div>
+                                    ) : (
+                                       <div className='table-row-data' key={key}>
+                                          <BadgeButton />
+                                       </div>
+                                    )
+                                 })
+                              }
+                           </div>
+                        )
+                     })
+                  }
+               </div>
+            </div>
+         </div>
+      </Table>
+   );
+}
+
+
+{/* 
          <TableBody>
             <VerticalHeader>
                <VerticalHeaderIndicator style={{ position: 'fixed', zIndex: 1000 }}>
                   Time
                </VerticalHeaderIndicator>
             </VerticalHeader>
-            <Row>
-               {
-                  data.filter(item => item.day === currentActive).map((values) => {
-                     return (
-                        <TableDataRow
-                           key={values.id}
-                        >
-                           <TableData
-                              style={{
-                                 backgroundColor:
-                                    values.items.length > 1 ?
-                                       colors.gray200
-                                       : days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
-                                 color: values.items.length > 1 ?
-                                    colors.white
-                                    : colors.black
-                              }}>
-                              {
-                                 values.hour
-                              }
-                           </TableData>
-                           <RowData active={values.items.length > 1 ? true : false}>
-                              {
-                                 values.items.map((item, _id) => {
-                                    return values.items.length > 1 ?
-                                       (
-                                          <TaskItem
-                                             key={item.key}
-                                             deleteItem={() => handleDeleteItem(values.id, item.key)}
-                                             description={item.description}
-                                             borderStyle={{ backgroundColor: colors.gray }}
-                                          />
-                                       ) :
-                                       (
-                                          <TaskItem
-                                             key={item.key}
-                                             deleteItem={() => { handleDeleteItem(values.id, item.key) }}
-                                             description={item.description}
-                                             borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color }}
-                                          />
-                                       )
-                                 })
-                              }
-                           </RowData>
-                        </TableDataRow>
-                     );
-                  })
-               }
-            </Row>
-         </TableBody>
-      </Table>
-   );
+<Row>
+               <VerticalScroll>
+                  {
+                     data.filter(item => item.day === currentActive).map((values) => {
+                        return (
+                           <TableDataRow
+                              key={values.id}
+                           >
+                              <TableData
+                                 style={{
+                                    backgroundColor:
+                                       values.items.length > 1 ?
+                                          colors.gray200
+                                          : days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
+                                    color: values.items.length > 1 ?
+                                       colors.white
+                                       : colors.black
+                                 }}>
+                                 {
+                                    values.hour
+                                 }
+                              </TableData>
+                              <RowData active={values.items.length > 1}>
+                                 {
+                                    values.items.map((item, _id) => {
+                                       return values.items.length > 1 ?
+                                          (
+                                             <TaskItem
+                                                key={item.key}
+                                                deleteItem={() => handleDeleteItem(values.id, item.key)}
+                                                description={item.description}
+                                                borderStyle={{ backgroundColor: colors.gray }}
+                                             />
+                                          ) :
+                                          (
+                                             <TaskItem
+                                                key={item.key}
+                                                deleteItem={() => { handleDeleteItem(values.id, item.key) }}
+                                                description={item.description}
+                                                borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color }}
+                                             />
+                                          )
+                                    })
+                                 }
+                              </RowData>
+                           </TableDataRow>
+                        );
+                     })
+                  }
+               </VerticalScroll>
+            </Row> 
+                  <TableBody>*/
+
 }

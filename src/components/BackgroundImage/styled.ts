@@ -15,6 +15,8 @@ export const Container = styled.section`
 export const Image = styled.img`
    position: relative;
    width: 100%;
+   height: 100vh;
+   object-fit: cover;
 `;
 
 export const UolImage = styled.img`
@@ -24,7 +26,7 @@ export const UolImage = styled.img`
 `;
 
 export const Logo = styled.img`
-   position: absolute;
+   position: fixed;
    top: 0;
    margin-top: 36px;
    height: 66px;

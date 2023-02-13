@@ -66,24 +66,28 @@ export const VerticalHeaderIndicator = styled.div`
    border-radius: 10px;
 `
 
+export const VerticalScroll = styled.div`
+   position: relative;
+   overflow-y: scroll;
+   height: 82%;
+`;
+
 export const Row = styled.section`
+   position: sticky;
    margin-top: 85px;
    overflow-x: scroll;
-   height: 80%;
-   width: 100%;
+   overflow-y: hidden;
+   height: 100%;
+   width: 98%;
    &::-webkit-scrollbar {
       height: 8px;
-      width: 200px;
-      box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.25);
-      border-radius: 24px;
    };
    &::-webkit-scrollbar-track {
+      border-radius: 24px;
       background-color: ${colors.white};
    }
    &::-webkit-scrollbar-thumb {
-      height: 2px;
-      width: 200px;
-      background-color: #DCDFE3;
+      background-color: ${colors.white200};
       border-radius: 20px;
    }
 `;
