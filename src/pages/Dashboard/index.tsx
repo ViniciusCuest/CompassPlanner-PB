@@ -69,15 +69,8 @@ export default function Dashboard() {
          {
             key: 4,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-         },
-         {
-            key: 5,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-         },
-         {
-            key: 6,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-         },]
+         }
+         ]
       },
       {
          id: 4,
@@ -213,7 +206,7 @@ export default function Dashboard() {
                   description: taskRef.current?.value
                }]
             }]);
-            setInputError(false);
+         setInputError(false);
          return;
       }
    }

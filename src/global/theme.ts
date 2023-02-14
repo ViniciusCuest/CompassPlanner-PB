@@ -1,5 +1,6 @@
 const colors = {
    background: '#FFFFFFF2',
+   dashboard_background: '#fbfbfb',
    background_grad: `linear-gradient(180deg, #33383D 0%, #1C1D20 100%)`,
    button_grad: `linear-gradient(90deg, #FF2D04 0%, #C13216 100%)`,
    text_input: '#26292C',
@@ -15,7 +16,7 @@ const colors = {
    
    orange800: '#FF3D1F',
    orange100: '#FF8000',
-   orange50: '#ffa64c;',
+   orange50: '#FFA64C',
 
    yellow_border: '#FFCE00',
    yellow: '#FFCE00',

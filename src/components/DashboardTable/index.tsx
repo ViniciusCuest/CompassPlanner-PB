@@ -15,7 +15,8 @@ import {
 } from "./styled";
 import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
-import { colors } from '../../global/theme';
+import { colors, fonts } from '../../global/theme';
+import { useRef, useState } from "react";
 
 type Props = {
    data: DataDashboard
@@ -26,6 +27,15 @@ type Props = {
 }
 
 export function DashboardTable({ data, days, setCurrent, currentActive, action }: Props) {
+
+   const scrollRef = useRef<HTMLDivElement>(null);
+
+
+   const [scrollHandler, setScrollHandler] = useState<{ pageX: number, scrollX: number, isScrolling: boolean }>({
+      pageX: 0,
+      scrollX: 0,
+      isScrolling: false
+   });
 
    const handleDeleteItem = (id: number, keyItem: number) => {
 
@@ -61,7 +71,9 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                         <ButtonHeader
                            active={item.day.toLowerCase() === currentActive ? true : false}
                            buttonColor={item.color}
-                           onClick={() => setCurrent(item.day.toLowerCase())}
+                           onClick={() => {
+                              setCurrent(item.day.toLowerCase())
+                           }}
                         >
                            {
                               item.day
@@ -72,7 +84,21 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                })
             }
          </Header>
-         <Content>
+         <Content
+            style={scrollHandler.isScrolling ? { cursor: 'grabbing' } : { cursor: 'default' }}
+            onMouseDown={(evt) => {
+               setScrollHandler({ isScrolling: true, scrollX: evt.currentTarget.scrollLeft, pageX: evt.pageX - evt.currentTarget.offsetLeft });
+            }}
+            onMouseMove={(evt) => {
+               if (scrollHandler.isScrolling) {
+                  let runX = (evt.pageX - evt.currentTarget.offsetLeft) - scrollHandler.pageX;
+                  evt.currentTarget.scrollLeft = scrollHandler.scrollX - runX;
+               }
+            }}
+            onMouseLeave={() => { setScrollHandler(prev => { return { ...prev, isScrolling: false } }); }}
+            onMouseUp={() => { setScrollHandler(prev => { return { ...prev, isScrolling: false } }); }}
+            onWheel={(evt) => { evt.preventDefault(); evt.stopPropagation(); return; }}
+         >
             <CardContainer>
                <CardContainerHeader>
                   <HeaderContent>
@@ -81,10 +107,19 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                </CardContainerHeader>
                <Body>
                   {
-                     data.map((item, id) => {
+                     data.filter((active) => active.day === currentActive).map((item, id) => {
                         return (
                            <CardRow key={item.id}>
-                              <CardRowHeader style={item.items.length > 1 ? { backgroundColor: colors.gray } : {}}>
+                              <CardRowHeader
+                                 style={item.items.length > 1 ?
+                                    {
+                                       backgroundColor: colors.gray200,
+                                       color: colors.white,
+                                       fontWeight: fonts.regular
+                                    } :
+                                    {
+                                       backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
+                                    }}>
                                  {
                                     item.hour
                                  }
@@ -105,7 +140,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                                              key={val.key}
                                              deleteItem={() => { handleDeleteItem(item.id, val.key) }}
                                              description={val.description}
-                                             borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color }}
+                                             borderStyle={{ backgroundColor: `${days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color}` }}
                                           />
                                        );
                                     })

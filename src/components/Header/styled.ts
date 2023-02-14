@@ -12,7 +12,7 @@ export const Container = styled.header`
    padding-right: 25px;
    width: 100%;
    background-color: ${colors.white};
-   box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.25);
+   box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.1);
    z-index: 5;
 `;
 

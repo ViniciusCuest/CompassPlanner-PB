@@ -17,10 +17,11 @@ export const DashboardContainer = styled.main<{ img: any }>`
    width: 100%;
    height: 100vh;
    flex-direction: column;
-   background-color: ${colors.background};
+   background-color: ${colors.dashboard_background};
    background-image: url(${({ img }) => img});
    background-repeat: no-repeat;
    background-position: 100%;
    background-position-y: 100%;
    overflow-y: hidden;
+   box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.25);
 `

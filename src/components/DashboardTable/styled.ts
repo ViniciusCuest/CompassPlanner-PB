@@ -38,28 +38,49 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
 
 export const Content = styled.section`
    height: 70vh;
-   min-width: 100%;
+   width: 98%;
+   min-width: 99.5%;
    min-height: calc(92% - 8px);
    overflow: scroll;
    margin-top: 8px;
    padding-right: 20px;
-   &::-webkit-scrollbar {
-      height: 8px;              /* height of horizontal scrollbar ← You're missing this */
+   padding-bottom: 40px;
+   cursor: grabbing;
+
+   &::-webkit-scrollbar { 
+      padding-left: 50px;
+      height: 8px;
       width: 12px; 
    };
+
+   &::-webkit-scrollbar:vertical{
+      transform: rotateX(180deg);
+   }
+
    &::-webkit-scrollbar-track {
       border-radius: 24px;
       background-color: ${colors.white};
+   }
+   &::-webkit-scrollbar-track:horizontal{
+      box-shadow: 0px 4px 24px rgba(11, 11, 11, .3);
    }
    &::-webkit-scrollbar-thumb {
       background-color: ${colors.white200};
       border-radius: 20px;
    }
+
+   &::-webkit-scrollbar-corner {
+      display: none;
+   }
+
 `;
 
 export const CardContainer = styled.div`
    display: table;
    position: relative;
+   > * {
+      user-select: none;
+   }
 `;
 
 export const CardContainerHeader = styled.header`
@@ -72,6 +93,7 @@ export const HeaderContent = styled.section`
    left: 0;
    z-index: 4;
    margin-top: 10px;
+   box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.1);
 `;
 
 export const HeaderContentItem = styled.span`
@@ -79,10 +101,12 @@ export const HeaderContentItem = styled.span`
    width: 85px;
    height: 75px;
    border-radius: 10px;
-   background-color: blue;
+   background-color: ${colors.white};
    text-align: center;
    justify-content: center;
    align-items: center;
+   color: ${colors.gray800};
+   font-weight: ${fonts.extra};
 `
 
 export const Body = styled.section`
@@ -107,7 +131,7 @@ export const CardRow = styled.section`
 export const CardRowHeader = styled.span`
    position: sticky;
    left: 0;
-   background: transparent;
+   font-weight: ${fonts.bold};
    z-index: 10;
    display: flex;
    align-items: center;
