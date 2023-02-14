@@ -96,6 +96,33 @@ export default function Dashboard() {
             key: 1,
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
          }]
+      },
+      {
+         id: 5,
+         day: 'wednesday',
+         hour: '14:30',
+         items: [{
+            key: 1,
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+         }]
+      },
+      {
+         id: 6,
+         day: 'wednesday',
+         hour: '14:30',
+         items: [{
+            key: 1,
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+         }]
+      },
+      {
+         id: 7,
+         day: 'wednesday',
+         hour: '14:30',
+         items: [{
+            key: 1,
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+         }]
       }
    ];
 

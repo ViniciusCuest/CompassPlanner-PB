@@ -36,6 +36,117 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    cursor: pointer;
 `;
 
+export const Content = styled.section`
+   height: 70vh;
+   min-width: 100%;
+   min-height: calc(92% - 8px);
+   overflow: scroll;
+   margin-top: 8px;
+   padding-right: 20px;
+   &::-webkit-scrollbar {
+      height: 8px;              /* height of horizontal scrollbar ← You're missing this */
+      width: 12px; 
+   };
+   &::-webkit-scrollbar-track {
+      border-radius: 24px;
+      background-color: ${colors.white};
+   }
+   &::-webkit-scrollbar-thumb {
+      background-color: ${colors.white200};
+      border-radius: 20px;
+   }
+`;
+
+export const CardContainer = styled.div`
+   display: table;
+   position: relative;
+`;
+
+export const CardContainerHeader = styled.header`
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+`
+export const HeaderContent = styled.section`
+   position: sticky;
+   left: 0;
+   z-index: 4;
+   margin-top: 10px;
+`;
+
+export const HeaderContentItem = styled.span`
+   display: flex;
+   width: 85px;
+   height: 75px;
+   border-radius: 10px;
+   background-color: blue;
+   text-align: center;
+   justify-content: center;
+   align-items: center;
+`
+
+export const Body = styled.section`
+   width: 100%;
+`
+export const CardRow = styled.section`
+   position: sticky;
+   left: 0;
+   background: transparent;
+   z-index: 1; 
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   margin-top: 15px;
+
+   > span > div + div {
+      margin-left: 17px;
+   }
+
+`
+
+export const CardRowHeader = styled.span`
+   position: sticky;
+   left: 0;
+   background: transparent;
+   z-index: 10;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 85px;
+   width: 85px;
+   margin-right: 15px;
+   background-color: red;
+   border-radius: 10px;
+`;
+
+export const ScheduleConflit = styled.span<{active: boolean}>`
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   ${({ active }) => active &&
+      `&::after {
+      position: absolute;
+      content: '';
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #000000B2;
+      margin-left: -10px;
+      }
+      &::before{
+         position: absolute;
+         z-index: 1;
+         content: '';
+         width: 100%;
+         height: 4px;
+         background-color:#000000B2;
+         border-radius: 12px;
+      }`
+   };
+`
+
+/*
 export const TableBody = styled.section`
    position: relative;
    display: flex;
@@ -147,4 +258,4 @@ export const RowData = styled.div<{ active?: boolean }>`
          border-radius: 12px;
       }`
    };
-`;
+`; */

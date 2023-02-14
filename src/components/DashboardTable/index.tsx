@@ -1,24 +1,21 @@
-import { useEffect, useState } from 'react';
 import {
+   Body,
    ButtonHeader,
+   CardContainer,
+   CardContainerHeader,
+   CardRow,
+   CardRowHeader,
+   Content,
    Header,
+   HeaderContent,
+   HeaderContentItem,
    HeaderItem,
-   Row,
-   RowData,
-   Table,
-   TableBody,
-   TableData,
-   TableDataRow,
-   VerticalHeader,
-   VerticalHeaderIndicator,
-   VerticalScroll
+   ScheduleConflit,
+   Table
 } from "./styled";
 import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
 import { colors } from '../../global/theme';
-
-import './style.css';
-import { BadgeButton } from '../TaskItem/styled';
 
 type Props = {
    data: DataDashboard
@@ -75,46 +72,52 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                })
             }
          </Header>
-         <div id="table">
-            <div className='container'>
-               <div className='table-header'>
-                  <div className='table-header-content'>
-                     <div className='table-header-item'>Time</div>
-                  </div>
-               </div>
-               <div className='table-body'>
+         <Content>
+            <CardContainer>
+               <CardContainerHeader>
+                  <HeaderContent>
+                     <HeaderContentItem>Time</HeaderContentItem>
+                  </HeaderContent>
+               </CardContainerHeader>
+               <Body>
                   {
                      data.map((item, id) => {
                         return (
-                           <div className='table-row' key={id}>
-                              <div className='table-row-header'>
+                           <CardRow key={item.id}>
+                              <CardRowHeader style={item.items.length > 1 ? { backgroundColor: colors.gray } : {}}>
                                  {
                                     item.hour
                                  }
-                              </div>
-                              {
-                                 item.items.map((val, key) => {
-                                    return item.items.length > 1 ? (
-                                       <div className='table-row-data' key={key} style={{ background: "gray" }}>
-                                          {
-                                             val.description
-                                          }
-                                          <BadgeButton />
-                                       </div>
-                                    ) : (
-                                       <div className='table-row-data' key={key}>
-                                          <BadgeButton />
-                                       </div>
-                                    )
-                                 })
-                              }
-                           </div>
-                        )
+                              </CardRowHeader>
+                              <ScheduleConflit active={!!(item.items.length > 1)}>
+                                 {
+                                    item.items.map((val, key) => {
+                                       return item.items.length > 1 ? (
+                                          <TaskItem
+                                             key={val.key}
+                                             deleteItem={() => handleDeleteItem(item.id, val.key)}
+                                             description={val.description}
+                                             borderStyle={{ backgroundColor: colors.gray }}
+                                          />
+
+                                       ) : (
+                                          <TaskItem
+                                             key={val.key}
+                                             deleteItem={() => { handleDeleteItem(item.id, val.key) }}
+                                             description={val.description}
+                                             borderStyle={{ backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color }}
+                                          />
+                                       );
+                                    })
+                                 }
+                              </ScheduleConflit>
+                           </CardRow>
+                        );
                      })
                   }
-               </div>
-            </div>
-         </div>
+               </Body>
+            </CardContainer>
+         </Content>
       </Table>
    );
 }
