@@ -17,8 +17,7 @@ type Props = {
 export function Header({ logo, data }: Props): JSX.Element {
 
    const { handleLogOut, userData } = useAuth();
-
-   const [date, setDate] = useState<Date>(new Date());
+   
    const [hour, setHour] = useState<string>(`${format(new Date(), 'HH:mm')}`);
 
    useEffect(() => {
@@ -51,7 +50,6 @@ export function Header({ logo, data }: Props): JSX.Element {
                <DateComp>
                   {
                      format(new Date(), 'MMMM do, yyyy')
-                     //date.getMonth().toString() + '   ' + date.getDate() + '   ' + date.getFullYear()
                   }
                </DateComp>
             </DateTime>

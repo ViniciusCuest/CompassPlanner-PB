@@ -45,15 +45,9 @@ export function Inputs({ type, placeholder, options, style, reference, onChange,
                         if (value.length > 7)
                            return;
 
-                        let newString = value
-                           .replace(/^(\d{2})(\d{2})/, "$1h $2m")
-                        /*.replace(/(\d{2})(\d)/, "$1h$2")
-                        .replace(/(\d{2})(\d)/, "$1").concat('m')*/
-                        //.replace(/(\d{4})(\d)/, "$1") */
+                        let newString = value.replace(/^(\d{2})(\d{2})/, "$1h $2m")
                         onChange(newString);
                      }
-
-                     //onChange(e.target.value); 
                   }}
                   style={style}
                />

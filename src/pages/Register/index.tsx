@@ -12,10 +12,7 @@ import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
 
 export default function Register() {
-
    const navigate = useNavigate();
-
-   //const { handleLogIn } = useAuth();
 
    const firstName = useRef<HTMLInputElement>(null);
    const lastName = useRef<HTMLInputElement>(null);

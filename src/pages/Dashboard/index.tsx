@@ -177,12 +177,17 @@ export default function Dashboard() {
       }
 
       const maskedHour = hour.replace(':', 'h');
-      const checkValues = data.find((i) => i.hour === maskedHour)?.day === SelectRef.current?.value;
 
-      let randomID: number;
+      const checkValues =
+         !!data.find((i) => i.hour === maskedHour)?.hour &&
+         !!data.find((i) => i.day === SelectRef.current?.value.toLowerCase())?.day;
+
+      console.log(checkValues);
+
+      let randomID: number = Math.floor(Math.random() * 100);
 
       if (!checkValues) {
-         randomID = Math.floor(Math.random() * 100);
+
          !!data.findIndex(item => item.id === randomID) ?
             setData((prev: any | DataDashboard) => [...prev,
             {
@@ -209,7 +214,25 @@ export default function Dashboard() {
          setInputError(false);
          return;
       }
+
+      const arrayCopy = [...data];
+      const elementId = arrayCopy.findIndex((i: any) => i.hour === maskedHour && i.day === SelectRef.current?.value.toLowerCase());
+      const newAddedItem: any = [...arrayCopy[elementId].items, {
+         key: randomID,
+         description: taskRef.current?.value
+      }];
+      
+      const newArray : any = arrayCopy.filter((i) => i.id !== arrayCopy[elementId].id);
+
+      setData([...newArray, {
+         id: arrayCopy[elementId].id,
+         hour: arrayCopy[elementId].hour,
+         day: arrayCopy[elementId].day,
+         items: newAddedItem
+      }]);
+
    }
+
 
    useEffect(() => {
       if (!userData) {

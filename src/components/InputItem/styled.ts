@@ -24,6 +24,12 @@ export const Input = styled.input<{ errorStyle: boolean }>`
    padding: 0 50px 0 25px;
    animation: ${({ errorStyle }) => errorStyle ? 'shaking 400ms ease-in' : ''};
    outline: none;
+
+   &[type="date"]::-webkit-calendar-picker-indicator {
+      display: none;
+      -webkit-appearance: none;
+   }
+
    &:-webkit-autofill {
       -webkit-text-fill-color: ${colors.secondary_text} !important;
       background-color: ${colors.text_input};
