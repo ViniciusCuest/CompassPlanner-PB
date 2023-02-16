@@ -26,22 +26,10 @@ export default function Login() {
    const userName = useRef<HTMLInputElement>(null);
    const password = useRef<HTMLInputElement>(null);
 
-   const handleSubmitForm = (event: UIEvent) => {
+   const handleSubmitForm = async (event: UIEvent) => {
       event.preventDefault();
       try {
-
-         axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-in', {
-            email: userName.current?.value,
-            password: password.current?.value
-         }, {
-            headers: { 'Content-Type': 'application/json' }
-         }).then((response: AxiosResponse) => {
-            console.log(response.data);
-         }).catch((err: any) => {
-            console.log(err);
-         });
-
-         //handleLogIn(String(userName.current?.value), String(password.current?.value));
+         handleLogIn(String(userName.current?.value), String(password.current?.value));
       }
       catch (e: any) {
          setError(e?.message + 'aqui');;
@@ -61,7 +49,6 @@ export default function Login() {
                <FormLabel>Login</FormLabel>
                <InputItem
                   type={'text'}
-                  title={''}
                   placeholder='user name'
                   reference={userName}
                   id={'your-username'}
@@ -73,7 +60,6 @@ export default function Login() {
                />
                <InputItem
                   type={'password'}
-                  title={''}
                   placeholder='password'
                   reference={password}
                   id={'your-password'}

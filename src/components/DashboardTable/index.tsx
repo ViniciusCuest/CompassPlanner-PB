@@ -16,10 +16,10 @@ import {
 import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
 import { colors, fonts } from '../../global/theme';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
-   data: DataDashboard
+   data: DataDashboard | any;
    days: ObjDays;
    currentActive: any;
    setCurrent: any;
@@ -27,6 +27,10 @@ type Props = {
 }
 
 export function DashboardTable({ data, days, setCurrent, currentActive, action }: Props) {
+
+   useEffect(() => {
+      console.log(data);
+   },[])
 
    const [scrollHandler, setScrollHandler] = useState<{ pageX: number, scrollX: number, isScrolling: boolean }>({
       pageX: 0,
@@ -36,7 +40,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
 
    const handleDeleteItem = (id: number, keyItem: number) => {
 
-      const updatedValues = data.find((item) => item.id === id)?.items.filter((item) => item.key !== keyItem);
+      const updatedValues = data.find((item:any) => item.id === id)?.items.filter((item:any) => item.key !== keyItem);
 
       if (!updatedValues?.length) {
          action(prev => prev.filter((item) => item.id !== id));
@@ -45,7 +49,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
 
       const newArrayCopy = [...data];
       const elementsId = newArrayCopy.findIndex(item => item.id === id);
-      const newValueItems: any = newArrayCopy[elementsId].items = [...newArrayCopy[elementsId].items.filter((i) => i.key !== keyItem)];
+      const newValueItems: any = newArrayCopy[elementsId].items = [...newArrayCopy[elementsId].items.filter((i: any) => i.key !== keyItem)];
       const newFullData = newArrayCopy.filter((item) => item.id !== id);
 
       action([...newFullData, {
@@ -111,14 +115,14 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                </CardContainerHeader>
                <Body>
                   {
-                     data
-                        .filter((active) => active.day === currentActive)
-                        .sort((a, b) => {
-                           return a.hour.localeCompare(b.hour);
-                        })
-                        .map((item) => {
+                                             //.filter((active: any) => active?.day === currentActive)
+                        //.sort((a:any, b:any) => {
+                         //  return a.hour.localeCompare(b?.hour);
+                        //})
+                /*     data?.events.map((item: any) => {
+                           console.log(item);
                            return (
-                              <CardRow key={item.id}>
+                              <CardRow key={item._id}>
                                  <CardRowHeader
                                     style={item.items.length > 1 ?
                                        {
@@ -127,38 +131,40 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                                           fontWeight: fonts.regular
                                        } :
                                        {
-                                          backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
+                                          //backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
                                        }}>
                                     {
-                                       `${item.hour.replace(':', 'h')}m`
+                                       //`${item.hour.replace(':', 'h')}m`
                                     }
                                  </CardRowHeader>
-                                 <ScheduleConflit active={!!(item.items.length > 1)}>
+                                 <ScheduleConflit active={!!(item?.items.length > 1)}>
                                     {
-                                       item.items.map((val) => {
-                                          return item.items.length > 1 ? (
+                                       item?.items ?
+                                       item?.items?.map((val:any) => {
+                                          return item?.items?.length > 1 ? (
                                              <TaskItem
                                                 key={val.key}
-                                                deleteItem={() => handleDeleteItem(item.id, val.key)}
-                                                description={val.description}
+                                                deleteItem={() => handleDeleteItem(item?.id, val?.key)}
+                                                description={val?.description}
                                                 borderStyle={{ backgroundColor: colors.gray }}
                                              />
 
                                           ) : (
                                              <TaskItem
                                                 key={val.key}
-                                                deleteItem={() => { handleDeleteItem(item.id, val.key) }}
+                                                deleteItem={() => { handleDeleteItem(item?.id, val?.key) }}
                                                 description={val.description}
-                                                borderStyle={{ backgroundColor: `${days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color}` }}
+                                                borderStyle={{ backgroundColor: `${days.find((item:any) => item.day.toLowerCase() === currentActive.toLowerCase())?.color}` }}
                                              />
                                           );
-                                       })
+                                       }) :
+                                       <></>
                                     }
                                  </ScheduleConflit>
                               </CardRow>
                            );
                         })
-                  }
+                     */}
                </Body>
             </CardContainer>
          </Content>

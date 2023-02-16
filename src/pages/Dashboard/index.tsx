@@ -15,7 +15,7 @@ import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
 import { colors } from '../../global/theme';
 import { API } from '../../utils/api';
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
@@ -95,7 +95,7 @@ export default function Dashboard() {
    const [modal, setModal] = useState<boolean>(false);
    const [currentDay, setCurrentDay] = useState<string>('monday');
    const [wetherData, setWeatherData] = useState<unknown>({});
-   const [data, setData] = useState<DataDashboard | []>(_DATA);
+   const [data, setData] = useState<DataDashboard | []>([]);
 
    const [inputError, setInputError] = useState<boolean>(false);
 
@@ -117,13 +117,6 @@ export default function Dashboard() {
       { day: 'Sunday', color: `${colors.pink_300}` },
    ];
 
-
-   const handleGetEvents = async () => {
-      await axios.get('https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=monday&description=descr', {
-         headers: { 'content-type': 'application/json; charset=utf-8' }
-      }).then((response: AxiosResponse) => console.log(response));
-   }
-
    async function handleGetWeatherData(): Promise<void> {
       await API.get(`/weather?q=${!!userData.city ? userData.city : 'são paulo'}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
          {
@@ -139,6 +132,24 @@ export default function Dashboard() {
          });
    }
 
+   const handleGetEvents = async (day:string) => {
+      try {
+         await axios.get(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${day}`, {
+            headers: {
+               'content-type': 'application/json; charset=utf-8',
+               'Authorization': `Bearer ${userData.token}`
+            }
+         }).then((response: AxiosResponse) => {
+            console.log(response);
+            setData(response.data);
+         }).catch(err => {
+            throw new Error(err);
+         });
+      } catch (err: any) {
+         console.log(err);
+      }
+   }
+
    const deleteAllTasks = () => {
       setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
    }
@@ -148,65 +159,78 @@ export default function Dashboard() {
       setModal(true);
    }
 
-   const handleAddNewTask = (e: UIEvent) => {
+   const handleAddNewTask = async (e: UIEvent) => {
       e.preventDefault();
 
-      if (String(SelectRef.current?.value).length < 4 || !hour || String(taskRef.current?.value).length < 3) {
+      if (String(SelectRef.current?.value).length < 4 || String(taskRef.current?.value).length < 3) {
          setInputError(true);
          return;
       }
 
-      const checkValues =
-         !!data.find((i) => i.hour === hour)?.hour &&
-         !!data.find((i) => i.day === SelectRef.current?.value.toLowerCase())?.day;
+      const response = await axios.post('https://latam-challenge-2.deta.dev/api/v1/events', {
+         description: taskRef.current?.value,
+         dayOfWeek: SelectRef.current?.value
+      }, {
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userData.token}`
+         }
+      });
 
-      let randomID: number = Math.floor(Math.random() * 100);
+      if (response.status === 201) 
+         handleGetEvents(String(SelectRef.current?.value.toLowerCase()));
 
-      if (!checkValues) {
-
-         !!data.findIndex(item => item.id === randomID) ?
-            setData((prev: any | DataDashboard) => [...prev,
-            {
-               id: Math.floor(Math.random() * 100),
-               hour,
-               day: SelectRef.current?.value.toLowerCase(),
-               items: [
-                  {
+      /*  const checkValues =
+            !!data.find((i) => i.hour === hour)?.hour &&
+            !!data.find((i) => i.day === SelectRef.current?.value.toLowerCase())?.day;
+   
+         let randomID: number = Math.floor(Math.random() * 100);
+   
+         if (!checkValues) {
+   
+            !!data.findIndex(item => item.id === randomID) ?
+               setData((prev: any | DataDashboard) => [...prev,
+               {
+                  id: Math.floor(Math.random() * 100),
+                  hour,
+                  day: SelectRef.current?.value.toLowerCase(),
+                  items: [
+                     {
+                        key: randomID,
+                        description: taskRef.current?.value
+                     }]
+               }])
+               :
+               setData((prev: any) => [...prev,
+               {
+                  id: randomID,
+                  hour,
+                  day: SelectRef.current?.value.toLowerCase(),
+                  items: [{
                      key: randomID,
                      description: taskRef.current?.value
                   }]
-            }])
-            :
-            setData((prev: any) => [...prev,
-            {
-               id: randomID,
-               hour,
-               day: SelectRef.current?.value.toLowerCase(),
-               items: [{
-                  key: randomID,
-                  description: taskRef.current?.value
-               }]
-            }]);
-         setInputError(false);
-         return;
-      }
-
-      const arrayCopy = [...data];
-      const elementId = arrayCopy.findIndex((i: any) => i.hour === hour && i.day === SelectRef.current?.value.toLowerCase());
-      const newAddedItem: any = [...arrayCopy[elementId].items, {
-         key: randomID,
-         description: taskRef.current?.value
-      }];
-
-      const newArray: any = arrayCopy.filter((i) => i.id !== arrayCopy[elementId].id);
-
-      setData([...newArray, {
-         id: arrayCopy[elementId].id,
-         hour: arrayCopy[elementId].hour,
-         day: arrayCopy[elementId].day,
-         items: newAddedItem
-      }]);
-
+               }]);
+            setInputError(false);
+            return;
+         }
+   
+         const arrayCopy = [...data];
+         const elementId = arrayCopy.findIndex((i: any) => i.hour === hour && i.day === SelectRef.current?.value.toLowerCase());
+         const newAddedItem: any = [...arrayCopy[elementId].items, {
+            key: randomID,
+            description: taskRef.current?.value
+         }];
+   
+         const newArray: any = arrayCopy.filter((i) => i.id !== arrayCopy[elementId].id);
+   
+         setData([...newArray, {
+            id: arrayCopy[elementId].id,
+            hour: arrayCopy[elementId].hour,
+            day: arrayCopy[elementId].day,
+            items: newAddedItem
+         }]);
+    */
    }
 
 
@@ -214,9 +238,9 @@ export default function Dashboard() {
       if (!userData) {
          navigate('/');
       }
-      handleGetEvents();
+      handleGetEvents(currentDay);
       //handleGetWeatherData();
-   }, []);
+   }, [currentDay]);
 
    return (
       <Background

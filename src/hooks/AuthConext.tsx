@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +13,7 @@ type UserProps = {
    city: string;
    email: string;
    password: string;
+   token: string;
    lat?: string;
    long?: string;
 }
@@ -54,11 +56,47 @@ export function AuthProvider({ children }: Props) {
       });
    }, []);
 
-   const handleLogIn = (user: string, pass: string) => {
+   const handleLogIn = async (user: string, pass: string) => {
       setIsLoading(true);
 
-      const localUserData: UserProps = JSON.parse(userSavedData);
+      const response = await axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-in',
+         {
+            email: user,
+            password: pass
+         }, {
+         headers: { 'Content-Type': 'application/json' }
+      });
+      console.log(response.status);
+      if (response.status == 200) {
+         setUserData({
+            ...response.data?.user,
+            token: response?.data?.token
+         });
+         navigate('/');
+         setIsLogged(true);
+         setIsLoading(false);
+         return;
+      }
 
+      setIsLoading(false);
+
+      /*
+               .then((response: AxiosResponse) => {
+      
+                  console.log(response);
+      
+                  if (response.status === 200) {
+      
+                  }
+      
+               }).catch((err: any) => {
+                  throw new Error(err);
+               }).finally(() => {
+                  setIsLoading(false);
+               }) */
+
+      //const localUserData: UserProps = JSON.parse(userSavedData);
+      /*
       if (!localUserData)
          throw new Error(`There's no DB connection`);
 
@@ -68,8 +106,7 @@ export function AuthProvider({ children }: Props) {
             Please, try again!`);
 
       setUserData({ ...localUserData, position } as UserProps);
-      setIsLogged(true);
-      navigate('/');
+      */
    }
 
    const handleLogOut = () => {
