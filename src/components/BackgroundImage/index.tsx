@@ -8,7 +8,7 @@ type Props = {
 
 export function BackgroundImage({ background, logo, page }: Props) {
    return (
-      <Container onDragStart={() => { return }}>
+      <Container>
          {
             !!page ? <UolImage
                src={background}
@@ -16,7 +16,12 @@ export function BackgroundImage({ background, logo, page }: Props) {
             />
                :
                <>
-                  <Logo src={logo} alt="CompassUOL-logo" />
+                  <Logo 
+                     draggable={false}
+                     onClick={() => window.location.href = 'https://compass.uol/pt/home/'}
+                     src={logo} 
+                     alt="CompassUOL-logo" 
+                  />
                   <Image
                      src={background}
                      alt="CompassUOL-image"

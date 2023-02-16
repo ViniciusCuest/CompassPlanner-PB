@@ -92,8 +92,16 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                   evt.currentTarget.scrollLeft = scrollHandler.scrollX - runX;
                }
             }}
-            onMouseLeave={() => { setScrollHandler(prev => { return { ...prev, isScrolling: false } }); }}
-            onMouseUp={() => { setScrollHandler(prev => { return { ...prev, isScrolling: false } }); }}
+            onMouseLeave={() => {
+               setScrollHandler(prev => {
+                  return { ...prev, isScrolling: false }
+               });
+            }}
+            onMouseUp={() => {
+               setScrollHandler(prev => {
+                  return { ...prev, isScrolling: false }
+               });
+            }}
          >
             <CardContainer>
                <CardContainerHeader>
@@ -103,48 +111,53 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                </CardContainerHeader>
                <Body>
                   {
-                     data.filter((active) => active.day === currentActive).map((item, id) => {
-                        return (
-                           <CardRow key={item.id}>
-                              <CardRowHeader
-                                 style={item.items.length > 1 ?
+                     data
+                        .filter((active) => active.day === currentActive)
+                        .sort((a, b) => {
+                           return a.hour.localeCompare(b.hour);
+                        })
+                        .map((item) => {
+                           return (
+                              <CardRow key={item.id}>
+                                 <CardRowHeader
+                                    style={item.items.length > 1 ?
+                                       {
+                                          backgroundColor: colors.gray200,
+                                          color: colors.white,
+                                          fontWeight: fonts.regular
+                                       } :
+                                       {
+                                          backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
+                                       }}>
                                     {
-                                       backgroundColor: colors.gray200,
-                                       color: colors.white,
-                                       fontWeight: fonts.regular
-                                    } :
+                                       `${item.hour.replace(':', 'h')}m`
+                                    }
+                                 </CardRowHeader>
+                                 <ScheduleConflit active={!!(item.items.length > 1)}>
                                     {
-                                       backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
-                                    }}>
-                                 {
-                                    item.hour
-                                 }
-                              </CardRowHeader>
-                              <ScheduleConflit active={!!(item.items.length > 1)}>
-                                 {
-                                    item.items.map((val, key) => {
-                                       return item.items.length > 1 ? (
-                                          <TaskItem
-                                             key={val.key}
-                                             deleteItem={() => handleDeleteItem(item.id, val.key)}
-                                             description={val.description}
-                                             borderStyle={{ backgroundColor: colors.gray }}
-                                          />
+                                       item.items.map((val) => {
+                                          return item.items.length > 1 ? (
+                                             <TaskItem
+                                                key={val.key}
+                                                deleteItem={() => handleDeleteItem(item.id, val.key)}
+                                                description={val.description}
+                                                borderStyle={{ backgroundColor: colors.gray }}
+                                             />
 
-                                       ) : (
-                                          <TaskItem
-                                             key={val.key}
-                                             deleteItem={() => { handleDeleteItem(item.id, val.key) }}
-                                             description={val.description}
-                                             borderStyle={{ backgroundColor: `${days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color}` }}
-                                          />
-                                       );
-                                    })
-                                 }
-                              </ScheduleConflit>
-                           </CardRow>
-                        );
-                     })
+                                          ) : (
+                                             <TaskItem
+                                                key={val.key}
+                                                deleteItem={() => { handleDeleteItem(item.id, val.key) }}
+                                                description={val.description}
+                                                borderStyle={{ backgroundColor: `${days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color}` }}
+                                             />
+                                          );
+                                       })
+                                    }
+                                 </ScheduleConflit>
+                              </CardRow>
+                           );
+                        })
                   }
                </Body>
             </CardContainer>

@@ -66,6 +66,7 @@ export const City = styled.span`
 
 export const Logo = styled.img`
    height: 24px;
+   cursor: pointer;
 `;
 
 export const LogoutButton = styled.button`

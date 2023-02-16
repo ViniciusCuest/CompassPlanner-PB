@@ -48,14 +48,9 @@ export const Content = styled.section`
    cursor: grabbing;
 
    &::-webkit-scrollbar { 
-      padding-left: 50px;
-      height: 8px;
-      width: 12px; 
+      height: 10px;
+      width: 16px; 
    };
-
-   &::-webkit-scrollbar:vertical{
-      transform: rotateX(180deg);
-   }
 
    &::-webkit-scrollbar-track {
       border-radius: 24px;
@@ -67,6 +62,13 @@ export const Content = styled.section`
    &::-webkit-scrollbar-thumb {
       background-color: ${colors.white200};
       border-radius: 20px;
+   }
+   &::-webkit-scrollbar-thumb:vertical {
+      border-right: 4px solid ${colors.white};
+      border-left: 4px solid ${colors.white};
+      border-top: 2px solid ${colors.white};
+      border-bottom: 2px solid ${colors.white};
+      border-radius: 24px;
    }
 
    &::-webkit-scrollbar-corner {

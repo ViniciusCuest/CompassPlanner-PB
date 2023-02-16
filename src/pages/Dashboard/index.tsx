@@ -15,7 +15,7 @@ import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
 import { colors } from '../../global/theme';
 import { API } from '../../utils/api';
-import { AxiosResponse } from 'axios';
+import axios, { Axios, AxiosResponse } from 'axios';
 import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ export default function Dashboard() {
       {
          id: 1,
          day: 'monday',
-         hour: '10h30',
+         hour: '10:30',
          items: [{
             key: 1,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
@@ -53,7 +53,7 @@ export default function Dashboard() {
       {
          id: 2,
          day: 'monday',
-         hour: '11h30',
+         hour: '11:30',
          items: [{
             key: 1,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
@@ -90,33 +90,6 @@ export default function Dashboard() {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
          }]
       },
-      {
-         id: 5,
-         day: 'wednesday',
-         hour: '14:30',
-         items: [{
-            key: 1,
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-         }]
-      },
-      {
-         id: 6,
-         day: 'wednesday',
-         hour: '14:30',
-         items: [{
-            key: 1,
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-         }]
-      },
-      {
-         id: 7,
-         day: 'wednesday',
-         hour: '14:30',
-         items: [{
-            key: 1,
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-         }]
-      }
    ];
 
    const [modal, setModal] = useState<boolean>(false);
@@ -144,19 +117,26 @@ export default function Dashboard() {
       { day: 'Sunday', color: `${colors.pink_300}` },
    ];
 
-   async function handleGetData(): Promise<void> {
+
+   const handleGetEvents = async () => {
+      await axios.get('https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=monday&description=descr', {
+         headers: { 'content-type': 'application/json; charset=utf-8' }
+      }).then((response: AxiosResponse) => console.log(response));
+   }
+
+   async function handleGetWeatherData(): Promise<void> {
       await API.get(`/weather?q=${!!userData.city ? userData.city : 'são paulo'}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
          {
-            headers:
-               { "Content-Type": "application/json;charset=utf-8" }
-         })
-         .then((res: AxiosResponse) => {
+            headers: {
+               "Content-Type": "application/json;charset=utf-8"
+            }
+         }).then((res: AxiosResponse) => {
             setWeatherData(res.data);
          }).catch((e) => {
             throw new Error(e);
          }).finally(() => {
             //loading = false 
-         })
+         });
    }
 
    const deleteAllTasks = () => {
@@ -176,13 +156,9 @@ export default function Dashboard() {
          return;
       }
 
-      const maskedHour = hour.replace(':', 'h');
-
       const checkValues =
-         !!data.find((i) => i.hour === maskedHour)?.hour &&
+         !!data.find((i) => i.hour === hour)?.hour &&
          !!data.find((i) => i.day === SelectRef.current?.value.toLowerCase())?.day;
-
-      console.log(checkValues);
 
       let randomID: number = Math.floor(Math.random() * 100);
 
@@ -192,7 +168,7 @@ export default function Dashboard() {
             setData((prev: any | DataDashboard) => [...prev,
             {
                id: Math.floor(Math.random() * 100),
-               hour: maskedHour,
+               hour,
                day: SelectRef.current?.value.toLowerCase(),
                items: [
                   {
@@ -204,7 +180,7 @@ export default function Dashboard() {
             setData((prev: any) => [...prev,
             {
                id: randomID,
-               hour: maskedHour,
+               hour,
                day: SelectRef.current?.value.toLowerCase(),
                items: [{
                   key: randomID,
@@ -216,13 +192,13 @@ export default function Dashboard() {
       }
 
       const arrayCopy = [...data];
-      const elementId = arrayCopy.findIndex((i: any) => i.hour === maskedHour && i.day === SelectRef.current?.value.toLowerCase());
+      const elementId = arrayCopy.findIndex((i: any) => i.hour === hour && i.day === SelectRef.current?.value.toLowerCase());
       const newAddedItem: any = [...arrayCopy[elementId].items, {
          key: randomID,
          description: taskRef.current?.value
       }];
-      
-      const newArray : any = arrayCopy.filter((i) => i.id !== arrayCopy[elementId].id);
+
+      const newArray: any = arrayCopy.filter((i) => i.id !== arrayCopy[elementId].id);
 
       setData([...newArray, {
          id: arrayCopy[elementId].id,
@@ -238,7 +214,8 @@ export default function Dashboard() {
       if (!userData) {
          navigate('/');
       }
-      //handleGetData();
+      handleGetEvents();
+      //handleGetWeatherData();
    }, []);
 
    return (

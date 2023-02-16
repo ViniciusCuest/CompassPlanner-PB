@@ -5,7 +5,6 @@ export const Container = styled.section`
    align-items: center;
    justify-content: center;
    width: 50%;
-   pointer-events: none;
    user-select: none;
    -webkit-user-select: none;
    -moz-user-select: none;
@@ -17,6 +16,7 @@ export const Image = styled.img`
    width: 100%;
    height: 100vh;
    object-fit: cover;
+   pointer-events: none;
 `;
 
 export const UolImage = styled.img`
@@ -30,5 +30,6 @@ export const Logo = styled.img`
    top: 0;
    margin-top: 36px;
    height: 66px;
-   z-index: 5;
+   z-index: 10;
+   cursor: pointer;
 `;

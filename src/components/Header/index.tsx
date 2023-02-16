@@ -8,6 +8,7 @@ import { Badge, Container, Date as DateComp, DateTime, Hour, Icon, LocationTempe
 import { useAuth } from "../../hooks/AuthConext";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 type Props = {
    logo: string;
@@ -17,7 +18,6 @@ type Props = {
 export function Header({ logo, data }: Props): JSX.Element {
 
    const { handleLogOut, userData } = useAuth();
-   
    const [hour, setHour] = useState<string>(`${format(new Date(), 'HH:mm')}`);
 
    useEffect(() => {
@@ -55,10 +55,10 @@ export function Header({ logo, data }: Props): JSX.Element {
             </DateTime>
             <DateTime>
                <DateComp>
-                  { userData.city ? `${userData.city} - São Paulo` :  'São Paulo - São Paulo'} 
+                  {userData.city ? `${userData.city} - São Paulo` : 'São Paulo - São Paulo'}
                </DateComp>
                <LocationTemperature>
-                  <Icon src={cloudy}/>
+                  <Icon src={cloudy} />
                   {
                      Number(data?.main?.temp).toFixed(0) + '°'
                   }
@@ -66,7 +66,7 @@ export function Header({ logo, data }: Props): JSX.Element {
             </DateTime>
          </div>
          <Logout>
-            <Logo src={logo} />
+            <Logo src={logo} onClick={() => window.location.href = 'https://compass.uol/pt/home/'}/>
             <LogoutButton onClick={handleLogOut}>
                <Icon src={logoutLogo}></Icon>
                Logout

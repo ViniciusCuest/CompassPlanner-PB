@@ -15,9 +15,10 @@ import { Form } from '../../components/Form';
 import { colors } from '../../global/theme';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthConext';
+import axios, { AxiosResponse } from 'axios';
 
 export default function Login() {
-   
+
    const { handleLogIn } = useAuth();
 
    const [error, setError] = useState<string>('');
@@ -28,10 +29,22 @@ export default function Login() {
    const handleSubmitForm = (event: UIEvent) => {
       event.preventDefault();
       try {
-         handleLogIn(String(userName.current?.value), String(password.current?.value));
+
+         axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-in', {
+            email: userName.current?.value,
+            password: password.current?.value
+         }, {
+            headers: { 'Content-Type': 'application/json' }
+         }).then((response: AxiosResponse) => {
+            console.log(response.data);
+         }).catch((err: any) => {
+            console.log(err);
+         });
+
+         //handleLogIn(String(userName.current?.value), String(password.current?.value));
       }
       catch (e: any) {
-         setError(e?.message);;
+         setError(e?.message + 'aqui');;
       }
    }
 
@@ -73,7 +86,7 @@ export default function Login() {
                   {
                      !!error &&
                      <ErrorText>{
-                        
+
                         error
                      }</ErrorText>
                   }

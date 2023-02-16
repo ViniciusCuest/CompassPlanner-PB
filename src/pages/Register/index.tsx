@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
+import axios from 'axios';
 
 export default function Register() {
    const navigate = useNavigate();
@@ -21,26 +22,44 @@ export default function Register() {
    const city = useRef<HTMLInputElement>(null);
    const email = useRef<HTMLInputElement>(null);
    const password = useRef<HTMLInputElement>(null);
-   const passwordRep = useRef<HTMLInputElement>(null);
+   const confirmPassword = useRef<HTMLInputElement>(null);
 
-   const handleSubmitForm = (event: UIEvent) => {
+   const handleSubmitForm = async (event: UIEvent) => {
       event.preventDefault();
 
       if (String(firstName.current?.value).length < 3 || String(lastName.current?.value).length < 3
          || String(country.current?.value).length < 3 || String(email.current?.value).length < 3 || String(password.current?.value).length < 3
-         || String(passwordRep.current?.value).length < 3 || (String(password.current?.value) !== String(passwordRep.current?.value))
+         || String(confirmPassword.current?.value).length < 3 || (String(password.current?.value) !== String(confirmPassword.current?.value))
       )
          throw new Error('Usuário inválido');
 
-      localStorage.setItem('user', JSON.stringify({
-         fullName: `${firstName.current?.value} ${lastName.current?.value}`,
+      await axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-up', {
+         firstName: firstName.current?.value,
+         lastName: lastName.current?.value,
          birthDate: birthDate.current?.value,
-         country: country.current?.value,
          city: city.current?.value,
+         country: country.current?.value,
          email: email.current?.value,
          password: password.current?.value,
-      }));
-      navigate('/');
+         confirmPassword: confirmPassword.current?.value,
+      }, {
+         headers: { 'Content-Type': 'application/json' }
+      }).then((response) => {
+         console.log(response.data + 'Aqui');
+      }).catch((e: any) => {
+         console.log(e.message);
+      });
+
+      /*
+           localStorage.setItem('user', JSON.stringify({
+              fullName: `${firstName.current?.value} ${lastName.current?.value}`,
+              birthDate: birthDate.current?.value,
+              country: country.current?.value,
+              city: city.current?.value,
+              email: email.current?.value,
+              password: password.current?.value,
+           }));
+           navigate('/'); */
    }
 
    return (
@@ -73,7 +92,7 @@ export default function Register() {
                   title="Birth date"
                   placeholder="MM/DD/YYYY"
                   id="birthDate"
-                  style={{appearance: 'none'}}
+                  style={{ appearance: 'none' }}
                />
                <InputItem
                   type="text"
@@ -105,7 +124,7 @@ export default function Register() {
                />
                <InputItem
                   type="password"
-                  reference={passwordRep}
+                  reference={confirmPassword}
                   title="password"
                   placeholder="Confirm your password"
                   id="passwordRep"
