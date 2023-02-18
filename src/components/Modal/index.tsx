@@ -1,5 +1,5 @@
-import { Button, ButtonsArea, Container, Header, IconButton, Title } from "./styled";
-import { IoCloseSharp } from 'react-icons/io5';
+import { Button, ButtonsArea, Container, FadeBackground, Header, IconButton, Title } from "./styled";
+import { IoClose } from 'react-icons/io5';
 import { colors } from "../../global/theme";
 
 type Props = {
@@ -11,31 +11,34 @@ type Props = {
 
 export function Modal({ active, onActiveModal, options, action }: Props) {
    return (
-      <Container active={active}>
-         <Header>
-            <Title>Are you sure ?</Title>
-            <IconButton onClick={() => onActiveModal(false)}>
-               <IoCloseSharp size={40} />
-            </IconButton>
-         </Header>
-         <ButtonsArea>
-            {
-               options.map((item, id) => {
-                  return (
-                     <Button
-                        key={id}
-                        onClick={item.action}
-                        style={{ backgroundColor: item.type === 'delete' ? colors.red : '' }}
-                     >
-                        {
-                           item.title
-                        }
-                     </Button>
-                  );
-               })
-            }
-         </ButtonsArea>
+      <FadeBackground active={active}>
+         <Container active={active}>
+            <Header>
+               <Title>Dialog</Title>
+               <IconButton onClick={() => onActiveModal(false)}>
+                  <IoClose size={35} />
+               </IconButton>
+            </Header>
+            Are you sure you want to delete all events ?
+            <ButtonsArea>
+               {
+                  options.map((item, id) => {
+                     return (
+                        <Button
+                           key={id}
+                           onClick={item.action}
+                           style={{ backgroundColor: item.type === 'delete' ? colors.delete : '#e0e0e0' }}
+                        >
+                           {
+                              item.title
+                           }
+                        </Button>
+                     );
+                  })
+               }
+            </ButtonsArea>
 
-      </Container>
+         </Container>
+      </FadeBackground>
    )
 }

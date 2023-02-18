@@ -6,6 +6,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 
 export default function Routes() {
+
+   const token = localStorage.getItem("@Compass-planner:token");
    const { isLogged } = useAuth();
 
    return (

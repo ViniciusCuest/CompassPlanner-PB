@@ -39,6 +39,7 @@ export type DataDashboard = Array<{
 export default function Dashboard() {
 
    const token = localStorage.getItem("@Compass-planner:token");
+   const { isLogged } = useAuth();
 
    const { userData } = useAuth();
    const navigate = useNavigate();
@@ -136,7 +137,7 @@ export default function Dashboard() {
       }, {
          headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userData.token}`
+            'Authorization': `Bearer ${token}`
          }
       });
 
@@ -198,10 +199,11 @@ export default function Dashboard() {
 
    const handleGetEvents = async () => {
       try {
+         setLoading(true);
          await axios.get(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${currentDay}`, {
             headers: {
                'content-type': 'application/json; charset=utf-8',
-               'Authorization': `Bearer ${userData.token}`
+               'Authorization': `Bearer ${token}`
             }
          }).then((response: AxiosResponse) => {
             let array = _DATA.filter((item) => item.dayOfWeek === 'monday');
@@ -241,7 +243,7 @@ export default function Dashboard() {
    }
 
    useEffect(() => {
-      if (!userData || !token) {
+      if (token === 'null') {
          navigate('/');
          return;
       }
@@ -313,8 +315,8 @@ export default function Dashboard() {
             onActiveModal={setModal}
             action={setDeleteAll}
             options={[
-               { title: 'No', action: () => { setModal(false); }, type: 'no' },
-               { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete' }
+               { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete' },
+               { title: 'Cancel', action: () => { setModal(false); }, type: 'no' },
             ]}
          />
       </Background>

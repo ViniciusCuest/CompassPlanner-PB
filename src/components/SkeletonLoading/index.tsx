@@ -27,7 +27,7 @@ export function SkeletonLoading() {
                      >
                      </CardRowHeader>
                      {
-                        item.array.map((horizontal, id) => {
+                        item.array.map((_, id) => {
                            return (
                               <ScheduleConflit
                                  key={String(id)}

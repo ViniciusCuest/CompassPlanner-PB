@@ -24,7 +24,7 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    width: ${({ active }) => active ? 290 : 240}px;
    height: 33px;
    background-color: ${({ buttonColor }) => buttonColor};
-   font-weight: ${fonts.semibold};
+   font-weight: ${({ active }) => active ? fonts.bold : fonts.semibold };
    font-size: 20px;
    color: ${colors.black};
    text-align: start;
@@ -35,8 +35,11 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    transition: width 150ms ease-in;
    cursor: pointer;
    ${({ active }) => active &&
-      `box-shadow: 0px 7px 24px rgba(85, 85, 85, 0.4);`
+      `box-shadow: 0px 7px 24px rgba(85, 85, 85, 0.23);`
    };
+   &:hover {
+      font-weight: ${fonts.bold}
+   }
 `;
 
 export const Content = styled.section`
@@ -170,6 +173,9 @@ export const ScheduleConflit = styled.span<{ active: boolean }>`
    display: flex;
    flex-direction: row;
    align-items: center;
+   & + & {
+      margin-left: 17px;
+   }
    ${({ active }) => active &&
       `&::after {
       position: absolute;

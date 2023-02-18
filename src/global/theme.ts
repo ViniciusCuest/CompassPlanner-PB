@@ -22,6 +22,7 @@ const colors = {
    yellow: '#FFCE00',
    yellow100: '#FFCE00B2',
    
+   delete: '#ff3e4e',
    red: '#FF0024',
    pink_300: '#FF002480',
    pink_400: '#FF0024B2',

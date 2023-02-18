@@ -30,19 +30,20 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: Props) {
 
-   const userSavedData: string = String(localStorage.getItem('user'));
+   const userSavedData: string = String(localStorage.getItem('@Compass-planner:user'));
+   const token: string = String(localStorage.getItem('@Compass-planner:token'));
+
    const navigate = useNavigate();
 
    const [userData, setUserData] = useState<UserProps | any>({});
    const [position, setPosition] = useState<any>({});
-   const [isLogged, setIsLogged] = useState<boolean>(userSavedData !== 'null' ? true : false);
+   const [isLogged, setIsLogged] = useState<boolean>(userSavedData !== 'null' && token !== 'null' ? true : false);
    const [isLoading, setIsLoading] = useState<boolean>(false);
 
    useEffect(() => {
-      if (userSavedData !== 'null') {
-         setIsLogged(true);
-         setUserData(userSavedData);
-      }
+
+      if (userSavedData !== 'null' && token !== 'null')
+         setUserData(JSON.parse(userSavedData));
 
       let positionObj = {};
 
@@ -59,15 +60,17 @@ export function AuthProvider({ children }: Props) {
    const handleLogIn = async (user: string, pass: string) => {
       setIsLoading(true);
 
-      const response = await axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-in',
-         {
-            email: user,
-            password: pass
-         }, {
+      const response = await axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-in', {
+         email: user,
+         password: pass
+      }, {
          headers: { 'Content-Type': 'application/json' }
       });
 
       if (response.status == 200) {
+
+         setIsLogged(true);
+
          setUserData({
             ...response.data?.user,
             token: response?.data?.token
@@ -75,9 +78,7 @@ export function AuthProvider({ children }: Props) {
 
          localStorage.setItem("@Compass-planner:user", JSON.stringify(response.data?.user));
          localStorage.setItem("@Compass-planner:token", response.data.token);
-
          navigate('/');
-         setIsLogged(true);
          setIsLoading(false);
          return;
       }
@@ -138,5 +139,5 @@ export function AuthProvider({ children }: Props) {
 
 export function useAuth() {
    const context = useContext(AuthContext);
-   return context
+   return context;
 }
