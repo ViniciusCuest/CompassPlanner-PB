@@ -17,6 +17,7 @@ import { ObjDays, DataDashboard } from "../../pages/Dashboard";
 import { TaskItem } from "../";
 import { colors, fonts } from '../../global/theme';
 import { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 type Props = {
    data: DataDashboard | any;
@@ -28,10 +29,6 @@ type Props = {
 
 export function DashboardTable({ data, days, setCurrent, currentActive, action }: Props) {
 
-   useEffect(() => {
-      console.log(data);
-   },[])
-
    const [scrollHandler, setScrollHandler] = useState<{ pageX: number, scrollX: number, isScrolling: boolean }>({
       pageX: 0,
       scrollX: 0,
@@ -40,10 +37,10 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
 
    const handleDeleteItem = (id: number, keyItem: number) => {
 
-      const updatedValues = data.find((item:any) => item.id === id)?.items.filter((item:any) => item.key !== keyItem);
+      const updatedValues = data.find((item: any) => item._id === id)?.items.filter((item: any) => item.key !== keyItem);
 
       if (!updatedValues?.length) {
-         action(prev => prev.filter((item) => item.id !== id));
+         action(prev => prev.filter((item) => item._id !== id));
          return;
       }
 
@@ -60,6 +57,11 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
       }]);
    }
 
+
+   useEffect(() => {
+      console.log(data.events);
+   }, []);
+
    return (
       <Table>
          <Header>
@@ -73,6 +75,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                            active={item.day.toLowerCase() === currentActive ? true : false}
                            buttonColor={item.color}
                            onClick={() => {
+                              action([]);
                               setCurrent(item.day.toLowerCase())
                            }}
                         >
@@ -114,6 +117,51 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                   </HeaderContent>
                </CardContainerHeader>
                <Body>
+                  {
+                     data?.events
+                     ?.sort((a:any, b:any) => {
+                        return format(new Date(a?.createdAt), 'HH:mm').localeCompare(format(new Date(b?.createdAt), 'HH:mm'));
+                     })
+                     .map((item: any) => {
+                        return (
+                           <CardRow key={item._id}>
+                              <CardRowHeader
+                                 style={item?.items ?
+                                    {
+                                       backgroundColor: colors.gray200,
+                                       color: colors.white,
+                                       fontWeight: fonts.regular
+                                    } :
+                                    {
+                                       backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
+                                    }}>
+                                 {
+                                    `${format(new Date(item.createdAt), 'HH:mm').replace(':', 'h')}m`
+                                 }
+                              </CardRowHeader>
+                              <ScheduleConflit active={!!(item?.items)}>
+                                 {
+                                    item?.items ?
+                                       <TaskItem
+                                          deleteItem={() => handleDeleteItem(item?.id, 1)}
+                                          description={item.description}
+                                          borderStyle={{ backgroundColor: colors.gray }}
+                                       />
+                                       :
+                                       <TaskItem
+                                          deleteItem={() => handleDeleteItem(item?.id, 1)}
+                                          description={item.description}
+                                          borderStyle={{
+                                             backgroundColor:
+                                                `${days.find((item: any) => item.day.toLowerCase() === currentActive.toLowerCase())?.color}`
+                                          }}
+                                       />
+                                 }
+                              </ScheduleConflit>
+                           </CardRow>
+                        );
+                     })
+                  }
                   {
                                              //.filter((active: any) => active?.day === currentActive)
                         //.sort((a:any, b:any) => {

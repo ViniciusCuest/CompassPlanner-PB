@@ -66,12 +66,16 @@ export function AuthProvider({ children }: Props) {
          }, {
          headers: { 'Content-Type': 'application/json' }
       });
-      console.log(response.status);
+
       if (response.status == 200) {
          setUserData({
             ...response.data?.user,
             token: response?.data?.token
          });
+
+         localStorage.setItem("@Compass-planner:user", JSON.stringify(response.data?.user));
+         localStorage.setItem("@Compass-planner:token", response.data.token);
+
          navigate('/');
          setIsLogged(true);
          setIsLoading(false);
@@ -110,7 +114,8 @@ export function AuthProvider({ children }: Props) {
    }
 
    const handleLogOut = () => {
-      localStorage.removeItem('user');
+      localStorage.removeItem('@Compass-planner:user');
+      localStorage.removeItem('@Compass-planner:token');
       setUserData({});
       setIsLogged(false);
       navigate('/');

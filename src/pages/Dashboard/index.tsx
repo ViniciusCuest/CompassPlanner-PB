@@ -19,6 +19,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 export type ObjDays = Array<{
    day: string;
@@ -26,10 +27,10 @@ export type ObjDays = Array<{
 }>
 
 export type DataDashboard = Array<{
-   id: number;
-   hour: string;
-   day: string;
-   items: Array<{
+   _id: number;
+   createdAt: string;
+   dayOfWeek: string;
+   items?: Array<{
       key: number
       description: string;
    }>
@@ -37,23 +38,25 @@ export type DataDashboard = Array<{
 
 export default function Dashboard() {
 
+   const token = localStorage.getItem("@Compass-planner:token");
+
    const { userData } = useAuth();
    const navigate = useNavigate();
 
    const _DATA: DataDashboard = [
       {
-         id: 1,
-         day: 'monday',
-         hour: '10:30',
+         _id: 1,
+         createdAt: 'monday',
+         dayOfWeek: '10:30',
          items: [{
             key: 1,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
          }]
       },
       {
-         id: 2,
-         day: 'monday',
-         hour: '11:30',
+         _id: 2,
+         dayOfWeek: 'monday',
+         createdAt: '11:30',
          items: [{
             key: 1,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
@@ -73,18 +76,18 @@ export default function Dashboard() {
          ]
       },
       {
-         id: 4,
-         day: 'tuesday',
-         hour: '15:30',
+         _id: 4,
+         dayOfWeek: 'tuesday',
+         createdAt: '15:30',
          items: [{
             key: 1,
             description: 'New Task'
          }]
       },
       {
-         id: 3,
-         day: 'wednesday',
-         hour: '14:30',
+         _id: 3,
+         dayOfWeek: 'wednesday',
+         createdAt: '14:30',
          items: [{
             key: 1,
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
@@ -111,47 +114,15 @@ export default function Dashboard() {
       { day: 'Monday', color: `${colors.red}` },
       { day: 'Tuesday', color: `${colors.orange100}` },
       { day: 'Wednesday', color: `${colors.yellow}` },
-      { day: 'Thrusday', color: `${colors.pink_400}` },
+      { day: 'Thursday', color: `${colors.pink_400}` },
       { day: 'Friday', color: `${colors.orange50}` },
       { day: 'Saturday', color: `${colors.yellow100}` },
       { day: 'Sunday', color: `${colors.pink_300}` },
    ];
 
-   async function handleGetWeatherData(): Promise<void> {
-      await API.get(`/weather?q=${!!userData.city ? userData.city : 'são paulo'}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
-         {
-            headers: {
-               "Content-Type": "application/json;charset=utf-8"
-            }
-         }).then((res: AxiosResponse) => {
-            setWeatherData(res.data);
-         }).catch((e) => {
-            throw new Error(e);
-         }).finally(() => {
-            //loading = false 
-         });
-   }
-
-   const handleGetEvents = async (day:string) => {
-      try {
-         await axios.get(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${day}`, {
-            headers: {
-               'content-type': 'application/json; charset=utf-8',
-               'Authorization': `Bearer ${userData.token}`
-            }
-         }).then((response: AxiosResponse) => {
-            console.log(response);
-            setData(response.data);
-         }).catch(err => {
-            throw new Error(err);
-         });
-      } catch (err: any) {
-         console.log(err);
-      }
-   }
 
    const deleteAllTasks = () => {
-      setData(prev => prev.filter(item => item.day.toLowerCase() !== currentDay.toLowerCase()));
+      setData(prev => prev.filter(item => item.dayOfWeek.toLowerCase() !== currentDay.toLowerCase()));
    }
 
    const handleDeleteAllTasks = (e: UIEvent) => {
@@ -177,8 +148,8 @@ export default function Dashboard() {
          }
       });
 
-      if (response.status === 201) 
-         handleGetEvents(String(SelectRef.current?.value.toLowerCase()));
+      if (response.status === 201) { }
+      //handleGetEvents(String(SelectRef.current?.value.toLowerCase()));
 
       /*  const checkValues =
             !!data.find((i) => i.hour === hour)?.hour &&
@@ -233,13 +204,49 @@ export default function Dashboard() {
     */
    }
 
+   const handleGetEvents = async () => {
+      try {
+         await axios.get(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${currentDay}`, {
+            headers: {
+               'content-type': 'application/json; charset=utf-8',
+               'Authorization': `Bearer ${userData.token}`
+            }
+         }).then((response: AxiosResponse) => {
+            setData(response.data);
+         }).catch(err => {
+            throw new Error(err);
+         });
+      } catch (err: any) {
+         console.log(err);
+      }
+   }
+
+   async function handleGetWeatherData(): Promise<void> {
+      await API.get(`/weather?q=${!!userData.city ? userData.city : 'são paulo'}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
+         {
+            headers: {
+               "Content-Type": "application/json;charset=utf-8"
+            }
+         }).then((res: AxiosResponse) => {
+            setWeatherData(res.data);
+         }).catch((e) => {
+            throw new Error(e);
+         }).finally(() => {
+            //loading = false 
+         });
+   }
 
    useEffect(() => {
-      if (!userData) {
+      if (!userData || !token) {
          navigate('/');
+         return;
       }
-      handleGetEvents(currentDay);
       //handleGetWeatherData();
+      handleGetEvents();
+   }, []);
+
+   useEffect(() => {
+      handleGetEvents();
    }, [currentDay]);
 
    return (
