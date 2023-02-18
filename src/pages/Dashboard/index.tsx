@@ -45,15 +45,6 @@ export default function Dashboard() {
 
    const _DATA: DataDashboard = [
       {
-         _id: 1,
-         createdAt: 'monday',
-         dayOfWeek: '10:30',
-         items: [{
-            key: 1,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-         }]
-      },
-      {
          _id: 2,
          dayOfWeek: 'monday',
          createdAt: '11:30',
@@ -102,6 +93,7 @@ export default function Dashboard() {
 
    const [inputError, setInputError] = useState<boolean>(false);
 
+   const [loading, setLoading] = useState<boolean>(true);
    const [deleteAll, setDeleteAll] = useState<boolean>(false);
    const [addNew, setAddNew] = useState<boolean>(false);
 
@@ -148,8 +140,8 @@ export default function Dashboard() {
          }
       });
 
-      if (response.status === 201) { }
-      //handleGetEvents(String(SelectRef.current?.value.toLowerCase()));
+      if (response.status === 201)
+         setCurrentDay(String(SelectRef.current?.value.toLowerCase()));
 
       /*  const checkValues =
             !!data.find((i) => i.hour === hour)?.hour &&
@@ -212,9 +204,21 @@ export default function Dashboard() {
                'Authorization': `Bearer ${userData.token}`
             }
          }).then((response: AxiosResponse) => {
+            let array = _DATA.filter((item) => item.dayOfWeek === 'monday');
+
+            for (let i = 0; i < array.length; i++) {
+               response.data.events.push({
+                  _id: array[i]._id,
+                  createdAt: array[i].createdAt,
+                  dayOfWeek: array[i].dayOfWeek,
+                  items: array[i].items
+               });
+            }
             setData(response.data);
          }).catch(err => {
             throw new Error(err);
+         }).finally(() => {
+            setLoading(false);
          });
       } catch (err: any) {
          console.log(err);
@@ -300,6 +304,7 @@ export default function Dashboard() {
             data={data}
             action={setData}
             days={DAYS}
+            loading={loading}
             currentActive={currentDay}
             setCurrent={setCurrentDay}
          />

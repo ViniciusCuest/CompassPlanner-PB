@@ -34,6 +34,9 @@ export const ButtonHeader = styled.button<{ buttonColor: string, active: boolean
    padding-left: 8px;
    transition: width 150ms ease-in;
    cursor: pointer;
+   ${({ active }) => active &&
+      `box-shadow: 0px 7px 24px rgba(85, 85, 85, 0.4);`
+   };
 `;
 
 export const Content = styled.section`
@@ -130,7 +133,7 @@ export const CardRow = styled.section`
 
 `
 
-export const CardRowHeader = styled.span`
+export const CardRowHeader = styled.span<{ load: boolean }>`
    position: sticky;
    left: 0;
    font-weight: ${fonts.bold};
@@ -141,11 +144,28 @@ export const CardRowHeader = styled.span`
    height: 85px;
    width: 85px;
    margin-right: 15px;
-   background-color: red;
    border-radius: 10px;
+   ${({ load }) => load && `
+      background: linear-gradient(-45deg, #e7e7e7, #d9d9d9, #c7c7c7, #dddddd);
+      background-size: 400% 400%;
+      animation: skeleton 1.5s ease infinite; 
+      opacity: .7;
+   `}
+
+@keyframes skeleton {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
 `;
 
-export const ScheduleConflit = styled.span<{active: boolean}>`
+export const ScheduleConflit = styled.span<{ active: boolean }>`
    position: relative;
    display: flex;
    flex-direction: row;
@@ -154,11 +174,11 @@ export const ScheduleConflit = styled.span<{active: boolean}>`
       `&::after {
       position: absolute;
       content: '';
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background-color: #000000B2;
-      margin-left: -10px;
+      margin-left: -12px;
       }
       &::before{
          position: absolute;

@@ -18,16 +18,18 @@ import { TaskItem } from "../";
 import { colors, fonts } from '../../global/theme';
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { SkeletonLoading } from "../SkeletonLoading";
 
 type Props = {
    data: DataDashboard | any;
+   loading: boolean;
    days: ObjDays;
    currentActive: any;
    setCurrent: any;
    action: React.Dispatch<React.SetStateAction<DataDashboard | []>>;
 }
 
-export function DashboardTable({ data, days, setCurrent, currentActive, action }: Props) {
+export function DashboardTable({ data, days, setCurrent, currentActive, action, loading }: Props) {
 
    const [scrollHandler, setScrollHandler] = useState<{ pageX: number, scrollX: number, isScrolling: boolean }>({
       pageX: 0,
@@ -56,11 +58,6 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
          items: newValueItems
       }]);
    }
-
-
-   useEffect(() => {
-      console.log(data.events);
-   }, []);
 
    return (
       <Table>
@@ -116,53 +113,63 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                      <HeaderContentItem>Time</HeaderContentItem>
                   </HeaderContent>
                </CardContainerHeader>
-               <Body>
-                  {
-                     data?.events
-                     ?.sort((a:any, b:any) => {
-                        return format(new Date(a?.createdAt), 'HH:mm').localeCompare(format(new Date(b?.createdAt), 'HH:mm'));
-                     })
-                     .map((item: any) => {
-                        return (
-                           <CardRow key={item._id}>
-                              <CardRowHeader
-                                 style={item?.items ?
-                                    {
-                                       backgroundColor: colors.gray200,
-                                       color: colors.white,
-                                       fontWeight: fonts.regular
-                                    } :
-                                    {
-                                       backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
-                                    }}>
-                                 {
-                                    `${format(new Date(item.createdAt), 'HH:mm').replace(':', 'h')}m`
-                                 }
-                              </CardRowHeader>
-                              <ScheduleConflit active={!!(item?.items)}>
-                                 {
-                                    item?.items ?
-                                       <TaskItem
-                                          deleteItem={() => handleDeleteItem(item?.id, 1)}
-                                          description={item.description}
-                                          borderStyle={{ backgroundColor: colors.gray }}
-                                       />
-                                       :
-                                       <TaskItem
-                                          deleteItem={() => handleDeleteItem(item?.id, 1)}
-                                          description={item.description}
-                                          borderStyle={{
-                                             backgroundColor:
-                                                `${days.find((item: any) => item.day.toLowerCase() === currentActive.toLowerCase())?.color}`
-                                          }}
-                                       />
-                                 }
-                              </ScheduleConflit>
-                           </CardRow>
-                        );
-                     })
-                  }
-                  {
+               {
+                  loading ?
+                     <SkeletonLoading />
+                     :
+                     <Body>
+                        {
+                           data?.events
+                              // ?.sort((a: any, b: any) => {
+                              // return format(new Date(a?.createdAt), 'HH:mm').localeCompare(format(new Date(b?.createdAt), 'HH:mm'));
+                              //})
+                              ?.map((item: any) => {
+                                 return (
+                                    <CardRow key={item._id}>
+                                       <CardRowHeader
+                                          load={false}
+                                          style={item?.items ?
+                                             {
+                                                backgroundColor: colors.gray200,
+                                                color: colors.white,
+                                                fontWeight: fonts.regular
+                                             } :
+                                             {
+                                                backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
+                                             }}>
+                                          {
+                                             //`${format(new Date(item.createdAt), 'HH:mm').replace(':', 'h')}m`
+                                          }
+                                       </CardRowHeader>
+                                       <ScheduleConflit active={!!(item?.items)}>
+                                          {
+                                             item?.items ?
+                                                (item.items.map((value: any) => (
+                                                   <TaskItem
+                                                      key={value.key}
+                                                      loading={false}
+                                                      deleteItem={() => handleDeleteItem(item?.id, 1)}
+                                                      description={value?.description}
+                                                      borderStyle={{ backgroundColor: colors.gray }}
+                                                   />
+                                                )))
+                                                :
+                                                <TaskItem
+                                                   loading={false}
+                                                   deleteItem={() => handleDeleteItem(item?.id, 1)}
+                                                   description={item.description}
+                                                   borderStyle={{
+                                                      backgroundColor:
+                                                         `${days.find((item: any) => item.day.toLowerCase() === currentActive.toLowerCase())?.color}`
+                                                   }}
+                                                />
+                                          }
+                                       </ScheduleConflit>
+                                    </CardRow>
+                                 );
+                              })
+                        }
+                        {
                                              //.filter((active: any) => active?.day === currentActive)
                         //.sort((a:any, b:any) => {
                          //  return a.hour.localeCompare(b?.hour);
@@ -213,7 +220,8 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action }
                            );
                         })
                      */}
-               </Body>
+                     </Body>
+               }
             </CardContainer>
          </Content>
       </Table>
