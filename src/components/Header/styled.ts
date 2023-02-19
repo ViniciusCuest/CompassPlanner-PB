@@ -20,8 +20,15 @@ export const Badge = styled.div`
    width: 588px;
    border-radius: 0px 14px 15px 0px;
    padding: 12px 0px 0 24px;
-   justify-self: flex-start;
    background-color: ${colors.black};
+   >*::-moz-selection {
+      background-color: ${colors.yellow};
+      color: ${colors.black};
+   }
+   >*::selection {
+      background-color: ${colors.yellow};
+      color: ${colors.black};
+   }
 `
 
 export const DateTime = styled.section`
@@ -29,6 +36,14 @@ export const DateTime = styled.section`
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   >*::-moz-selection {
+      background-color: ${colors.yellow};
+      color: ${colors.black};
+   }
+   >*::selection {
+      background-color: ${colors.yellow};
+      color: ${colors.black};
+   }
 `
 export const Hour = styled.time`
    font-size: 40px;
@@ -57,6 +72,14 @@ export const Logout = styled.section`
    flex-direction: column;
    justify-content: flex-start;
    align-items: flex-end;
+   &::-moz-selection {
+      background-color: ${colors.yellow};
+      color: ${colors.black};
+   }
+   &::selection {
+      background-color: ${colors.yellow};
+      color: ${colors.black};
+   }
 `;
 
 export const City = styled.span`
@@ -67,6 +90,7 @@ export const City = styled.span`
 export const Logo = styled.img`
    height: 24px;
    cursor: pointer;
+   user-select: none;
 `;
 
 export const LogoutButton = styled.button`
@@ -81,10 +105,12 @@ export const LogoutButton = styled.button`
    border: 0;
    padding: 0;
    cursor: pointer;
+   user-select: none;
 `;
 
 export const Icon = styled.img`
    height: 34px;
    margin-bottom: -5px;
    margin-right: 15px;
+   user-select: none;
 `

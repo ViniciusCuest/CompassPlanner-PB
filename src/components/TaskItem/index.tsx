@@ -10,7 +10,10 @@ type Props = {
 export function TaskItem({ description, borderStyle, deleteItem, loading }: Props) {
    return (
       <Container load={!!loading}>
-
+         <Border
+            load={!!loading}
+            style={borderStyle}
+         />
          {
             !!loading ?
                <>

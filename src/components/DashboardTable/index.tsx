@@ -5,6 +5,7 @@ import {
    CardContainerHeader,
    CardRow,
    CardRowHeader,
+   Centered,
    Content,
    Header,
    HeaderContent,
@@ -56,7 +57,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action, 
          day: newArrayCopy[elementsId].day,
          hour: newArrayCopy[elementsId].hour,
          items: newValueItems
-      }]);
+      }]); 
    }
 
    return (
@@ -72,8 +73,10 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action, 
                            active={item.day.toLowerCase() === currentActive ? true : false}
                            buttonColor={item.color}
                            onClick={() => {
-                              action([]);
-                              setCurrent(item.day.toLowerCase())
+                              if (currentActive === item.day.toLowerCase())
+                                 return;
+
+                              setCurrent(item.day.toLowerCase());
                            }}
                         >
                            {
@@ -119,10 +122,10 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action, 
                      :
                      <Body>
                         {
+                           // ?.sort((a: any, b: any) => {
+                           // return format(new Date(a?.createdAt), 'HH:mm').localeCompare(format(new Date(b?.createdAt), 'HH:mm'));
+                           //})
                            data?.events
-                              // ?.sort((a: any, b: any) => {
-                              // return format(new Date(a?.createdAt), 'HH:mm').localeCompare(format(new Date(b?.createdAt), 'HH:mm'));
-                              //})
                               ?.map((item: any) => {
                                  return (
                                     <CardRow key={item._id}>
@@ -138,7 +141,7 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action, 
                                                 backgroundColor: days.find(item => item.day.toLowerCase() === currentActive.toLowerCase())?.color,
                                              }}>
                                           {
-                                             //`${format(new Date(item.createdAt), 'HH:mm').replace(':', 'h')}m`
+                                             `${format(new Date(item.createdAt), 'HH:mm').replace(':', 'h')}m`
                                           }
                                        </CardRowHeader>
                                        <ScheduleConflit active={!!(item?.items)}>
@@ -170,6 +173,12 @@ export function DashboardTable({ data, days, setCurrent, currentActive, action, 
                               })
                         }
                         {
+                           !(data?.events?.length) && !loading &&
+                           <Centered style={{ color: `${days.find((item: any) => item.day.toLowerCase() === currentActive.toLowerCase())?.color}` }}>
+                              {
+                                 `There's no appointment on ${currentActive[0].toUpperCase() + currentActive.substring(1)}`
+                              }
+                           </Centered>
                                              //.filter((active: any) => active?.day === currentActive)
                         //.sort((a:any, b:any) => {
                          //  return a.hour.localeCompare(b?.hour);

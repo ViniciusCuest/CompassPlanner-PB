@@ -12,6 +12,7 @@ const colors = {
    border_color: '#ffffff',
    icon_color: '#E0E0E0',
 
+   green_success: '#2ec22f',
    green_jade:'#00BA88',
    
    orange800: '#FF3D1F',

@@ -197,3 +197,14 @@ export const ScheduleConflit = styled.span<{ active: boolean }>`
       }`
    };
 `
+
+export const Centered = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: calc(100vw - 80px);
+   margin-top: 60px;
+   font-weight: ${fonts.extra};
+   font-size: 36px;
+   color: ${colors.orange100}
+`; 

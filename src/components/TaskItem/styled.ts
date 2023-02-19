@@ -28,18 +28,18 @@ export const InvisibleText = styled.span<{ load: boolean }>`
       background-size: 400% 400%;
       animation: skeleton 1.5s ease infinite; 
    `}
-
-@keyframes skeleton {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
+   
+   @keyframes skeleton {
+      0% {
+         background-position: 0% 50%;
+      }
+      50% {
+         background-position: 100% 50%;
+      }
+      100% {
+         background-position: 0% 50%;
+      }
+   }
 `;
 
 export const Border = styled.span<{ load: boolean }>`
@@ -54,19 +54,17 @@ export const Border = styled.span<{ load: boolean }>`
       background-size: 400% 400%;
       animation: skeleton 2s ease infinite; 
    `}
-
-@keyframes skeleton {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
+   @keyframes skeleton {
+      0% {
+         background-position: 0% 50%;
+      }
+      50% {
+         background-position: 100% 50%;
+      }
+      100% {
+         background-position: 0% 50%;
+      }
+   }
 `;
 
 export const Description = styled.p`
@@ -105,16 +103,15 @@ export const BadgeButton = styled.button<{ load: boolean }>`
       animation: skeleton 1.5s ease infinite; 
    `}
 
-@keyframes skeleton {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
+   @keyframes skeleton {
+      0% {
+         background-position: 0% 50%;
+      }
+      50% {
+         background-position: 100% 50%;
+      }
+      100% {
+         background-position: 0% 50%;
+      }
+   }
 `;

@@ -8,6 +8,8 @@ import {
 } from '../../components';
 
 import { ActionArea, Icon, WrapperItem } from "./styled";
+import Transition from 'react-transition-group/Transition';
+
 
 import logoBlack from '../../assets/compass-logo-black.png';
 import mainImage from '../../assets/uol-logo.png';
@@ -20,6 +22,7 @@ import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
+import { Toast } from '../../components/Toast';
 
 export type ObjDays = Array<{
    day: string;
@@ -39,16 +42,17 @@ export type DataDashboard = Array<{
 export default function Dashboard() {
 
    const token = localStorage.getItem("@Compass-planner:token");
-   const { isLogged } = useAuth();
 
    const { userData } = useAuth();
    const navigate = useNavigate();
+
+   const nodeRef = useRef(null)
 
    const _DATA: DataDashboard = [
       {
          _id: 2,
          dayOfWeek: 'monday',
-         createdAt: '11:30',
+         createdAt: String(new Date()),
          items: [{
             key: 1,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit'
@@ -70,7 +74,7 @@ export default function Dashboard() {
       {
          _id: 4,
          dayOfWeek: 'tuesday',
-         createdAt: '15:30',
+         createdAt: String(new Date()),
          items: [{
             key: 1,
             description: 'New Task'
@@ -79,7 +83,7 @@ export default function Dashboard() {
       {
          _id: 3,
          dayOfWeek: 'wednesday',
-         createdAt: '14:30',
+         createdAt: String(new Date()),
          items: [{
             key: 1,
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit"
@@ -113,14 +117,24 @@ export default function Dashboard() {
       { day: 'Sunday', color: `${colors.pink_300}` },
    ];
 
-
-   const deleteAllTasks = () => {
-      setData(prev => prev.filter(item => item.dayOfWeek.toLowerCase() !== currentDay.toLowerCase()));
-   }
-
    const handleDeleteAllTasks = (e: UIEvent) => {
       e.preventDefault();
       setModal(true);
+   }
+
+   const deleteAllTasks = async () => {
+
+      const response = await axios.delete(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${currentDay}`, {
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+         }
+      });
+
+      console.log(response.data);
+
+      //setData(prev => prev.filter(item => item.dayOfWeek.toLowerCase() !== currentDay.toLowerCase()));
+
    }
 
    const handleAddNewTask = async (e: UIEvent) => {
@@ -199,14 +213,14 @@ export default function Dashboard() {
 
    const handleGetEvents = async () => {
       try {
-         setLoading(true);
          await axios.get(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${currentDay}`, {
             headers: {
                'content-type': 'application/json; charset=utf-8',
                'Authorization': `Bearer ${token}`
             }
          }).then((response: AxiosResponse) => {
-            let array = _DATA.filter((item) => item.dayOfWeek === 'monday');
+
+            let array = _DATA.filter((item) => item.dayOfWeek === currentDay);
 
             for (let i = 0; i < array.length; i++) {
                response.data.events.push({
@@ -252,7 +266,9 @@ export default function Dashboard() {
    }, []);
 
    useEffect(() => {
+      setLoading(true);
       handleGetEvents();
+      setData([]);
    }, [currentDay]);
 
    return (
@@ -310,15 +326,49 @@ export default function Dashboard() {
             currentActive={currentDay}
             setCurrent={setCurrentDay}
          />
-         <Modal
-            active={modal}
-            onActiveModal={setModal}
-            action={setDeleteAll}
-            options={[
-               { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete' },
-               { title: 'Cancel', action: () => { setModal(false); }, type: 'no' },
-            ]}
-         />
+         <Transition
+            in={modal}
+            nodeRef={nodeRef}
+            duration={300}
+            timeout={300}
+            mountOnEnter
+            unmountOnExit
+         >
+            {
+               state => (
+                  <>
+                  </>
+               )
+            }
+         </Transition>
+         <Toast />
+         <Transition
+            in={modal}
+            nodeRef={nodeRef}
+            duration={300}
+            timeout={300}
+            mountOnEnter
+            unmountOnExit
+         >
+            {state => (
+               <Modal
+                  refNode={nodeRef}
+                  active={
+                     state === 'entering' ?
+                        true :
+                        state === 'entered' ?
+                           true : false
+                  }
+                  onActiveModal={setModal}
+                  action={setDeleteAll}
+                  options={[
+                     { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete' },
+                     { title: 'Cancel', action: () => { setModal(false); }, type: 'no' },
+                  ]}
+               />)
+            }
+
+         </Transition>
       </Background>
    )
 }

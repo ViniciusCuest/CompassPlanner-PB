@@ -4,14 +4,18 @@ import { colors } from "../../global/theme";
 
 type Props = {
    active: boolean;
+   refNode: any
    onActiveModal: React.Dispatch<React.SetStateAction<boolean>>;
    options: any[];
    action: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function Modal({ active, onActiveModal, options, action }: Props) {
+export function Modal({ active, onActiveModal, options, action, refNode }: Props) {
    return (
-      <FadeBackground active={active}>
+      <FadeBackground 
+         ref={refNode}
+         active={active}
+      >
          <Container active={active}>
             <Header>
                <Title>Dialog</Title>

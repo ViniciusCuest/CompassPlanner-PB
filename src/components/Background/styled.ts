@@ -13,6 +13,7 @@ export const Container = styled.main`
 `;
 
 export const DashboardContainer = styled.main<{ img: any }>`
+   position: relative;
    display: flex;
    width: 100%;
    height: 100vh;
@@ -22,6 +23,5 @@ export const DashboardContainer = styled.main<{ img: any }>`
    background-repeat: no-repeat;
    background-position: 100%;
    background-position-y: 100%;
-   overflow-y: hidden;
    box-shadow: 0px 4px 24px rgba(168, 168, 168, 0.25);
 `
