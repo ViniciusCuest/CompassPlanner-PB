@@ -61,7 +61,6 @@ export function AuthProvider({ children }: Props) {
    const handleLogIn = async (user: string, pass: string) => {
       setIsLoading(true);
 
-      setTimeout(async () => {
       const response = await API_LATAM.post('/users/sign-in', {
          email: user,
          password: pass
@@ -77,7 +76,7 @@ export function AuthProvider({ children }: Props) {
             ...response.data?.user,
             token: response?.data?.token
          });
-         
+
          API_LATAM.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
          localStorage.setItem("@Compass-planner:user", JSON.stringify(response.data?.user));
@@ -90,7 +89,6 @@ export function AuthProvider({ children }: Props) {
 
       setIsLoading(false);
       throw response.response.status;
-   }, 1500);
       /*
                .then((response: AxiosResponse) => {
       
