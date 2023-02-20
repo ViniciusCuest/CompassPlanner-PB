@@ -13,9 +13,10 @@ type Props = {
    iconSource?: string;
    error?: boolean;
    handleError?: React.Dispatch<React.SetStateAction<string>> | undefined;
+   onChange?: () => void;
 }
 
-export function InputItem({ title, placeholder, id, type, reference, autoComplete, style, iconSource, error, handleError }: Props) {
+export function InputItem({ title, placeholder, id, type, reference, autoComplete, style, iconSource, error, handleError, onChange }: Props) {
 
    const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -37,6 +38,7 @@ export function InputItem({ title, placeholder, id, type, reference, autoComplet
             </Label>
          }
          <Input
+            onChange={onChange}
             errorStyle={!!error}
             style={style}
             type={type}

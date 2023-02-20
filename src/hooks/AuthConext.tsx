@@ -77,7 +77,7 @@ export function AuthProvider({ children }: Props) {
             token: response?.data?.token
          });
          
-         API_LATAM.defaults.headers.common['Authorization'] = `${response.data.token}`;
+         API_LATAM.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
          localStorage.setItem("@Compass-planner:user", JSON.stringify(response.data?.user));
          localStorage.setItem("@Compass-planner:token", response.data.token);

@@ -18,6 +18,8 @@ export const errors = (code: number | string, page: string): string => {
             return `You're registered now ☺`;
          case 500:
             return 'Our server is out for while... 😥';
+         case 400:
+            return 'This email is being used by another account, please Sign-in or use other email';
       }
    }
 
