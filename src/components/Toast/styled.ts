@@ -18,7 +18,7 @@ export const Container = styled.section<{ active: boolean }>`
    border-bottom: 6px solid ${colors.yellow_border};
    transform: ${({ active }) => active ? 'translateX(-50px)' : 'translateX(350px)'};
    opacity: ${({ active }) => active ? 1 : .2};
-   transition: all 250ms ease-in;
+   transition: all 300ms ease-in;
    overflow: hidden;
 `;
 
@@ -38,6 +38,7 @@ export const Description = styled.p`
    width: 80%;
    height: 100%;
    align-items: center;
+   text-align: center;
    font-size: 18px;
    color: ${colors.white};
    margin-left: 10px;

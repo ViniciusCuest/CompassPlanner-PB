@@ -15,7 +15,6 @@ import { Form } from '../../components/Form';
 import { colors } from '../../global/theme';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthConext';
-import axios, { AxiosResponse } from 'axios';
 
 export default function Login() {
 

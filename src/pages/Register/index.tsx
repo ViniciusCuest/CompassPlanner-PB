@@ -49,17 +49,6 @@ export default function Register() {
       }).catch((e: any) => {
          console.log(e.message);
       });
-
-      /*
-           localStorage.setItem('user', JSON.stringify({
-              fullName: `${firstName.current?.value} ${lastName.current?.value}`,
-              birthDate: birthDate.current?.value,
-              country: country.current?.value,
-              city: city.current?.value,
-              email: email.current?.value,
-              password: password.current?.value,
-           }));
-           navigate('/'); */
    }
 
    return (

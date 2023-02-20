@@ -4,13 +4,13 @@ import { colors } from "../../global/theme";
 
 type Props = {
    active: boolean;
+   message: string;
    refNode: any
    onActiveModal: React.Dispatch<React.SetStateAction<boolean>>;
    options: any[];
-   action: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function Modal({ active, onActiveModal, options, action, refNode }: Props) {
+export function Modal({ active, onActiveModal, options, refNode, message }: Props) {
    return (
       <FadeBackground 
          ref={refNode}
@@ -23,7 +23,9 @@ export function Modal({ active, onActiveModal, options, action, refNode }: Props
                   <IoClose size={35} />
                </IconButton>
             </Header>
-            Are you sure you want to delete all events ?
+            {
+               message
+            }
             <ButtonsArea>
                {
                   options.map((item, id) => {

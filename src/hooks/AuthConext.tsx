@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_LATAM } from "../utils/api";
 
 type Props = {
    children: React.ReactNode;
@@ -60,11 +61,9 @@ export function AuthProvider({ children }: Props) {
    const handleLogIn = async (user: string, pass: string) => {
       setIsLoading(true);
 
-      const response = await axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-in', {
+      const response = await API_LATAM.post('/users/sign-in', {
          email: user,
          password: pass
-      }, {
-         headers: { 'Content-Type': 'application/json' }
       });
 
       if (response.status == 200) {
@@ -115,8 +114,7 @@ export function AuthProvider({ children }: Props) {
    }
 
    const handleLogOut = () => {
-      localStorage.removeItem('@Compass-planner:user');
-      localStorage.removeItem('@Compass-planner:token');
+      localStorage.clear();
       setUserData({});
       setIsLogged(false);
       navigate('/');

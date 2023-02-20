@@ -16,13 +16,13 @@ import mainImage from '../../assets/uol-logo.png';
 import add from '../../assets/plus.svg';
 import remove from '../../assets/dash.svg';
 import { colors } from '../../global/theme';
-import { API } from '../../utils/api';
+import { API, API_LATAM } from '../../utils/api';
 import axios, { AxiosResponse } from 'axios';
 import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Toast } from '../../components/Toast';
+import { Toast, Response } from '../../components/Toast';
 
 export type ObjDays = Array<{
    day: string;
@@ -46,7 +46,8 @@ export default function Dashboard() {
    const { userData } = useAuth();
    const navigate = useNavigate();
 
-   const nodeRef = useRef(null)
+   const nodeRef = useRef(null);
+   const nodeRef2 = useRef(null);
 
    const _DATA: DataDashboard = [
       {
@@ -92,6 +93,14 @@ export default function Dashboard() {
    ];
 
    const [modal, setModal] = useState<boolean>(false);
+   const [toast, setToast] = useState<Response>({
+      active: false,
+      loading: false,
+      success: false,
+      error: false,
+      message: ''
+   });
+
    const [currentDay, setCurrentDay] = useState<string>('monday');
    const [wetherData, setWeatherData] = useState<unknown>({});
    const [data, setData] = useState<DataDashboard | []>([]);
@@ -99,13 +108,10 @@ export default function Dashboard() {
    const [inputError, setInputError] = useState<boolean>(false);
 
    const [loading, setLoading] = useState<boolean>(true);
-   const [deleteAll, setDeleteAll] = useState<boolean>(false);
-   const [addNew, setAddNew] = useState<boolean>(false);
 
    const [hour, setHour] = useState<string>('');
    const taskRef = useRef<HTMLInputElement>(null);
    const SelectRef = useRef<HTMLSelectElement>(null);
-
 
    const DAYS: ObjDays = [
       { day: 'Monday', color: `${colors.red}` },
@@ -124,39 +130,74 @@ export default function Dashboard() {
 
    const deleteAllTasks = async () => {
 
-      const response = await axios.delete(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${currentDay}`, {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+      setToast(prev => {
+         return {
+            ...prev,
+            message: `Wait... Removing all events of ${currentDay}`,
+            active: true,
+            loading: true
          }
-      });
+      })
+      setModal(false);
 
-      console.log(response.data);
+      setTimeout(async () => {
+         const response = await API_LATAM.delete(`/events?dayOfWeek=${currentDay}`);
+         if (response.status === 200) {
+            setToast(prev => {
+               return {
+                  ...prev,
+                  message: `All events of ${currentDay} were removed 😥`,
+                  loading: false,
+                  success: true
+               }
+            });
+         }
+      }, 1000);
+
+      //setToast(true)
 
       //setData(prev => prev.filter(item => item.dayOfWeek.toLowerCase() !== currentDay.toLowerCase()));
-
    }
 
    const handleAddNewTask = async (e: UIEvent) => {
       e.preventDefault();
 
-      if (String(SelectRef.current?.value).length < 4 || String(taskRef.current?.value).length < 3) {
+      const selectValue = String(SelectRef.current?.value);
+
+      if (selectValue.length < 4 || String(taskRef.current?.value).length < 3) {
          setInputError(true);
          return;
       }
 
-      const response = await axios.post('https://latam-challenge-2.deta.dev/api/v1/events', {
-         description: taskRef.current?.value,
-         dayOfWeek: SelectRef.current?.value
-      }, {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+      setToast(prev => {
+         return {
+            ...prev,
+            message: `Scheduling an event for ${selectValue}...`,
+            active: true,
+            loading: true
          }
       });
 
-      if (response.status === 201)
-         setCurrentDay(String(SelectRef.current?.value.toLowerCase()));
+      const response = await API_LATAM.post('/events', {
+         description: taskRef.current?.value,
+         dayOfWeek: selectValue
+      });
+
+      if (response.status === 201) {
+         setToast(prev => {
+            return {
+               ...prev,
+               message: `New event added for ${selectValue}! 😉`,
+               loading: false,
+               success: true
+            }
+         });
+
+         return currentDay === selectValue.toLowerCase() ?
+            handleGetEvents() :
+            setCurrentDay(selectValue.toLowerCase());
+      }
+      //
 
       /*  const checkValues =
             !!data.find((i) => i.hour === hour)?.hour &&
@@ -213,29 +254,25 @@ export default function Dashboard() {
 
    const handleGetEvents = async () => {
       try {
-         await axios.get(`https://latam-challenge-2.deta.dev/api/v1/events?dayOfWeek=${currentDay}`, {
-            headers: {
-               'content-type': 'application/json; charset=utf-8',
-               'Authorization': `Bearer ${token}`
-            }
-         }).then((response: AxiosResponse) => {
-
-            let array = _DATA.filter((item) => item.dayOfWeek === currentDay);
-
-            for (let i = 0; i < array.length; i++) {
-               response.data.events.push({
-                  _id: array[i]._id,
-                  createdAt: array[i].createdAt,
-                  dayOfWeek: array[i].dayOfWeek,
-                  items: array[i].items
-               });
-            }
-            setData(response.data);
-         }).catch(err => {
-            throw new Error(err);
-         }).finally(() => {
-            setLoading(false);
-         });
+         await API_LATAM.get(`/events?dayOfWeek=${currentDay}`).then(
+            (response: AxiosResponse) => {
+               if (response.data?.events?.length) {
+                  let array = _DATA.filter((item) => item.dayOfWeek === currentDay);
+                  for (let i = 0; i < array.length; i++) {
+                     response.data.events.push({
+                        _id: array[i]._id,
+                        createdAt: array[i].createdAt,
+                        dayOfWeek: array[i].dayOfWeek,
+                        items: array[i].items
+                     });
+                  }
+               }
+               setData(response.data);
+            }).catch(err => {
+               throw new Error(err);
+            }).finally(() => {
+               setLoading(false);
+            });
       } catch (err: any) {
          console.log(err);
       }
@@ -322,26 +359,37 @@ export default function Dashboard() {
             data={data}
             action={setData}
             days={DAYS}
+            onLoading={setLoading}
             loading={loading}
+            updateEvents={handleGetEvents}
             currentActive={currentDay}
             setCurrent={setCurrentDay}
+            toast={setToast}
          />
          <Transition
-            in={modal}
-            nodeRef={nodeRef}
-            duration={300}
-            timeout={300}
+            in={toast.active}
+            nodeRef={nodeRef2}
+            timeout={2000}
             mountOnEnter
             unmountOnExit
          >
             {
                state => (
-                  <>
-                  </>
+                  <Toast
+                     Noderef={nodeRef2}
+                     response={toast}
+                     onClose={setToast}
+                     active={
+                        state === 'entering' ?
+                           true :
+                           state === 'entered' ?
+                              true : false
+                     }
+                  />
                )
             }
          </Transition>
-         <Toast />
+
          <Transition
             in={modal}
             nodeRef={nodeRef}
@@ -352,6 +400,7 @@ export default function Dashboard() {
          >
             {state => (
                <Modal
+                  message="Are you sure you want to delete all events ?"
                   refNode={nodeRef}
                   active={
                      state === 'entering' ?
@@ -360,10 +409,21 @@ export default function Dashboard() {
                            true : false
                   }
                   onActiveModal={setModal}
-                  action={setDeleteAll}
                   options={[
-                     { title: 'Delete all Tasks', action: () => { deleteAllTasks(); setModal(false); }, type: 'delete' },
-                     { title: 'Cancel', action: () => { setModal(false); }, type: 'no' },
+                     {
+                        title: 'Delete all Tasks',
+                        action: () => {
+                           deleteAllTasks();
+                        },
+                        type: 'delete'
+                     },
+                     {
+                        title: 'Cancel',
+                        action: () => {
+                           setModal(false);
+                        },
+                        type: 'no'
+                     },
                   ]}
                />)
             }
