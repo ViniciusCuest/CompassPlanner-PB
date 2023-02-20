@@ -31,7 +31,7 @@ type Props = {
    days: ObjDays;
    currentActive: any;
    setCurrent: any;
-   action: React.Dispatch<React.SetStateAction<DataDashboard | []>>;
+   action: React.Dispatch<React.SetStateAction<{events: DataDashboard} | {events: []}>>;
    toast: React.Dispatch<React.SetStateAction<Response>>;
    updateEvents: () => void;
 }

@@ -6,14 +6,13 @@ import { Description, Title } from "../../components/Texts";
 import { Form } from '../../components/Form';
 import { Wrapper } from './styled';
 import { Button } from '../../components/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
-import axios from 'axios';
+import { API_LATAM } from '../../utils/api';
 
 export default function Register() {
-   const navigate = useNavigate();
 
    const firstName = useRef<HTMLInputElement>(null);
    const lastName = useRef<HTMLInputElement>(null);
@@ -26,14 +25,9 @@ export default function Register() {
 
    const handleSubmitForm = async (event: UIEvent) => {
       event.preventDefault();
+      //throw new Error('Usuário inválido');
 
-      if (String(firstName.current?.value).length < 3 || String(lastName.current?.value).length < 3
-         || String(country.current?.value).length < 3 || String(email.current?.value).length < 3 || String(password.current?.value).length < 3
-         || String(confirmPassword.current?.value).length < 3 || (String(password.current?.value) !== String(confirmPassword.current?.value))
-      )
-         throw new Error('Usuário inválido');
-
-      await axios.post('https://latam-challenge-2.deta.dev/api/v1/users/sign-up', {
+      await API_LATAM.post('/users/sign-up', {
          firstName: firstName.current?.value,
          lastName: lastName.current?.value,
          birthDate: birthDate.current?.value,
@@ -49,6 +43,36 @@ export default function Register() {
       }).catch((e: any) => {
          console.log(e.message);
       });
+   }
+
+   const validateForm = (e: any) => {
+      e.preventDefault();
+
+      if (String(firstName.current?.value).length < 3) {
+         
+      }
+
+      if (String(lastName.current?.value).length < 3) {
+
+      }
+
+      if (String(country.current?.value).length < 3) {
+
+      }
+
+      if (String(email.current?.value).length < 3) {
+
+      }
+
+      if (String(password.current?.value).length <= 6) {
+
+      }
+
+
+      if (String(confirmPassword.current?.value) !== String(password.current?.value)) {
+
+      }
+
    }
 
    return (
@@ -67,6 +91,7 @@ export default function Register() {
                   title="First name"
                   placeholder="Your first name"
                   id="yourfirstName"
+                  error={true}
                />
                <InputItem
                   type="text"
@@ -74,6 +99,7 @@ export default function Register() {
                   title="Last name"
                   placeholder="Your last name"
                   id="yourlastName"
+                  error={true}
                />
                <InputItem
                   type={'date'}
@@ -82,6 +108,7 @@ export default function Register() {
                   placeholder="MM/DD/YYYY"
                   id="birthDate"
                   style={{ appearance: 'none' }}
+                  error={true}
                />
                <InputItem
                   type="text"
@@ -89,6 +116,7 @@ export default function Register() {
                   title="Country"
                   placeholder="Your Country"
                   id="yourcountry"
+                  error={true}
                />
                <InputItem
                   type="text"
@@ -96,6 +124,7 @@ export default function Register() {
                   title="City"
                   placeholder="Your City"
                   id="yourcity"
+                  error={true}
                />
                <InputItem
                   type="email"
@@ -103,6 +132,7 @@ export default function Register() {
                   title="e-mail"
                   placeholder="A valid e-mail here"
                   id="youremail"
+                  error={true}
                />
                <InputItem
                   type="password"
@@ -110,6 +140,7 @@ export default function Register() {
                   title="password"
                   placeholder="Your password"
                   id="password"
+                  error={true}
                />
                <InputItem
                   type="password"
@@ -117,10 +148,11 @@ export default function Register() {
                   title="password"
                   placeholder="Confirm your password"
                   id="passwordRep"
+                  error={true}
                />
                <Button
                   title={'Register Now'}
-                  onPress={handleSubmitForm}
+                  onPress={validateForm}
                />
                <Link to={'/Login'} style={{ textDecoration: 'none', marginTop: 10 }}><Description>If you already have an account, click here!</Description></Link>
             </Form>

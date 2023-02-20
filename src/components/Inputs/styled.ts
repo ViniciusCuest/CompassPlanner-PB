@@ -12,7 +12,7 @@ export const Input = styled.input<{ type: string }>`
    outline: none;
    &::placeholder{
       color: ${colors.gray};
-   }
+   }  
 `;
 
 export const Select = styled.select`

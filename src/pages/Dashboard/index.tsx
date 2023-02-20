@@ -103,7 +103,7 @@ export default function Dashboard() {
 
    const [currentDay, setCurrentDay] = useState<string>('monday');
    const [wetherData, setWeatherData] = useState<unknown>({});
-   const [data, setData] = useState<DataDashboard | []>([]);
+   const [data, setData] = useState<{ events: DataDashboard } | { events: [] }>({ events: [] });
 
    const [inputError, setInputError] = useState<boolean>(false);
 
@@ -305,7 +305,7 @@ export default function Dashboard() {
    useEffect(() => {
       setLoading(true);
       handleGetEvents();
-      setData([]);
+      setData({events: []});
    }, [currentDay]);
 
    return (
@@ -313,7 +313,10 @@ export default function Dashboard() {
          currentPage="Dashboard"
          background={mainImage}
       >
-         <Header data={wetherData} logo={logoBlack} />
+         <Header
+            data={wetherData}
+            logo={logoBlack}
+         />
          <ActionArea>
             <WrapperItem>
                <Inputs
@@ -348,6 +351,7 @@ export default function Dashboard() {
                <Button
                   type="action"
                   onPress={handleDeleteAllTasks}
+                  disable={!!(!data?.events?.length)}
                   add={false}
                >
                   <Icon src={remove} />

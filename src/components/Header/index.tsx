@@ -9,6 +9,7 @@ import { useAuth } from "../../hooks/AuthConext";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import { DataDashboard } from "../../pages/Dashboard";
 
 type Props = {
    logo: string;
@@ -21,6 +22,7 @@ export function Header({ logo, data }: Props): JSX.Element {
    const [hour, setHour] = useState<string>(`${format(new Date(), 'HH:mm')}`);
 
    useEffect(() => {
+
       let time = setInterval(() => {
          setHour(`${format(new Date(), 'HH:mm')}`);
       }, 1000);

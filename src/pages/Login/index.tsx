@@ -15,6 +15,7 @@ import { Form } from '../../components/Form';
 import { colors } from '../../global/theme';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthConext';
+import { errors } from '../../utils/errors';
 
 export default function Login() {
 
@@ -28,11 +29,12 @@ export default function Login() {
    const handleSubmitForm = async (event: UIEvent) => {
       event.preventDefault();
       try {
-         handleLogIn(String(userName.current?.value), String(password.current?.value));
+         await handleLogIn(String(userName.current?.value), String(password.current?.value))
       }
       catch (e: any) {
-         setError(e?.message + 'aqui');;
+         setError(errors(e, 'Login'));
       }
+
    }
 
    return (

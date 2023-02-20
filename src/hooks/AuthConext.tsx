@@ -64,7 +64,9 @@ export function AuthProvider({ children }: Props) {
       const response = await API_LATAM.post('/users/sign-in', {
          email: user,
          password: pass
-      });
+      }).catch((e) => {
+         return e;
+      })
 
       if (response.status == 200) {
 
@@ -74,16 +76,18 @@ export function AuthProvider({ children }: Props) {
             ...response.data?.user,
             token: response?.data?.token
          });
+         
+         API_LATAM.defaults.headers.common['Authorization'] = `${response.data.token}`;
 
          localStorage.setItem("@Compass-planner:user", JSON.stringify(response.data?.user));
          localStorage.setItem("@Compass-planner:token", response.data.token);
+
          navigate('/');
          setIsLoading(false);
          return;
       }
 
-      setIsLoading(false);
-
+      throw response.response.status;
       /*
                .then((response: AxiosResponse) => {
       
