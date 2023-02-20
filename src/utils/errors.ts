@@ -14,8 +14,8 @@ export const errors = (code: number | string, page: string): string => {
 
    if (page === 'Register') {
       switch (code) {
-         case 200:
-            return `You're registered now ☺`;
+         case 201:
+            return `You're registered now 😉`;
          case 500:
             return 'Our server is out for while... 😥';
          case 400:
@@ -27,6 +27,8 @@ export const errors = (code: number | string, page: string): string => {
       switch (code) {
          case 200:
             return '';
+         case 404: 
+            return 'Error while deleting this task'
       }
    }
 

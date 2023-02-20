@@ -36,7 +36,10 @@ export function Button({ title, style, onPress, type, children, add, disable, lo
 
    return (
       <Shadow style={style}>
-         <Container onClick={onPress}>
+         <Container 
+            disabled={disable}
+            onClick={onPress}
+         >
             {
                loading ?
                   <Loading style={{ opacity: 1 }} />

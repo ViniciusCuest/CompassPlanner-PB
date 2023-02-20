@@ -16,10 +16,11 @@ import { colors } from '../../global/theme';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthConext';
 import { errors } from '../../utils/errors';
+import { emailRegex } from '../Register';
 
 export default function Login() {
 
-   const { handleLogIn } = useAuth();
+   const { handleLogIn, isLoading } = useAuth();
 
    const [error, setError] = useState<string>('');
 
@@ -34,7 +35,6 @@ export default function Login() {
       catch (e: any) {
          setError(errors(e, 'Login'));
       }
-
    }
 
    return (
@@ -79,6 +79,8 @@ export default function Login() {
                   }
                </ErrorContainer>
                <Button
+                  disable={isLoading}
+                  loading={isLoading}
                   title='Log in'
                   style={{ width: 380, marginLeft: 10, marginTop: 40 }}
                   onPress={handleSubmitForm}

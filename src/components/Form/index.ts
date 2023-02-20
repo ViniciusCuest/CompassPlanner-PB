@@ -6,4 +6,6 @@ export const Form = styled.form`
    justify-content: center;
    flex-direction: column;
    height: 100%;
+   width: 100%;
+   overflow: hidden;
 `;

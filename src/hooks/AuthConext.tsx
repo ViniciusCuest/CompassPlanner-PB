@@ -61,6 +61,7 @@ export function AuthProvider({ children }: Props) {
    const handleLogIn = async (user: string, pass: string) => {
       setIsLoading(true);
 
+      setTimeout(async () => {
       const response = await API_LATAM.post('/users/sign-in', {
          email: user,
          password: pass
@@ -87,7 +88,9 @@ export function AuthProvider({ children }: Props) {
          return;
       }
 
+      setIsLoading(false);
       throw response.response.status;
+   }, 1500);
       /*
                .then((response: AxiosResponse) => {
       

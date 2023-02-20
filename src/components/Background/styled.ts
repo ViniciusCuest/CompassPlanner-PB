@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { colors } from "../../global/theme";
 
 export const Container = styled.main`
+   position: relative;
    display: flex;
    flex-direction: row;
    align-items: center;
@@ -9,7 +10,7 @@ export const Container = styled.main`
    background: ${colors.background_grad};
    width: 100%;
    height: 100vh;
-   overflow-y: hidden;
+   overflow: hidden;
 `;
 
 export const DashboardContainer = styled.main<{ img: any }>`

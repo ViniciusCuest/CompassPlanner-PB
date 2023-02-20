@@ -6,7 +6,7 @@ import { Description, Title } from "../../components/Texts";
 import { Form } from '../../components/Form';
 import { Wrapper } from './styled';
 import { Button } from '../../components/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import mainImage from '../../assets/image-2.jpg';
 import logo from '../../assets/compass-logo.png';
@@ -16,21 +16,13 @@ import { AxiosResponse } from 'axios';
 import { Toast, Response } from '../../components/Toast';
 import { Transition } from 'react-transition-group';
 
-const emailRegex = '[A-Za-z0-9\\._-]+@[A-Za-z0-9]+\\..(\\.[A-Za-z]+)*';
+export const emailRegex = '[A-Za-z0-9\\._-]+@[A-Za-z0-9]+\\..(\\.[A-Za-z]+)*';
 const noNumbers = /^([^0-9]*)$/;
 
 export default function Register() {
 
-   const [isLoading, setIsLoading] = useState<boolean>(false);
-   const [toast, setToast] = useState<Response>({
-      active: false,
-      error: false,
-      success: false,
-      loading: false,
-      message: '',
-   });
-
    const nodeRef2 = useRef(null);
+   const navigate = useNavigate();
 
    const firstName = useRef<HTMLInputElement>(null);
    const lastName = useRef<HTMLInputElement>(null);
@@ -52,15 +44,38 @@ export default function Register() {
       confirmPassword: false,
    });
 
+   const [toast, setToast] = useState<Response>({
+      active: false,
+      error: false,
+      success: false,
+      loading: false,
+      message: '',
+   });
+
+
    const handleSubmitForm = async (e: UIEvent) => {
       e.preventDefault();
 
-      setIsLoading(true);
+      setToast(prev => {
+         return {
+            ...prev,
+            active: true,
+            loading: true,
+            message: 'Wait a sec... Registering you 😉'
+         }
+      });
 
       let hasErrors = validateForm();
 
       if (hasErrors) {
-         setIsLoading(false);
+         setToast(prev => {
+            return {
+               ...prev,
+               message: 'Please fill all fields correctly',
+               error: true,
+               loading: false,
+            }
+         });
          return;
       }
 
@@ -85,11 +100,30 @@ export default function Register() {
          });
 
          if (response.status === 201) {
-            setIsLoading(false);
+            setToast(prev => {
+               return {
+                  ...prev,
+                  loading: false,
+                  success: true,
+                  message: errors(response.status, 'Register')
+               }
+            });
+
+            setTimeout(() => {
+               navigate('/Login');
+            }, 1000)
+
             return;
          }
 
-         setIsLoading(false);
+         setToast(prev => {
+            return {
+               ...prev,
+               loading: false,
+               error: true,
+               message: response
+            }
+         })
 
       }, 1500);
 
@@ -326,36 +360,37 @@ export default function Register() {
                   }}
                />
                <Button
+                  disable={toast.loading}
                   title={'Register Now'}
                   onPress={handleSubmitForm}
-                  loading={isLoading}
+                  loading={toast.loading}
                />
                <Link to={'/Login'} style={{ textDecoration: 'none', marginTop: 10 }}><Description>If you already have an account, click here!</Description></Link>
             </Form>
-            <Transition
-               in={toast.active}
-               nodeRef={nodeRef2}
-               timeout={2000}
-               mountOnEnter
-               unmountOnExit
-            >
-               {
-                  state => (
-                     <Toast
-                        Noderef={nodeRef2}
-                        response={toast}
-                        onClose={setToast}
-                        active={
-                           state === 'entering' ?
-                              true :
-                              state === 'entered' ?
-                                 true : false
-                        }
-                     />
-                  )
-               }
-            </Transition>
          </Wrapper>
+         <Transition
+            in={toast.active}
+            nodeRef={nodeRef2}
+            timeout={2000}
+            mountOnEnter
+            unmountOnExit
+         >
+            {
+               state => (
+                  <Toast
+                     Noderef={nodeRef2}
+                     response={toast}
+                     onClose={setToast}
+                     active={
+                        state === 'entering' ?
+                           true :
+                           state === 'entered' ?
+                              true : false
+                     }
+                  />
+               )
+            }
+         </Transition>
       </Background>
    )
 }

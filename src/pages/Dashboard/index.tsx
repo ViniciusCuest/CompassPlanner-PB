@@ -21,8 +21,8 @@ import axios, { AxiosResponse } from 'axios';
 import { useAuth } from '../../hooks/AuthConext';
 import { Modal } from '../../components/Modal';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import { Toast, Response } from '../../components/Toast';
+import { errors } from '../../utils/errors';
 
 export type ObjDays = Array<{
    day: string;
@@ -60,11 +60,11 @@ export default function Dashboard() {
          },
          {
             key: 2,
-            description: 'Apagar teste'
+            description: 'Testing schedule conflict'
          },
          {
             key: 3,
-            description: '1...2...3...testando...1...2...3...'
+            description: 'Testing some local data'
          },
          {
             key: 4,
@@ -178,25 +178,39 @@ export default function Dashboard() {
          }
       });
 
-      const response = await API_LATAM.post('/events', {
-         description: taskRef.current?.value,
-         dayOfWeek: selectValue
-      });
+      setTimeout(async () => {
+         const response = await API_LATAM.post('/events', {
+            description: taskRef.current?.value,
+            dayOfWeek: selectValue
+         });
 
-      if (response.status === 201) {
+         if (response.status === 201) {
+            setToast(prev => {
+               return {
+                  ...prev,
+                  message: `New event added for ${selectValue}! 😉`,
+                  loading: false,
+                  success: true
+               }
+            });
+
+            return currentDay === selectValue.toLowerCase() ?
+               handleGetEvents() :
+               setCurrentDay(selectValue.toLowerCase());
+         }
+
          setToast(prev => {
             return {
                ...prev,
-               message: `New event added for ${selectValue}! 😉`,
+               message: 'Error while adding an events 😥',
                loading: false,
-               success: true
+               error: true
             }
          });
 
-         return currentDay === selectValue.toLowerCase() ?
-            handleGetEvents() :
-            setCurrentDay(selectValue.toLowerCase());
-      }
+      }, 1500);
+
+
       //
 
       /*  const checkValues =
@@ -254,7 +268,9 @@ export default function Dashboard() {
 
    const handleGetEvents = async () => {
       try {
-         await API_LATAM.get(`/events?dayOfWeek=${currentDay}`).then(
+         await API_LATAM.get(`/events?dayOfWeek=${currentDay}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+         }).then(
             (response: AxiosResponse) => {
                if (response.data?.events?.length) {
                   let array = _DATA.filter((item) => item.dayOfWeek === currentDay);
@@ -298,14 +314,13 @@ export default function Dashboard() {
          navigate('/');
          return;
       }
-      //handleGetWeatherData();
       handleGetEvents();
+      handleGetWeatherData();
    }, []);
 
    useEffect(() => {
       setLoading(true);
       handleGetEvents();
-      setData({events: []});
    }, [currentDay]);
 
    return (
