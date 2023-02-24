@@ -30,23 +30,13 @@ export const Input = styled.input<{ errorStyle: boolean }>`
       -webkit-appearance: none;
    }
 
-   &:-webkit-autofill {
-      -webkit-text-fill-color: ${colors.secondary_text} !important;
-      background-color: ${colors.text_input};
-   }
-   &:-webkit-autofill:hover{
-      -webkit-text-fill-color: ${colors.secondary_text} !important;
-      background-color: ${colors.text_input};
-   }
-   &:-webkit-autofill:focus{
-      -webkit-text-fill-color: ${colors.secondary_text} !important;
-      background-color: ${colors.text_input};
-   }
-
-   &&&{
-      color: ${colors.secondary_text} !important;
-      background-color: ${colors.text_input} !important;
-   }
+   &:-webkit-autofill,
+   &:-webkit-autofill:hover, 
+   &:-webkit-autofill:focus, 
+   &:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px ${colors.text_input} inset !important;
+    -webkit-text-fill-color: ${colors.secondary_text} !important;
+}
 
    &::placeholder {
       font-size: 0.75em;
@@ -56,7 +46,7 @@ export const Input = styled.input<{ errorStyle: boolean }>`
    }
 
    @keyframes shaking {
-       0% { transform: translateX(0px) }
+      0% { transform: translateX(0px) }
       25% { transform: translateX(8px) }
       50% { transform: translateX(-8px) }
       75% { transform: translateX(8px) }

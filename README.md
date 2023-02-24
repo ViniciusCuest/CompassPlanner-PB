@@ -43,7 +43,12 @@ Weekly planner | Compass UOL
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+<img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/video.gif" width="100%">
+<div>
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/register.png" width="33%">
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/login.png" width="33%">
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/dashboard.png" width="33%">
+</div>
 
 
 ## Installation
