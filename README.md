@@ -1,5 +1,5 @@
 
-# Project Title
+# Weekly Planner
 
 Weekly planner | Compass UOL 
 
