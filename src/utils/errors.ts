@@ -6,7 +6,8 @@ export const errors = (code: number | string, page: string): string => {
          case 200:
             return `You're logged in Planner 😉`;
          case 400:
-            return 'Your credentials are incorrect, please try again!';
+            return `Wow, invalid username or password.
+            Please, try again!`;
          case 500:
             return 'Our server is out for while... 😥';
       }

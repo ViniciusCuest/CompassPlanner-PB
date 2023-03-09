@@ -1,46 +1,84 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Weekly Planner
 
-## Available Scripts
+Weekly planner | Compass UOL 
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+`Latest Sprint`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Dashboard Table with `Sticky Position` - Working properly, different from the first version.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- API integration with `Axios` using Bearer authorization token.
 
-### `npm test`
+- Form validation, including REGEX.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Custom Toast.
 
-### `npm run build`
+- Custom Dialog Modal.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Custom Loading.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Custom Skeleton Loading for Dashboard Events while GET requisition occurs.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Some animations using `React-Transition-Group`.
 
-### `npm run eject`
+- All Compass UOL logos redirect to the official website - [Compass UOL](https://compass.uol/pt/home).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Custom Error messages for handling any one of them.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`First Sprint`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- [Figma](https://www.figma.com/file/bFCO644LzxRZTqyGSLcgzI/Weekly-Planner?node-id=0%3A1&t=Nmop06UqKGnDAC32-0) - Pixel Perfect.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Weather API integration
 
-## Learn More
+- Custom Dialog Modal
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Simple input validation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Cards management (Local Data) - (Create, Delete, Delete All, Filter per day)
+
+
+
+## Screenshots
+
+<img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/video.gif" width="100%">
+<div>
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/register.png" width="33%">
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/login.png" width="33%">
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/dashboard.png" width="33%">
+</div>
+
+
+## Installation
+
+Install `CompassPlanner-PB` with npm
+
+```bash
+  cd CompassPlanner-PB - #access project's folder
+  npm install - #install all dependencies of the project
+  npm start - run locally the project
+```
+    
+## Authors
+
+- [@ViniciusCuest](https://github.com/ViniciusCuest)
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Tech Stack
+
+**Client:** `React`, `Typescript`, `Styled-Components`, `Axios`, `Date-fns`,  `React-Transition-Group`
+
+
+
+## 🛠 Skills
+React, Typescript, Styled-Components, Custom Components, React Hooks, Context-API, Axios, API Requests, Error Handling, Git...
+
+
+![Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/LogoCompasso-positivo.png/330px-LogoCompasso-positivo.png) 
