@@ -45,8 +45,8 @@ Weekly planner | Compass UOL
 
 <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/video.gif" width="100%">
 <div>
-  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/register.PNG" width="33%">
-  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/login.PNG" width="33%">
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/Register.PNG" width="33%">
+  <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/Login.PNG" width="33%">
   <img src="https://github.com/ViniciusCuest/CompassPlanner-PB/blob/main/assets/dashboard.PNG" width="33%">
 </div>
 
